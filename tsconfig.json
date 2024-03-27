@@ -9,8 +9,16 @@
     }
   },
   "include": [
-    "**/*.ts",
-    "**/*.tsx",
+    "**/*.js",
+    "**/*.jsx",
+    ".expo/types/**/*.js",
+    "expo-env.d.js",
+    "components/EditScreenInfo.jsx", "app/modal.jsx", "app/+not-found.jsx", "app/+html.jsx",
+    "app/_layout.jsx",
+    "app/(tabs)/two.jsx",
+    "app/(tabs)/index.jsx",
+    "app/(tabs)/_layout.jsx",
+    "app/(tabs)/signUp.jsx",
     ".expo/types/**/*.ts",
     "expo-env.d.ts"
   ]
