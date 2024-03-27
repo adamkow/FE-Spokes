@@ -3,9 +3,7 @@
   "compilerOptions": {
     "strict": true,
     "paths": {
-      "@/*": [
-        "./*"
-      ]
+      "@/*": ["./*"]
     }
   },
   "include": [
@@ -13,12 +11,15 @@
     "**/*.jsx",
     ".expo/types/**/*.js",
     "expo-env.d.js",
-    "components/EditScreenInfo.jsx", "app/modal.jsx", "app/+not-found.jsx", "app/+html.jsx",
+    "components/EditScreenInfo.jsx",
+    "app/modal.jsx",
+    "app/+not-found.jsx",
+    "app/+html.jsx",
     "app/_layout.jsx",
     "app/(tabs)/two.jsx",
-    "app/(tabs)/index.jsx",
+    "app/home.jsx",
     "app/(tabs)/_layout.jsx",
-    "app/(tabs)/signUp.jsx",
+    "app/signUp.jsx",
     ".expo/types/**/*.ts",
     "expo-env.d.ts"
   ]
