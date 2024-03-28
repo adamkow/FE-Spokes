@@ -1,35 +1,34 @@
-import { auth, firebaseConfig } from "../firebaseConfig";
+import {
+  View,
+  Text,
+  StyleSheet,
+  TextInput,
+  Button,
+  Pressable,
+  Alert,
+} from "react-native";
 import React, { useState } from "react";
-import { StyleSheet, TextInput, Button, Alert, View, Text } from "react-native";
-import { getAuth, createUserWithEmailAndPassword } from "firebase/auth";
-import { useAuth } from "@/contexts/authContext";
+import { useRouter } from "expo-router";
 
-export default function SignUpScreen() {
+export default function SignInScreen() {
+  const router = useRouter();
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
-  const {register, setNewUserId} = useAuth()
 
-  const handleSignUp = async () => {
-    if(!email || !password) {
-      Alert.alert('Sign Up', "Please fill all the fields!")
+  const handleSignIn = async () => {
+    if (!email || !password) {
+      Alert.alert("Sign In", "Please fill all the fields!");
+      return;
     }
 
-    let response = await register(email, password);
-
-    if(!response.success) {
-      Alert.alert('Sign Up', response.msg)
-    }
-
-    // try {
-    //   await createUserWithEmailAndPassword(auth, email, password);
-    // } catch (error) {
-    //   console.error("Error in handleSignUp:", error);
-    // }
+    // login process
   };
 
   return (
     <View style={styles.container}>
-      <Text style={styles.title}>Sign Up</Text>
+      <Text className="text-center" style={styles.title}>
+        Sign In
+      </Text>
       <TextInput
         style={styles.input}
         placeholder="Email"
@@ -50,12 +49,20 @@ export default function SignUpScreen() {
         }}
         secureTextEntry
       />
+      <Text className="text-white text-right">Forgotten Password?</Text>
       <Button
-        title="Sign Up"
+        title="Sign In"
         onPress={() => {
-          handleSignUp();
+          handleSignIn();
         }}
       />
+
+      <View className="flex-row justify-center">
+        <Text className="text-white">Don't have an account? </Text>
+        <Pressable onPress={() => router.push("signUp")}>
+          <Text className="text-white text-blue-500">Sign Up</Text>
+        </Pressable>
+      </View>
     </View>
   );
 }
@@ -65,7 +72,6 @@ const isDarkTheme = true;
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    alignItems: "center",
     justifyContent: "center",
     padding: 20,
     backgroundColor: isDarkTheme ? "black" : "white",

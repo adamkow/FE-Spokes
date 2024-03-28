@@ -1,5 +1,6 @@
-import { getAllUsers } from '@/api'
-import { useEffect, useState } from 'react'
+import { getAllUsers } from "@/api";
+import { useEffect, useState } from "react";
+import { useAuth } from "@/contexts/authContext";
 import {
   FlatList,
   Text,
@@ -13,7 +14,8 @@ import UserView from '@/components/UserView'
 import { router } from 'expo-router'
 
 export default function Users() {
-  const [userList, setUserList] = useState([])
+  const [userList, setUserList] = useState([]);
+  const {newUserId, setNewUserId} = useAuth()
   const [modalVisible, setModalVisible] = useState(false)
 
   const openUserModal = () => {
