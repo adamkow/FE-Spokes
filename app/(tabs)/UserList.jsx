@@ -1,5 +1,6 @@
-import { getAllUsers } from '@/api'
-import { useEffect, useState } from 'react'
+import { getAllUsers } from "@/api";
+import { useEffect, useState } from "react";
+import { useAuth } from "@/contexts/authContext";
 import {
   FlatList,
   View,
@@ -8,6 +9,7 @@ import UserCard from '../../components/UserCard'
 
 export default function Users() {
   const [userList, setUserList] = useState([])
+
 
   useEffect(() => {
     getAllUsers().then((users) => {
