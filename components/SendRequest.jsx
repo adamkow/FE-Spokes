@@ -1,23 +1,29 @@
 import { deleteRequest, sendRequest } from '@/api'
-import { useEffect, useState } from 'react'
 import { Pressable, Text } from 'react-native'
 
-export default function SendRequest({ receiverId, setRequestSent, requestSent }) {
-
+export default function SendRequest({
+  receiverId,
+  setRequestSent,
+  requestSent,
+}) {
   const handleSendRequest = () => {
     sendRequest(1, receiverId).then((requestFromApi) => {
-      const currRequestsStorage = JSON.parse(localStorage.getItem('sentRequests'))
+      const currRequestsStorage = JSON.parse(
+        localStorage.getItem('sentRequests')
+      )
 
-      const newEntry = {receiverId: receiverId, requestId: requestFromApi.request_id}
+      const newEntry = {
+        receiverId: receiverId,
+        requestId: requestFromApi.request_id,
+      }
       if (currRequestsStorage) {
         currRequestsStorage.push(newEntry)
-        localStorage.setItem('sentRequests', JSON.stringify(currRequestsStorage))
-      }
-      else {
         localStorage.setItem(
-            'sentRequests',
-            JSON.stringify([newEntry])
+          'sentRequests',
+          JSON.stringify(currRequestsStorage)
         )
+      } else {
+        localStorage.setItem('sentRequests', JSON.stringify([newEntry]))
       }
     })
     setRequestSent(true)
@@ -26,17 +32,14 @@ export default function SendRequest({ receiverId, setRequestSent, requestSent })
   const handleDeleteRequest = () => {
     const currRequestsStorage = JSON.parse(localStorage.getItem('sentRequests'))
     for (request of currRequestsStorage) {
-        if (request.receiverId === receiverId) {
-            deleteRequest(request.requestId)
+      if (request.receiverId === receiverId) {
+        deleteRequest(request.requestId)
 
-            const filteredRequest = currRequestsStorage.filter((currReq) => {
-                return currReq.receiverId !== receiverId
-            })
-            localStorage.setItem(
-                'sentRequests',
-                JSON.stringify(filteredRequest)
-            )
-        }
+        const filteredRequest = currRequestsStorage.filter((currReq) => {
+          return currReq.receiverId !== receiverId
+        })
+        localStorage.setItem('sentRequests', JSON.stringify(filteredRequest))
+      }
     }
     setRequestSent(false)
   }

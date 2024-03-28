@@ -1,41 +1,38 @@
-
-import { Slot, Stack, useRouter, useSegments } from "expo-router";
-import SignUpScreen from "./signUp";
-import { AuthContextProvider, useAuth } from "@/contexts/authContext";
-import { useEffect } from "react";
+import { Stack, useRouter, useSegments } from 'expo-router'
+import { AuthContextProvider, useAuth } from '@/contexts/authContext'
+import { useEffect } from 'react'
+import '../global.css'
 
 const MainLayout = () => {
-  const { isAuthenticated } = useAuth();
-  const segments = useSegments();
-  const router = useRouter();
+  const { isAuthenticated } = useAuth()
+  const segments = useSegments()
+  const router = useRouter()
 
   useEffect(() => {
     // check if user is authenticated
-    if (typeof isAuthenticated === "undefined") return;
-    const inApp = segments[0] === "(tabs)";
+    if (typeof isAuthenticated === 'undefined') return
+    const inApp = segments[0] === '(tabs)'
     if (isAuthenticated && !inApp) {
       // redirect to userList
-      router.replace('UserList');
+      router.replace('UserList')
     } else if (isAuthenticated === false) {
       //redirect to signin
-      router.replace('SignIn');
+      router.replace('SignIn')
     }
-  }, [isAuthenticated]);
+  }, [isAuthenticated])
 
   return (
     <Stack>
       <Stack.Screen name="signUp" options={{ headerShown: false }} />
       <Stack.Screen name="(tabs)" options={{ headerShown: false }} />
     </Stack>
-  );
-};
+  )
+}
 
 export default function RootLayout() {
   return (
-
     <AuthContextProvider>
       <MainLayout />
     </AuthContextProvider>
-  );
-
+  )
 }

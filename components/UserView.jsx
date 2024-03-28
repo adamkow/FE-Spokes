@@ -2,11 +2,11 @@ import { View, Text, StyleSheet, Image } from 'react-native'
 import React, { useEffect, useState } from 'react'
 import { useLocalSearchParams } from 'expo-router'
 import { getUserByUserID } from '@/api'
-import SendRequest from './SendRequest';
-import Rating from './Rating';
+import SendRequest from './SendRequest'
+import Rating from './Rating'
 
-export default function UserView({requestSent, setRequestSent}) {
-  const [currUserProfile, setCurrUserProfile] = useState({});
+export default function UserView({ requestSent, setRequestSent }) {
+  const [currUserProfile, setCurrUserProfile] = useState({})
   const { user } = useLocalSearchParams()
 
   useEffect(() => {
@@ -15,7 +15,6 @@ export default function UserView({requestSent, setRequestSent}) {
     })
   }, [])
 
-
   return (
     <View className="flex-1 m-5 justify-start items-center gap-3">
       <Text className="font-bold text-lg">{currUserProfile.username}</Text>
@@ -23,13 +22,17 @@ export default function UserView({requestSent, setRequestSent}) {
         style={styles.image}
         source={{ uri: currUserProfile.avatar_url }}
       />
-      <Rating isDisabled={true} rating={currUserProfile.rating}/> 
+      <Rating isDisabled={true} rating={currUserProfile.rating} />
       <Text className="text-center">{currUserProfile.bio}</Text>
       <Text>{currUserProfile.city}</Text>
       <Text>{currUserProfile.type_of_biking}</Text>
       <Text>{currUserProfile.difficulty}</Text>
       <Text>{currUserProfile.distance}</Text>
-      <SendRequest receiverId={currUserProfile.user_id} setRequestSent={setRequestSent} requestSent={requestSent}/>
+      <SendRequest
+        receiverId={currUserProfile.user_id}
+        setRequestSent={setRequestSent}
+        requestSent={requestSent}
+      />
     </View>
   )
 }

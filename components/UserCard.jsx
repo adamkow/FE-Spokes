@@ -1,7 +1,6 @@
 import { Text, Pressable, View, StyleSheet, Image, Modal } from 'react-native'
 import React, { useEffect, useState } from 'react'
 import { router } from 'expo-router'
-import { AirbnbRating } from 'react-native-ratings'
 import SendRequest from './SendRequest'
 import UserView from './UserView'
 import Rating from './Rating'
@@ -31,13 +30,13 @@ export default function UserCard({ user }) {
     const currRequestsStorage = JSON.parse(localStorage.getItem('sentRequests'))
     if (currRequestsStorage) {
       for (request of currRequestsStorage) {
-          if (request.receiverId === user.user_id) {
-              setRequestSent(true)
-          }
+        if (request.receiverId === user.user_id) {
+          setRequestSent(true)
+        }
       }
     }
   }, [])
-  
+
   return (
     <View className="m-5 p-5 border">
       <Pressable onPress={onPress}>
@@ -56,12 +55,19 @@ export default function UserCard({ user }) {
           <Text>{user.difficulty}</Text>
         </View>
       </Pressable>
-      <Rating isDisabled={true} rating={user.rating}/> 
-      <SendRequest receiverId={user.user_id} setRequestSent={setRequestSent} requestSent={requestSent}/>
+      <Rating isDisabled={true} rating={user.rating} />
+      <SendRequest
+        receiverId={user.user_id}
+        setRequestSent={setRequestSent}
+        requestSent={requestSent}
+      />
       <Modal animationType="none" transparent={true} visible={modalVisible}>
         <View style={styles.centeredView}>
           <View style={styles.modalView}>
-            <UserView setRequestSent={setRequestSent} requestSent={requestSent}/>
+            <UserView
+              setRequestSent={setRequestSent}
+              requestSent={requestSent}
+            />
             <Pressable
               style={[styles.button, styles.buttonClose]}
               onPress={hideModal}
@@ -121,5 +127,5 @@ const styles = StyleSheet.create({
   modalText: {
     marginBottom: 15,
     textAlign: 'center',
-  }
+  },
 })
