@@ -1,3 +1,4 @@
+
 import { Slot, Stack, useRouter, useSegments } from "expo-router";
 import SignUpScreen from "./signUp";
 import { AuthContextProvider, useAuth } from "@/contexts/authContext";
@@ -23,7 +24,7 @@ const MainLayout = () => {
 
   return (
     <Stack>
-      <Stack.Screen name="signUp" />
+      <Stack.Screen name="signUp" options={{ headerShown: false }} />
       <Stack.Screen name="(tabs)" options={{ headerShown: false }} />
     </Stack>
   );
@@ -31,8 +32,10 @@ const MainLayout = () => {
 
 export default function RootLayout() {
   return (
+
     <AuthContextProvider>
       <MainLayout />
     </AuthContextProvider>
   );
+
 }

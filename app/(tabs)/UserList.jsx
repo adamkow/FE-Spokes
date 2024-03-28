@@ -1,23 +1,99 @@
 import { getAllUsers } from "@/api";
 import { useEffect, useState } from "react";
-import { Text, View } from "react-native";
 import { useAuth } from "@/contexts/authContext";
+import {
+  FlatList,
+  Text,
+  View,
+  Modal,
+  StyleSheet,
+  Pressable,
+} from 'react-native'
+import UserCard from '../../components/UserCard'
+import UserView from '@/components/UserView'
+import { router } from 'expo-router'
 
 export default function Users() {
   const [userList, setUserList] = useState([]);
   const {newUserId, setNewUserId} = useAuth()
+  const [modalVisible, setModalVisible] = useState(false)
 
+  const openUserModal = () => {
+    setModalVisible(true)
+  }
+
+  const hideModal = () => {
+    setModalVisible(!modalVisible)
+    router.replace('/UserList')
+  }
   useEffect(() => {
     getAllUsers().then((users) => {
-      setUserList(users);
-    });
-  }, []);
+      setUserList(users)
+    })
+  }, [])
 
   return (
-    <View className="flex-1 justify-center items-center">
-      {userList.map((user) => {
-        return <Text key={user.username}>{user.username}</Text>;
-      })}
-    </View>
-  );
+    <>
+      <View className="flex-1 justify-center items-center">
+        <FlatList
+          data={userList}
+          renderItem={({ item }) => (
+            <UserCard user={item} openUserModal={openUserModal} />
+          )}
+          keyExtractor={(item) => item.user_id}
+        />
+      </View>
+
+      <Modal animationType="none" transparent={true} visible={modalVisible}>
+        <View style={styles.centeredView}>
+          <View style={styles.modalView}>
+            <Text style={styles.modalText}>User View</Text>
+            <UserView />
+            <Pressable
+              style={[styles.button, styles.buttonClose]}
+              onPress={hideModal}
+            >
+              <Text style={styles.textStyle}>Hide Modal</Text>
+            </Pressable>
+          </View>
+        </View>
+      </Modal>
+    </>
+  )
 }
+const styles = StyleSheet.create({
+  centeredView: {
+    flex: 1,
+    justifyContent: 'center',
+    alignItems: 'center',
+    marginTop: 22,
+  },
+  modalView: {
+    flex: 1,
+    margin: 20,
+    backgroundColor: 'white',
+    borderRadius: 20,
+    padding: 35,
+    alignItems: 'center',
+    boxShadow: '0px 2px 4px rgba(0, 0, 0, 0.25)',
+    width: 400,
+    elevation: 5,
+  },
+  button: {
+    borderRadius: 20,
+    padding: 10,
+    elevation: 2,
+  },
+  buttonClose: {
+    backgroundColor: '#2196F3',
+  },
+  textStyle: {
+    color: 'white',
+    fontWeight: 'bold',
+    textAlign: 'center',
+  },
+  modalText: {
+    marginBottom: 15,
+    textAlign: 'center',
+  },
+})

@@ -19,7 +19,7 @@
     "app/(tabs)/two.jsx",
     "app/index.jsx",
     "app/(tabs)/_layout.jsx",
-    "app/signUp.jsx",
+    "app/index.jsx",
     ".expo/types/**/*.ts",
     "expo-env.d.ts"
   ]
