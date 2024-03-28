@@ -25,3 +25,11 @@ export function sendRequest(user_id, receiver_id) {
 export function deleteRequest(request_id) {
   return api.delete(`requests/${request_id}`)
 }
+
+export function getUserByUserID(user_id) {
+  return api
+    .get(`users/${user_id}`)
+    .then(({data: {user}}) => {
+      return user
+    })
+}
