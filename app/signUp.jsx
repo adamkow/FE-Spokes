@@ -51,6 +51,7 @@ export default function SignUpScreen() {
         secureTextEntry
       />
       <Button
+      href="./createUser"
         title="Sign Up"
         onPress={() => {
           handleSignUp();
