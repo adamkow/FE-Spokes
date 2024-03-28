@@ -17,9 +17,9 @@
     "app/+html.jsx",
     "app/_layout.jsx",
     "app/(tabs)/two.jsx",
-    "app/index.jsx",
+    "app/index2.jsx",
     "app/(tabs)/_layout.jsx",
-    "app/index.jsx",
+    "app/index2.jsx",
     ".expo/types/**/*.ts",
     "expo-env.d.ts"
   ]

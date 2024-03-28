@@ -15,7 +15,6 @@ export const AuthContextProvider = ({ children }) => {
   useEffect(() => {
     const unsub = onAuthStateChanged(auth, (user) => {
       if (user) {
-        setIsAuthenticated(true);
         setUser(user);
       } else {
         setIsAuthenticated(false);
@@ -54,7 +53,7 @@ export const AuthContextProvider = ({ children }) => {
 
   return (
     <AuthContext.Provider
-      value={{ user, isAuthenticated, newUserId, login, register, logout }}
+      value={{ user, isAuthenticated, newUserId, setIsAuthenticated, login, register, logout }}
     >
       {children}
     </AuthContext.Provider>
