@@ -3,11 +3,12 @@ import React, { useState } from "react";
 import { StyleSheet, TextInput, Button, Alert, View, Text } from "react-native";
 import { getAuth, createUserWithEmailAndPassword } from "firebase/auth";
 import { useAuth } from "@/contexts/authContext";
+import { router } from "expo-router";
 
 export default function SignUpScreen() {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
-  const {register, setNewUserId} = useAuth()
+  const {register} = useAuth()
 
   const handleSignUp = async () => {
     if(!email || !password) {
@@ -55,6 +56,7 @@ export default function SignUpScreen() {
         title="Sign Up"
         onPress={() => {
           handleSignUp();
+          router.push("createUser")
         }}
       />
     </View>

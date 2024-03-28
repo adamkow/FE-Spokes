@@ -49,7 +49,7 @@ export default function SignInScreen() {
         }}
         secureTextEntry
       />
-      <Text className="text-white text-right">Forgotten Password?</Text>
+      <Text style={{color:"white"}} className="text-white text-right">Forgotten Password?</Text>
       <Button
         title="Sign In"
         onPress={() => {
@@ -60,7 +60,7 @@ export default function SignInScreen() {
       <View className="flex-row justify-center">
         <Text className="text-white">Don't have an account? </Text>
         <Pressable onPress={() => router.push("signUp")}>
-          <Text className="text-white text-blue-500">Sign Up</Text>
+          <Text style={{color:"white"}} className="text-white text-blue-500">Sign Up</Text>
         </Pressable>
       </View>
     </View>

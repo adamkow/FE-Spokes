@@ -11,11 +11,13 @@ import {
 } from 'react-native'
 import axios from 'axios'
 import { Picker } from '@react-native-picker/picker'
+import { useAuth } from '@/contexts/authContext'
 
 const { width } = Dimensions.get('window')
 const MAX_BUTTON_CONTAINER_WIDTH = 300
 
 export default function CreateUserScreen() {
+  const { user, setIsAuthenticated } = useAuth()
   const [name, setName] = useState('test') //leave empty after
   const [bio, setBio] = useState('test') //leave empty after
   const [imageUrl, setImageUrl] = useState('https://shorturl.at/altP4')
@@ -24,7 +26,7 @@ export default function CreateUserScreen() {
   const [activeTypeIndex, setActiveTypeIndex] = useState(null)
   const [activeDistanceIndex, setActiveDistanceIndex] = useState(null)
   const [activeDifficultyIndex, setActiveDifficultyIndex] = useState(null)
-  const [email, setEmail] = useState('randomemail@example.com')
+  const [email, setEmail] = useState('')
   const [rating, setRating] = useState(0)
   const [filters, setFilters] = useState({
     age: [],
@@ -116,13 +118,14 @@ export default function CreateUserScreen() {
       avatar_url: imageUrl,
       rating: rating,
     }
+    console.log(user);
     console.log('Current user data selections:', currentUserData)
   }
   const postUserData = () => {
     axios
       .post('https://spokes-yrzx.onrender.com/api/users/', {
         username: name,
-        email: email,
+        email: user.email,
         bio: bio,
         region: selectedRegion,
         city: selectedTown,
@@ -135,6 +138,7 @@ export default function CreateUserScreen() {
       })
       .then((response) => {
         console.log('User created:', response.data)
+        setIsAuthenticated(true)
       })
       .catch((error) => {
         console.error('Error creating user:', error)
