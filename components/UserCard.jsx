@@ -1,33 +1,43 @@
-import { Text, Pressable, View, StyleSheet, Image } from 'react-native'
-import React, { useState } from 'react'
+import { Text, Pressable, View, StyleSheet, Image, Modal } from 'react-native'
+import React, { useEffect, useState } from 'react'
 import { router } from 'expo-router'
 import { AirbnbRating } from 'react-native-ratings'
-import { deleteRequest, sendRequest } from '@/api'
+import SendRequest from './SendRequest'
+import UserView from './UserView'
+import Rating from './Rating'
 
 const blurhash =
   '|rF?hV%2WCj[ayj[a|j[az_NaeWBj@ayfRayfQfQM{M|azj[azf6fQfQfQIpWXofj[ayj[j[fQayWCoeoeaya}j[ayfQa{oLj?j[WVj[ayayj[fQoff7azayj[ayj[j[ayofayayayj[fQj[ayayj[ayfjj[j[ayjuayj['
 
-export default function UserCard({ user, openUserModal }) {
+export default function UserCard({ user }) {
+  const [modalVisible, setModalVisible] = useState(false)
   const [requestSent, setRequestSent] = useState(false)
-  const [requestId, setRequestId] = useState(null)
+
   function onPress() {
     router.setParams({ user: user.user_id })
     openUserModal()
   }
 
-  const handleSendRequest = () => {
-    // when userContext change it for logged user_id
-    sendRequest(1, user.user_id).then((requestFromApi) => {
-      setRequestId(requestFromApi.request_id)
-    })
-    setRequestSent(true)
+  const openUserModal = () => {
+    setModalVisible(true)
   }
 
-  const handleDeleteRequest = () => {
-    deleteRequest(requestId)
-    setRequestSent(false)
+  const hideModal = () => {
+    setModalVisible(!modalVisible)
+    router.replace('/UserList')
   }
 
+  useEffect(() => {
+    const currRequestsStorage = JSON.parse(localStorage.getItem('sentRequests'))
+    if (currRequestsStorage) {
+      for (request of currRequestsStorage) {
+          if (request.receiverId === user.user_id) {
+              setRequestSent(true)
+          }
+      }
+    }
+  }, [])
+  
   return (
     <View className="m-5 p-5 border">
       <Pressable onPress={onPress}>
@@ -46,30 +56,21 @@ export default function UserCard({ user, openUserModal }) {
           <Text>{user.difficulty}</Text>
         </View>
       </Pressable>
-      <AirbnbRating
-        showRating={false}
-        count={5}
-        defaultRating={user.rating}
-        size={20}
-        isDisabled={true}
-      />
-      {!requestSent && (
-        <Pressable
-          className="border m-1 p-1 flex items-center rounded-xl bg-green-200"
-          onPress={handleSendRequest}
-        >
-          <Text>Send request</Text>
-        </Pressable>
-      )}
-
-      {requestSent && (
-        <Pressable
-          className="border m-1 p-1 flex items-center rounded-xl  bg-red-300"
-          onPress={handleDeleteRequest}
-        >
-          <Text>Unsend request</Text>
-        </Pressable>
-      )}
+      <Rating isDisabled={true} rating={user.rating}/> 
+      <SendRequest receiverId={user.user_id} setRequestSent={setRequestSent} requestSent={requestSent}/>
+      <Modal animationType="none" transparent={true} visible={modalVisible}>
+        <View style={styles.centeredView}>
+          <View style={styles.modalView}>
+            <UserView setRequestSent={setRequestSent} requestSent={requestSent}/>
+            <Pressable
+              style={[styles.button, styles.buttonClose]}
+              onPress={hideModal}
+            >
+              <Text style={styles.textStyle}>Hide Modal</Text>
+            </Pressable>
+          </View>
+        </View>
+      </Modal>
     </View>
   )
 }
@@ -87,4 +88,38 @@ const styles = StyleSheet.create({
     backgroundColor: '#0553',
     borderRadius: '50%',
   },
+  centeredView: {
+    flex: 1,
+    justifyContent: 'center',
+    alignItems: 'center',
+    marginTop: 22,
+  },
+  modalView: {
+    flex: 1,
+    margin: 20,
+    backgroundColor: 'white',
+    borderRadius: 20,
+    padding: 35,
+    alignItems: 'center',
+    boxShadow: '0px 2px 4px rgba(0, 0, 0, 0.25)',
+    width: 400,
+    elevation: 5,
+  },
+  button: {
+    borderRadius: 20,
+    padding: 10,
+    elevation: 2,
+  },
+  buttonClose: {
+    backgroundColor: '#2196F3',
+  },
+  textStyle: {
+    color: 'white',
+    fontWeight: 'bold',
+    textAlign: 'center',
+  },
+  modalText: {
+    marginBottom: 15,
+    textAlign: 'center',
+  }
 })
