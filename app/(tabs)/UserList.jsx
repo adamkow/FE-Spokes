@@ -17,7 +17,9 @@ export default function Users() {
       <View className="flex-1 justify-center items-center">
         <FlatList
           data={userList}
-          renderItem={({ item }) => <UserCard user={item} />}
+          renderItem={({ item }) => (
+            <UserCard user={item} setUserList={setUserList} />
+          )}
           keyExtractor={(item) => item.user_id}
         />
       </View>

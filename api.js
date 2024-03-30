@@ -27,9 +27,33 @@ export function deleteRequest(request_id) {
 }
 
 export function getUserByUserID(user_id) {
+  return api.get(`users/${user_id}`).then(({ data: { user } }) => {
+    return user
+  })
+}
+
+export function getRequestsData(user_id, type, status) {
   return api
-    .get(`users/${user_id}`)
-    .then(({data: {user}}) => {
+    .get(`users/${user_id}/requests`, {
+      params: { type: type, status: status },
+    })
+    .then(({ data: { requests } }) => {
+      return requests
+    })
+}
+
+export function patchRequest(request_id, body) {
+  return api
+    .patch(`requests/${request_id}`, body)
+    .then(({ data: { request } }) => {
+      return request
+    })
+}
+
+export function patchRating(user_id, body) {
+  return api
+    .patch(`users/${user_id}/rating`, body)
+    .then(({ data: { user } }) => {
       return user
     })
 }

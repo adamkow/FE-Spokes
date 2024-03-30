@@ -1,19 +1,31 @@
-import { View, Text, StyleSheet, Image } from 'react-native'
-import React, { useEffect, useState } from 'react'
+import { View, Text, StyleSheet, Image, Pressable } from 'react-native'
+import React, { useContext, useEffect, useState } from 'react'
 import { useLocalSearchParams } from 'expo-router'
 import { getUserByUserID } from '@/api'
 import SendRequest from './SendRequest'
 import Rating from './Rating'
+import { UserIdForDevContext } from '@/contexts/UserIdForDevContext'
 
-export default function UserView({ requestSent, setRequestSent }) {
+export default function UserView({
+  requestSent,
+  setRequestSent,
+  isFriend,
+  setUserList,
+  requestId,
+}) {
   const [currUserProfile, setCurrUserProfile] = useState({})
   const { user } = useLocalSearchParams()
+  const { loggedInUserId } = useContext(UserIdForDevContext)
 
   useEffect(() => {
     getUserByUserID(user).then((userProfile) => {
       setCurrUserProfile(userProfile)
     })
   }, [])
+
+  const handleChat = (loggedInUserId, friendId) => {
+    // implement chat
+  }
 
   return (
     <View className="flex-1 m-5 justify-start items-center gap-3">
@@ -22,17 +34,32 @@ export default function UserView({ requestSent, setRequestSent }) {
         style={styles.image}
         source={{ uri: currUserProfile.avatar_url }}
       />
-      <Rating isDisabled={true} rating={currUserProfile.rating} />
+      <Rating
+        currentUserId={currUserProfile.user_id}
+        isDisabled={true}
+        rating={currUserProfile.rating}
+      />
       <Text className="text-center">{currUserProfile.bio}</Text>
       <Text>{currUserProfile.city}</Text>
       <Text>{currUserProfile.type_of_biking}</Text>
       <Text>{currUserProfile.difficulty}</Text>
       <Text>{currUserProfile.distance}</Text>
-      <SendRequest
-        receiverId={currUserProfile.user_id}
-        setRequestSent={setRequestSent}
-        requestSent={requestSent}
-      />
+      {isFriend ? (
+        <Pressable
+          className="border m-1 p-2 flex items-center rounded-xl bg-green-50 "
+          onPress={() => handleChat(loggedInUserId, currUserProfile.user_id)}
+        >
+          <Text>Chat</Text>
+        </Pressable>
+      ) : (
+        <SendRequest
+          receiverId={currUserProfile.user_id}
+          setRequestSent={setRequestSent}
+          requestSent={requestSent}
+          setUserList={setUserList}
+          requestId={requestId}
+        />
+      )}
     </View>
   )
 }
