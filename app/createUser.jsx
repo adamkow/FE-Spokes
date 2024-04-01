@@ -118,7 +118,6 @@ export default function CreateUserScreen() {
       avatar_url: imageUrl,
       rating: rating,
     }
-    console.log(user)
     console.log('Current user data selections:', currentUserData)
   }
   const postUserData = () => {

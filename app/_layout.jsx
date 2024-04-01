@@ -1,5 +1,6 @@
 import { Stack, useRouter, useSegments } from 'expo-router'
 import { AuthContextProvider, useAuth } from '@/contexts/authContext'
+import { UserIdForDevProvider } from '@/contexts/UserIdForDevContext'
 import { useEffect } from 'react'
 import '../global.css'
 
@@ -32,7 +33,9 @@ const MainLayout = () => {
 export default function RootLayout() {
   return (
     <AuthContextProvider>
-      <MainLayout />
+      <UserIdForDevProvider>
+        <MainLayout />
+      </UserIdForDevProvider>
     </AuthContextProvider>
   )
 }

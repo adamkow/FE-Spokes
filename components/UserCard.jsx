@@ -1,16 +1,21 @@
-import { Text, Pressable, View, StyleSheet, Image, Modal } from 'react-native'
-import React, { useEffect, useState } from 'react'
+import { Text, Pressable, View, StyleSheet, Image } from 'react-native'
+import React, { useContext, useEffect, useState } from 'react'
 import { router } from 'expo-router'
 import SendRequest from './SendRequest'
 import UserView from './UserView'
 import Rating from './Rating'
+import { patchRequest } from '@/api'
+import ModalWrapper from './ModalWrapper'
+import { UserIdForDevContext } from '@/contexts/UserIdForDevContext'
 
 const blurhash =
   '|rF?hV%2WCj[ayj[a|j[az_NaeWBj@ayfRayfQfQM{M|azj[azf6fQfQfQIpWXofj[ayj[j[fQayWCoeoeaya}j[ayfQa{oLj?j[WVj[ayayj[fQoff7azayj[ayj[j[ayofayayayj[fQj[ayayj[ayfjj[j[ayjuayj['
 
-export default function UserCard({ user }) {
+export default function UserCard({ user, setUserList }) {
   const [modalVisible, setModalVisible] = useState(false)
+  const [ratingModalVisible, setRatingModalVisible] = useState(false)
   const [requestSent, setRequestSent] = useState(false)
+  const { loggedInUserId } = useContext(UserIdForDevContext)
 
   function onPress() {
     router.setParams({ user: user.user_id })
@@ -21,19 +26,26 @@ export default function UserCard({ user }) {
     setModalVisible(true)
   }
 
-  const hideModal = () => {
-    setModalVisible(!modalVisible)
-    router.replace('/UserList')
+  const handlePatchRequest = (body) => {
+    patchRequest(user.request_id, body)
+      .then((requestFromAPI) => {
+        setUserList((currList) => {
+          const updatedList = currList.filter(
+            (currUser) => user.request_id !== currUser.request_id
+          )
+          return updatedList
+        })
+      })
+      .catch((err) => console.error('Error patching a request: ', err))
+  }
+
+  const handleChat = (loggedInUserId, friendId) => {
+    // implement chat
   }
 
   useEffect(() => {
-    const currRequestsStorage = JSON.parse(localStorage.getItem('sentRequests'))
-    if (currRequestsStorage) {
-      for (request of currRequestsStorage) {
-        if (request.receiverId === user.user_id) {
-          setRequestSent(true)
-        }
-      }
+    if (loggedInUserId === user.sender_id) {
+      setRequestSent(true)
     }
   }, [])
 
@@ -55,28 +67,81 @@ export default function UserCard({ user }) {
           <Text>{user.difficulty}</Text>
         </View>
       </Pressable>
-      <Rating isDisabled={true} rating={user.rating} />
-      <SendRequest
-        receiverId={user.user_id}
-        setRequestSent={setRequestSent}
-        requestSent={requestSent}
+      <Rating
+        currentUserId={user.user_id}
+        ratingCount={user.rating_count}
+        isDisabled={true}
+        rating={user.rating}
       />
-      <Modal animationType="none" transparent={true} visible={modalVisible}>
-        <View style={styles.centeredView}>
-          <View style={styles.modalView}>
-            <UserView
+
+      {user.status === 'accepted' ? (
+        <View>
+          <Pressable
+            className="border m-1 p-2 flex items-center rounded-xl bg-green-50 "
+            onPress={() => handleChat(loggedInUserId, user.user_id)}
+          >
+            <Text>Chat</Text>
+          </Pressable>
+          <Pressable
+            onPress={() => {
+              setRatingModalVisible(true)
+            }}
+            className="border m-1 p-2 flex items-center rounded-xl bg-blue-50 "
+          >
+            <Text>Rate</Text>
+          </Pressable>
+          <ModalWrapper
+            setModalVisible={setRatingModalVisible}
+            modalVisible={ratingModalVisible}
+          >
+            <Rating
+              currentUserId={user.user_id}
+              ratingCount={user.rating_count}
+              isDisabled={false}
+              rating={0}
+            />
+          </ModalWrapper>
+        </View>
+      ) : (
+        <>
+          {loggedInUserId === user.receiver_id ? (
+            <View className="flex-row gap-4 justify-center">
+              <Pressable
+                className="border m-1 p-2 flex items-center rounded-xl bg-green-50 "
+                onPress={() => handlePatchRequest({ status: 'accepted' })}
+              >
+                <Text>Accept</Text>
+              </Pressable>
+              <Pressable
+                className="border m-1 p-2 flex items-center rounded-xl bg-red-50"
+                onPress={() => handlePatchRequest({ status: 'rejected' })}
+              >
+                <Text>Decline</Text>
+              </Pressable>
+            </View>
+          ) : (
+            <SendRequest
+              receiverId={user.user_id}
               setRequestSent={setRequestSent}
               requestSent={requestSent}
+              setUserList={setUserList}
+              requestId={user.request_id}
             />
-            <Pressable
-              style={[styles.button, styles.buttonClose]}
-              onPress={hideModal}
-            >
-              <Text style={styles.textStyle}>Hide Modal</Text>
-            </Pressable>
-          </View>
-        </View>
-      </Modal>
+          )}
+        </>
+      )}
+      <ModalWrapper
+        setModalVisible={setModalVisible}
+        modalVisible={modalVisible}
+      >
+        <UserView
+          isFriend={user.status === 'accepted' ? true : false}
+          setRequestSent={setRequestSent}
+          requestSent={requestSent}
+          setUserList={setUserList}
+          requestId={user.request_id}
+        />
+      </ModalWrapper>
     </View>
   )
 }

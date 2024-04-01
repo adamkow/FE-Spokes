@@ -1,47 +1,48 @@
 import { deleteRequest, sendRequest } from '@/api'
+import { UserIdForDevContext } from '@/contexts/UserIdForDevContext'
+import { useRoute } from '@react-navigation/native'
+import { useContext } from 'react'
 import { Pressable, Text } from 'react-native'
 
 export default function SendRequest({
   receiverId,
   setRequestSent,
   requestSent,
+  setUserList,
+  requestId,
 }) {
-  const handleSendRequest = () => {
-    sendRequest(1, receiverId).then((requestFromApi) => {
-      const currRequestsStorage = JSON.parse(
-        localStorage.getItem('sentRequests')
-      )
+  const { loggedInUserId } = useContext(UserIdForDevContext)
+  const route = useRoute()
 
-      const newEntry = {
-        receiverId: receiverId,
-        requestId: requestFromApi.request_id,
-      }
-      if (currRequestsStorage) {
-        currRequestsStorage.push(newEntry)
-        localStorage.setItem(
-          'sentRequests',
-          JSON.stringify(currRequestsStorage)
-        )
-      } else {
-        localStorage.setItem('sentRequests', JSON.stringify([newEntry]))
-      }
+  const handleSendRequest = () => {
+    sendRequest(loggedInUserId, receiverId).then((requestFromApi) => {
+      setUserList((currList) => {
+        const updatedList = currList.map((user) => {
+          if (user.user_id === receiverId) {
+            return { ...user, ...requestFromApi }
+          } else {
+            return user
+          }
+        })
+        return updatedList
+      })
     })
     setRequestSent(true)
   }
 
   const handleDeleteRequest = () => {
-    const currRequestsStorage = JSON.parse(localStorage.getItem('sentRequests'))
-    for (request of currRequestsStorage) {
-      if (request.receiverId === receiverId) {
-        deleteRequest(request.requestId)
-
-        const filteredRequest = currRequestsStorage.filter((currReq) => {
-          return currReq.receiverId !== receiverId
-        })
-        localStorage.setItem('sentRequests', JSON.stringify(filteredRequest))
-      }
-    }
+    deleteRequest(requestId).catch((err) =>
+      console.error('Error deleting request: ', err)
+    )
     setRequestSent(false)
+    if (route.name === 'friends') {
+      setUserList((currList) => {
+        const updatedList = currList.filter(
+          (user) => user.user_id !== receiverId
+        )
+        return updatedList
+      })
+    }
   }
 
   return (
