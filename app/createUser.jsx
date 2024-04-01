@@ -118,7 +118,6 @@ export default function CreateUserScreen() {
       avatar_url: imageUrl,
       rating: rating,
     }
-    console.log(user);
     console.log('Current user data selections:', currentUserData)
   }
   const postUserData = () => {
@@ -194,7 +193,7 @@ export default function CreateUserScreen() {
           ))}
         </View>
 
-        <Text style={styles.heading}>Type of </Text>
+        <Text style={styles.heading}>Type of Biking</Text>
         <View style={styles.buttonContainer}>
           {filters.type.map((type, index) => (
             <TouchableOpacity

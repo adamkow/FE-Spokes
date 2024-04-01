@@ -1,32 +1,53 @@
 import { Text, Pressable, View, StyleSheet, Image } from 'react-native'
-import React, { useState } from 'react'
+import React, { useContext, useEffect, useState } from 'react'
 import { router } from 'expo-router'
-import { AirbnbRating } from 'react-native-ratings'
-import { deleteRequest, sendRequest } from '@/api'
+import SendRequest from './SendRequest'
+import UserView from './UserView'
+import Rating from './Rating'
+import { patchRequest } from '@/api'
+import ModalWrapper from './ModalWrapper'
+import { UserIdForDevContext } from '@/contexts/UserIdForDevContext'
 
 const blurhash =
   '|rF?hV%2WCj[ayj[a|j[az_NaeWBj@ayfRayfQfQM{M|azj[azf6fQfQfQIpWXofj[ayj[j[fQayWCoeoeaya}j[ayfQa{oLj?j[WVj[ayayj[fQoff7azayj[ayj[j[ayofayayayj[fQj[ayayj[ayfjj[j[ayjuayj['
 
-export default function UserCard({ user, openUserModal }) {
+export default function UserCard({ user, setUserList }) {
+  const [modalVisible, setModalVisible] = useState(false)
+  const [ratingModalVisible, setRatingModalVisible] = useState(false)
   const [requestSent, setRequestSent] = useState(false)
-  const [requestId, setRequestId] = useState(null)
+  const { loggedInUserId } = useContext(UserIdForDevContext)
+
   function onPress() {
     router.setParams({ user: user.user_id })
     openUserModal()
   }
 
-  const handleSendRequest = () => {
-    // when userContext change it for logged user_id
-    sendRequest(1, user.user_id).then((requestFromApi) => {
-      setRequestId(requestFromApi.request_id)
-    })
-    setRequestSent(true)
+  const openUserModal = () => {
+    setModalVisible(true)
   }
 
-  const handleDeleteRequest = () => {
-    deleteRequest(requestId)
-    setRequestSent(false)
+  const handlePatchRequest = (body) => {
+    patchRequest(user.request_id, body)
+      .then((requestFromAPI) => {
+        setUserList((currList) => {
+          const updatedList = currList.filter(
+            (currUser) => user.request_id !== currUser.request_id
+          )
+          return updatedList
+        })
+      })
+      .catch((err) => console.error('Error patching a request: ', err))
   }
+
+  const handleChat = (loggedInUserId, friendId) => {
+    // implement chat
+  }
+
+  useEffect(() => {
+    if (loggedInUserId === user.sender_id) {
+      setRequestSent(true)
+    }
+  }, [])
 
   return (
     <View className="m-5 p-5 border">
@@ -46,30 +67,81 @@ export default function UserCard({ user, openUserModal }) {
           <Text>{user.difficulty}</Text>
         </View>
       </Pressable>
-      <AirbnbRating
-        showRating={false}
-        count={5}
-        defaultRating={user.rating}
-        size={20}
+      <Rating
+        currentUserId={user.user_id}
+        ratingCount={user.rating_count}
         isDisabled={true}
+        rating={user.rating}
       />
-      {!requestSent && (
-        <Pressable
-          className="border m-1 p-1 flex items-center rounded-xl bg-green-200"
-          onPress={handleSendRequest}
-        >
-          <Text>Send request</Text>
-        </Pressable>
-      )}
 
-      {requestSent && (
-        <Pressable
-          className="border m-1 p-1 flex items-center rounded-xl  bg-red-300"
-          onPress={handleDeleteRequest}
-        >
-          <Text>Unsend request</Text>
-        </Pressable>
+      {user.status === 'accepted' ? (
+        <View>
+          <Pressable
+            className="border m-1 p-2 flex items-center rounded-xl bg-green-50 "
+            onPress={() => handleChat(loggedInUserId, user.user_id)}
+          >
+            <Text>Chat</Text>
+          </Pressable>
+          <Pressable
+            onPress={() => {
+              setRatingModalVisible(true)
+            }}
+            className="border m-1 p-2 flex items-center rounded-xl bg-blue-50 "
+          >
+            <Text>Rate</Text>
+          </Pressable>
+          <ModalWrapper
+            setModalVisible={setRatingModalVisible}
+            modalVisible={ratingModalVisible}
+          >
+            <Rating
+              currentUserId={user.user_id}
+              ratingCount={user.rating_count}
+              isDisabled={false}
+              rating={0}
+            />
+          </ModalWrapper>
+        </View>
+      ) : (
+        <>
+          {loggedInUserId === user.receiver_id ? (
+            <View className="flex-row gap-4 justify-center">
+              <Pressable
+                className="border m-1 p-2 flex items-center rounded-xl bg-green-50 "
+                onPress={() => handlePatchRequest({ status: 'accepted' })}
+              >
+                <Text>Accept</Text>
+              </Pressable>
+              <Pressable
+                className="border m-1 p-2 flex items-center rounded-xl bg-red-50"
+                onPress={() => handlePatchRequest({ status: 'rejected' })}
+              >
+                <Text>Decline</Text>
+              </Pressable>
+            </View>
+          ) : (
+            <SendRequest
+              receiverId={user.user_id}
+              setRequestSent={setRequestSent}
+              requestSent={requestSent}
+              setUserList={setUserList}
+              requestId={user.request_id}
+            />
+          )}
+        </>
       )}
+      <ModalWrapper
+        setModalVisible={setModalVisible}
+        modalVisible={modalVisible}
+      >
+        <UserView
+          isFriend={user.status === 'accepted' ? true : false}
+          setRequestSent={setRequestSent}
+          requestSent={requestSent}
+          setUserList={setUserList}
+          requestId={user.request_id}
+        />
+      </ModalWrapper>
     </View>
   )
 }
@@ -86,5 +158,39 @@ const styles = StyleSheet.create({
     height: 100,
     backgroundColor: '#0553',
     borderRadius: '50%',
+  },
+  centeredView: {
+    flex: 1,
+    justifyContent: 'center',
+    alignItems: 'center',
+    marginTop: 22,
+  },
+  modalView: {
+    flex: 1,
+    margin: 20,
+    backgroundColor: 'white',
+    borderRadius: 20,
+    padding: 35,
+    alignItems: 'center',
+    boxShadow: '0px 2px 4px rgba(0, 0, 0, 0.25)',
+    width: 400,
+    elevation: 5,
+  },
+  button: {
+    borderRadius: 20,
+    padding: 10,
+    elevation: 2,
+  },
+  buttonClose: {
+    backgroundColor: '#2196F3',
+  },
+  textStyle: {
+    color: 'white',
+    fontWeight: 'bold',
+    textAlign: 'center',
+  },
+  modalText: {
+    marginBottom: 15,
+    textAlign: 'center',
   },
 })

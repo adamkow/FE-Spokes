@@ -30,6 +30,7 @@ export default function SignUpScreen() {
     } else {
       router.push('createUser')
     }
+
   }
 
   return (
