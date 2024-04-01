@@ -1,5 +1,15 @@
+import { auth, firebaseConfig } from '../firebaseConfig'
 import React, { useState } from 'react'
-import { StyleSheet, TextInput, Button, Alert, View, Text } from 'react-native'
+import {
+  StyleSheet,
+  TextInput,
+  Button,
+  Alert,
+  View,
+  Text,
+  Pressable,
+} from 'react-native'
+import { getAuth, createUserWithEmailAndPassword } from 'firebase/auth'
 import { useAuth } from '@/contexts/authContext'
 import { router } from 'expo-router'
 
@@ -17,13 +27,10 @@ export default function SignUpScreen() {
 
     if (!response.success) {
       Alert.alert('Sign Up', response.msg)
+    } else {
+      router.push('createUser')
     }
 
-    // try {
-    //   await createUserWithEmailAndPassword(auth, email, password);
-    // } catch (error) {
-    //   console.error("Error in handleSignUp:", error);
-    // }
   }
 
   return (
@@ -54,9 +61,16 @@ export default function SignUpScreen() {
         title="Sign Up"
         onPress={() => {
           handleSignUp()
-          router.push('createUser')
         }}
       />
+      <View className="flex-row justify-center">
+        <Text className="text-white">Already have an account? </Text>
+        <Pressable onPress={() => router.push('SignIn')}>
+          <Text style={{ color: 'white' }} className="text-white text-blue-500">
+            Sign In
+          </Text>
+        </Pressable>
+      </View>
     </View>
   )
 }
