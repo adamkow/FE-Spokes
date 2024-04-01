@@ -8,6 +8,7 @@ import {
   Modal,
   StyleSheet,
   Pressable,
+  Button,
 } from 'react-native'
 import UserCard from '../../components/UserCard'
 import UserView from '@/components/UserView'
@@ -15,7 +16,7 @@ import { router } from 'expo-router'
 
 export default function Users() {
   const [userList, setUserList] = useState([]);
-  const {newUserId, setNewUserId} = useAuth()
+  const {logout} = useAuth()
   const [modalVisible, setModalVisible] = useState(false)
 
   const openUserModal = () => {
@@ -26,6 +27,11 @@ export default function Users() {
     setModalVisible(!modalVisible)
     router.replace('/UserList')
   }
+
+  const handleLogout = async () => {
+    await logout();
+  }
+
   useEffect(() => {
     getAllUsers().then((users) => {
       setUserList(users)
@@ -35,6 +41,7 @@ export default function Users() {
   return (
     <>
       <View className="flex-1 justify-center items-center">
+      <Pressable onPress={handleLogout} className="pt-5"><Text>Log Out</Text></Pressable>
         <FlatList
           data={userList}
           renderItem={({ item }) => (

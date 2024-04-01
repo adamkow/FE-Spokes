@@ -1,32 +1,36 @@
-import { auth, firebaseConfig } from "../firebaseConfig";
-import React, { useState } from "react";
-import { StyleSheet, TextInput, Button, Alert, View, Text } from "react-native";
-import { getAuth, createUserWithEmailAndPassword } from "firebase/auth";
-import { useAuth } from "@/contexts/authContext";
-import { router } from "expo-router";
+import { auth, firebaseConfig } from '../firebaseConfig'
+import React, { useState } from 'react'
+import {
+  StyleSheet,
+  TextInput,
+  Button,
+  Alert,
+  View,
+  Text,
+  Pressable,
+} from 'react-native'
+import { getAuth, createUserWithEmailAndPassword } from 'firebase/auth'
+import { useAuth } from '@/contexts/authContext'
+import { router } from 'expo-router'
 
 export default function SignUpScreen() {
-  const [email, setEmail] = useState("");
-  const [password, setPassword] = useState("");
-  const {register} = useAuth()
+  const [email, setEmail] = useState('')
+  const [password, setPassword] = useState('')
+  const { register } = useAuth()
 
   const handleSignUp = async () => {
-    if(!email || !password) {
-      Alert.alert('Sign Up', "Please fill all the fields!")
+    if (!email || !password) {
+      Alert.alert('Sign Up', 'Please fill all the fields!')
     }
 
-    let response = await register(email, password);
+    let response = await register(email, password)
 
-    if(!response.success) {
+    if (!response.success) {
       Alert.alert('Sign Up', response.msg)
+    } else {
+      router.push('createUser')
     }
-
-    // try {
-    //   await createUserWithEmailAndPassword(auth, email, password);
-    // } catch (error) {
-    //   console.error("Error in handleSignUp:", error);
-    // }
-  };
+  }
 
   return (
     <View style={styles.container}>
@@ -34,58 +38,65 @@ export default function SignUpScreen() {
       <TextInput
         style={styles.input}
         placeholder="Email"
-        placeholderTextColor={"white"}
+        placeholderTextColor={'white'}
         value={email}
         onChangeText={(newEmail) => {
-          setEmail(newEmail);
+          setEmail(newEmail)
         }}
         autoCapitalize="none"
       />
       <TextInput
         style={styles.input}
         placeholder="Password"
-        placeholderTextColor={"white"}
+        placeholderTextColor={'white'}
         value={password}
         onChangeText={(newPassword) => {
-          setPassword(newPassword);
+          setPassword(newPassword)
         }}
         secureTextEntry
       />
       <Button
-      href="./createUser"
+        href="./createUser"
         title="Sign Up"
         onPress={() => {
-          handleSignUp();
-          router.push("createUser")
+          handleSignUp()
         }}
       />
+      <View className="flex-row justify-center">
+        <Text className="text-white">Already have an account? </Text>
+        <Pressable onPress={() => router.push('SignIn')}>
+          <Text style={{ color: 'white' }} className="text-white text-blue-500">
+            Sign In
+          </Text>
+        </Pressable>
+      </View>
     </View>
-  );
+  )
 }
 
-const isDarkTheme = true;
+const isDarkTheme = true
 
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    alignItems: "center",
-    justifyContent: "center",
+    alignItems: 'center',
+    justifyContent: 'center',
     padding: 20,
-    backgroundColor: isDarkTheme ? "black" : "white",
+    backgroundColor: isDarkTheme ? 'black' : 'white',
   },
   title: {
     fontSize: 20,
-    fontWeight: "bold",
+    fontWeight: 'bold',
     marginBottom: 20,
-    color: isDarkTheme ? "white" : "black",
+    color: isDarkTheme ? 'white' : 'black',
   },
   input: {
-    width: "100%",
+    width: '100%',
     marginBottom: 15,
     padding: 15,
     borderWidth: 1,
-    borderColor: isDarkTheme ? "white" : "gray",
+    borderColor: isDarkTheme ? 'white' : 'gray',
     borderRadius: 5,
-    color: isDarkTheme ? "white" : "black",
+    color: isDarkTheme ? 'white' : 'black',
   },
-});
+})
