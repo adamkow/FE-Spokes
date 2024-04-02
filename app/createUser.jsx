@@ -69,7 +69,7 @@ export default function CreateUserScreen() {
     if (selectedRegion) {
       axios
         .get(
-          `https://towns.online-tech.co.uk/api/v1/towns/country/england/region/${selectedRegion}`
+          `https://towns.online-tech.co.uk/api/v1/types/populatedPlace/City/region/${selectedRegion}`
         )
         .then((response) => {
           const townNames = response.data.data.map((town) => town.name_1)
