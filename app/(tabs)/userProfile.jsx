@@ -14,7 +14,7 @@ import { useAuth } from "@/contexts/authContext";
 
 export default function UserProfile({ navigation }) {
   const [userData, setUserData] = useState(null)
-  const { logout } = useAuth()
+  const { logout, user } = useAuth()
 
   const handleSignOut = async () => {
     await logout()
@@ -40,7 +40,7 @@ export default function UserProfile({ navigation }) {
       {userData ? (
         <View style={{ alignItems: 'center' }}>
           <Image
-            source={{ uri: userData.user.avatar_url }}
+            source={{ uri: user.avatar_url }}
             style={{
               width: 100,
               height: 100,
@@ -49,22 +49,22 @@ export default function UserProfile({ navigation }) {
             }}
           />
           <Text style={{ fontSize: 18, marginBottom: 5 }}>
-            Name: {userData.user.username}
+            Name: {user.username}
           </Text>
           <Text style={{ fontSize: 18, marginBottom: 5 }}>
-            Email: {userData.user.email}
+            Email: {user.email}
           </Text>
           <Text style={{ fontSize: 18, marginBottom: 5 }}>
-            Age: {userData.user.age}
+            Age: {user.age}
           </Text>
           <Text style={{ fontSize: 18, marginBottom: 5 }}>
-            Region: {userData.user.region}
+            Region: {user.region}
           </Text>
           <Text style={{ fontSize: 18, marginBottom: 5 }}>
-            City: {userData.user.city}
+            City: {user.city}
           </Text>
           <Text style={{ fontSize: 18, marginBottom: 5 }}>
-            Bio: {userData.user.bio}
+            Bio: {user.bio}
           </Text>
           <TouchableOpacity
             onPress={() => {

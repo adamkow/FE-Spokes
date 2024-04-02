@@ -1,4 +1,5 @@
-import { auth, db } from '@/firebaseConfig'
+import { getUserByUserID } from '@/api'
+import { auth } from '@/firebaseConfig'
 import {
   createUserWithEmailAndPassword,
   onAuthStateChanged,
@@ -29,6 +30,9 @@ export const AuthContextProvider = ({ children }) => {
   const login = async (email, password) => {
     try {
       const response = await signInWithEmailAndPassword(auth, email, password)
+      getUserByUserID(response.user.uid).then((res)=> {
+        setUser(res)
+      })
       return { success: true }
     } catch (e) {
       let msg = e.message
@@ -74,6 +78,7 @@ export const AuthContextProvider = ({ children }) => {
         isAuthenticated,
         newUserId,
         setIsAuthenticated,
+        setUser,
         login,
         register,
         logout,
