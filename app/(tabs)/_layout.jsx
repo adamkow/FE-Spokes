@@ -3,6 +3,7 @@ import FontAwesome from '@expo/vector-icons/FontAwesome'
 import { Tabs, router } from 'expo-router'
 import { Pressable } from 'react-native'
 
+
 export default function TabLayout() {
   return (
     <Tabs screenOptions={{ tabBarActiveTintColor: 'blue' }}>
