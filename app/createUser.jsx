@@ -118,7 +118,7 @@ export default function CreateUserScreen() {
       avatar_url: imageUrl,
       rating: rating,
     }
-    console.log('Current user data selections:', currentUserData)
+    // console.log('Current user data selections:', currentUserData)
   }
   const postUserData = () => {
     axios
@@ -137,7 +137,6 @@ export default function CreateUserScreen() {
         rating: rating,
       })
       .then((response) => {
-        console.log('User created:', response.data)
         setIsAuthenticated(true)
       })
       .catch((error) => {
