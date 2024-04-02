@@ -1,8 +1,8 @@
+import React from 'react'
+import FontAwesome from '@expo/vector-icons/FontAwesome'
+import { Tabs, router } from 'expo-router'
+import { Pressable } from 'react-native'
 
-import React from 'react';
-import FontAwesome from '@expo/vector-icons/FontAwesome';
-import { Tabs } from 'expo-router';
-import { Pressable } from 'react-native';
 
 export default function TabLayout() {
   return (
@@ -26,6 +26,25 @@ export default function TabLayout() {
           unmountOnBlur: true,
           tabBarIcon: ({ color }) => (
             <FontAwesome size={28} name="user" color={color} />
+          ),
+        }}
+      />
+      <Tabs.Screen
+        name="messages"
+        options={{
+          title: 'Messages',
+          headerShown: false,
+          unmountOnBlur: true,
+          tabBarIcon: ({ color }) => (
+            <FontAwesome size={28} name="comments" color={color} />
+          ),
+          tabBarButton: (props) => (
+            <Pressable
+              {...props}
+              onPress={() => {
+                router.replace('/(tabs)/messages')
+              }}
+            />
           ),
         }}
       />
