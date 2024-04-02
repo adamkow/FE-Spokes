@@ -6,10 +6,12 @@ import {
   Button,
   Pressable,
   Alert,
+  Platform,
 } from 'react-native'
 import React, { useState } from 'react'
 import { useRouter } from 'expo-router'
 import { useAuth } from '@/contexts/authContext'
+import showAlert from '@/components/alerts'
 
 export default function SignInScreen() {
   const router = useRouter()
@@ -19,13 +21,13 @@ export default function SignInScreen() {
 
   const handleSignIn = async () => {
     if (!email || !password) {
-      Alert.alert('Sign In', 'Please fill all the fields!')
+      showAlert('Sign In', 'Please fill all the fields!')
       return
     }
 
     const response = await login(email, password)
     if (!response.success) {
-      Alert.alert('Sign In', response.msg)
+      showAlert('Sign In', response.msg)
     } else {
       setIsAuthenticated(true)
     }

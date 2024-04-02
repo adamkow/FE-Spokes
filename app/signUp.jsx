@@ -8,30 +8,38 @@ import {
   View,
   Text,
   Pressable,
+  Platform,
 } from 'react-native'
 import { getAuth, createUserWithEmailAndPassword } from 'firebase/auth'
 import { useAuth } from '@/contexts/authContext'
 import { router } from 'expo-router'
+import showAlert from '@/components/alerts'
 
 export default function SignUpScreen() {
   const [email, setEmail] = useState('')
   const [password, setPassword] = useState('')
+  const [confirmPassword, setConfirmPassword] = useState('')
   const { register } = useAuth()
 
   const handleSignUp = async () => {
     if (!email || !password) {
-      Alert.alert('Sign Up', 'Please fill all the fields!')
+      showAlert('Sign Up', 'Please fill all the fields!')
+      return
+    }
+
+    if (password !== confirmPassword) {
+      showAlert('Sign Up', 'Passwords do not match!');
+      return;
     }
 
     let response = await register(email, password)
 
     if (!response.success) {
-      Alert.alert('Sign Up', response.msg)
+      showAlert('Sign Up', response.msg)
     } else {
       router.push('createUser')
     }
-
-  }
+  };
 
   return (
     <View style={styles.container}>
@@ -42,7 +50,7 @@ export default function SignUpScreen() {
         placeholderTextColor={'white'}
         value={email}
         onChangeText={(newEmail) => {
-          setEmail(newEmail)
+          setEmail(newEmail);
         }}
         autoCapitalize="none"
       />
@@ -52,28 +60,36 @@ export default function SignUpScreen() {
         placeholderTextColor={'white'}
         value={password}
         onChangeText={(newPassword) => {
-          setPassword(newPassword)
+          setPassword(newPassword);
+        }}
+        secureTextEntry
+      />
+      <TextInput
+        style={styles.input}
+        placeholder="Confirm Password"
+        placeholderTextColor={'white'}
+        value={confirmPassword}
+        onChangeText={(newConfirmPassword) => {
+          setConfirmPassword(newConfirmPassword);
         }}
         secureTextEntry
       />
       <Button
-        href="./createUser"
         title="Sign Up"
         onPress={() => {
-          handleSignUp()
+          handleSignUp();
         }}
       />
-      <View className="flex-row justify-center">
-        <Text className="text-white">Already have an account? </Text>
+      <View style={styles.signInLink}>
+        <Text style={styles.signInText}>Already have an account? </Text>
         <Pressable onPress={() => router.push('SignIn')}>
-          <Text style={{ color: 'white' }} className="text-white text-blue-500">
-            Sign In
-          </Text>
+          <Text style={[styles.signInText, styles.link]}>Sign In</Text>
         </Pressable>
       </View>
     </View>
-  )
+  );
 }
+
 
 const isDarkTheme = true
 
@@ -96,7 +112,7 @@ const styles = StyleSheet.create({
     marginBottom: 15,
     padding: 15,
     borderWidth: 1,
-    borderColor: isDarkTheme ? 'white' : 'gray',
+    borderColor: isDarkTheme ? 'white' : 'gray',      
     borderRadius: 5,
     color: isDarkTheme ? 'white' : 'black',
   },
