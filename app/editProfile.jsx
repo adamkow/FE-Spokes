@@ -226,41 +226,51 @@ export default function EditProfile() {
         </View>
 
         <Text style={styles.heading}>Distance</Text>
-        <View style={styles.buttonContainer}>
-          {filters.distance.map((distance, index) => (
-            <TouchableOpacity
-              key={index}
-              style={[
-                styles.button,
-                activeDistanceIndex === index ? styles.activeButton : null,
-              ]}
-              onPress={() => setActiveDistanceIndex(index)}
-            >
-              <Text style={styles.buttonText}>{distance}</Text>
-            </TouchableOpacity>
-          ))}
-        </View>
+        <ScrollView horizontal showsHorizontalScrollIndicator={false}>
+          <View style={styles.buttonContainer}>
+            {filters.distance.map((distance, index) => (
+              <TouchableOpacity
+                key={index}
+                style={[
+                  styles.button,
+                  activeDistanceIndex === index ? styles.activeButton : null,
+                ]}
+                onPress={() => setActiveDistanceIndex(index)}
+              >
+                <Text style={styles.buttonText}>{distance}</Text>
+              </TouchableOpacity>
+            ))}
+          </View>
+        </ScrollView>
 
         <Text style={styles.heading}>Difficulty</Text>
-        <View style={styles.buttonContainer}>
-          {filters.difficulty.map((difficulty, index) => (
-            <TouchableOpacity
-              key={index}
-              style={[
-                styles.button,
-                activeDifficultyIndex === index ? styles.activeButton : null,
-              ]}
-              onPress={() => setActiveDifficultyIndex(index)}
-            >
-              <Text style={styles.buttonText}>{difficulty}</Text>
-            </TouchableOpacity>
-          ))}
-        </View>
+        <ScrollView horizontal showsHorizontalScrollIndicator={false}>
+          <View style={styles.buttonContainer}>
+            {filters.difficulty.map((difficulty, index) => (
+              <TouchableOpacity
+                key={index}
+                style={[
+                  styles.button,
+                  activeDifficultyIndex === index ? styles.activeButton : null,
+                ]}
+                onPress={() => setActiveDifficultyIndex(index)}
+              >
+                <Text style={styles.buttonText}>{difficulty}</Text>
+              </TouchableOpacity>
+            ))}
+          </View>
+        </ScrollView>
 
         <Text style={styles.heading}>Region</Text>
         <Picker
           selectedValue={selectedRegion}
-          style={{ height: 50, width: 150 }}
+          style={{
+            borderRadius: 5,
+            borderColor: 'black',
+            backgroundColor: 'white',
+            height: 50,
+            width: 150,
+          }}
           onValueChange={(itemValue, itemIndex) => {
             console.log('Selected Region:', itemValue)
             setSelectedRegion(itemValue)
@@ -274,7 +284,13 @@ export default function EditProfile() {
         <Text style={styles.heading}>Town/City</Text>
         <Picker
           selectedValue={selectedTown}
-          style={{ height: 50, width: 150 }}
+          style={{
+            borderRadius: 5,
+            borderColor: 'black',
+            backgroundColor: 'white',
+            height: 50,
+            width: 150,
+          }}
           onValueChange={(itemValue, itemIndex) => {
             console.log('Selected Town/City:', itemValue)
             setSelectedTown(itemValue)
@@ -310,7 +326,9 @@ const styles = StyleSheet.create({
     margin: 12,
     borderWidth: 1,
     padding: 10,
-    width: '80%',
+    marginHorizontal: '10%',
+    width: '60%',
+    textAlign: 'center',
   },
   heading: {
     fontSize: 18,
@@ -318,17 +336,17 @@ const styles = StyleSheet.create({
     marginTop: 20,
   },
   buttonContainer: {
-    flexDirection: width < MAX_BUTTON_CONTAINER_WIDTH ? 'column' : 'row',
-    flexWrap: width < MAX_BUTTON_CONTAINER_WIDTH ? 'wrap' : 'nowrap',
+    flexDirection: 'row',
     justifyContent: 'center',
     alignItems: 'center',
     marginBottom: 10,
-    maxWidth: MAX_BUTTON_CONTAINER_WIDTH,
+    flexWrap: 'wrap',
   },
+
   button: {
     backgroundColor: '#ffffff',
     borderRadius: 5,
-    paddingVertical: 10,
+    paddingVertical: 12,
     paddingHorizontal: 20,
     margin: 5,
     borderWidth: 1,
@@ -336,8 +354,9 @@ const styles = StyleSheet.create({
   },
   activeButton: {
     borderColor: 'blue',
-    borderWidth: 2,
+    borderWidth: 3,
   },
+
   buttonText: {
     textAlign: 'center',
   },
@@ -368,5 +387,10 @@ const styles = StyleSheet.create({
     textAlign: 'center',
     lineHeight: 30,
     fontSize: 20,
+  },
+  picker: {
+    height: 50,
+    width: 150,
+    borderWidth: 1,
   },
 })

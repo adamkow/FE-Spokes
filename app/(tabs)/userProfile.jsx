@@ -10,7 +10,7 @@ import {
 } from 'react-native'
 import axios from 'axios'
 import { router } from 'expo-router'
-import { useAuth } from "@/contexts/authContext";
+import { useAuth } from '@/contexts/authContext'
 
 export default function UserProfile({ navigation }) {
   const [userData, setUserData] = useState(null)
@@ -78,7 +78,10 @@ export default function UserProfile({ navigation }) {
           >
             <Text style={{ color: 'white' }}>edit profile</Text>
           </TouchableOpacity>
-          <Pressable onPress={handleSignOut} className="pt-10"><Text className="bg-indigo-600 text-white rounded text-xl p-3">Sign Out</Text>
+          <Pressable onPress={handleSignOut} className="pt-10">
+            <Text className="bg-indigo-600 text-white rounded text-xl p-3">
+              Sign Out
+            </Text>
           </Pressable>
         </View>
       ) : (
