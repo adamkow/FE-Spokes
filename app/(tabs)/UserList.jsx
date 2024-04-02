@@ -20,9 +20,7 @@ export default function Users() {
         <FlatList
           data={userList}
           renderItem={({ item }) => (
-            item.city === user.city ? 
-              <UserCard user={item} setUserList={setUserList} /> : 
-              <></>
+              <UserCard user={item} setUserList={setUserList} /> 
           )}
           keyExtractor={(item) => item.user_id}
         />

@@ -115,7 +115,7 @@ export default function EditProfile() {
       email: userData ? userData.email : '',
       bio: userData ? userData.bio : '',
       region: selectedRegion,
-      city: selectedTown,
+      city: selectedTown.toLowerCase(),
       type_of_biking: filters.type[activeTypeIndex] || '',
       difficulty: filters.difficulty[activeDifficultyIndex] || '',
       distance: filters.distance[activeDistanceIndex] || '',
