@@ -57,10 +57,13 @@ export default function SignInScreen() {
         secureTextEntry
       />
       <Text style={{ color: 'white' }}>Forgotten Password?</Text>
+      <View style={styles.buttonContainer}>
       <Button
         title="Sign In"
         onPress={handleSignIn}
+        color="#841584" 
       />
+      </View>
       <View style={styles.signUpLink}>
         <Text style={styles.signUpText}>Don't have an account? </Text>
         <Pressable onPress={goToSignUp}>
@@ -96,6 +99,10 @@ const styles = StyleSheet.create({
     borderColor: isDarkTheme ? 'white' : 'gray',
     borderRadius: 5,
     color: isDarkTheme ? 'white' : 'black',
+  },
+  buttonContainer: {
+    alignItems: 'center',
+    marginBottom: 15
   },
   signUpLink: {
     flexDirection: 'row',

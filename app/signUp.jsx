@@ -83,6 +83,7 @@ export default function SignUpScreen() {
         onPress={() => {
           handleSignUp();
         }}
+        color="#841584" 
       />
       <Text style={styles.signInLink}>
         Already have an account? <Pressable onPress={goToSignIn}><Text style={styles.link}>Sign In</Text></Pressable>
