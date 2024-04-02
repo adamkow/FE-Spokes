@@ -1,5 +1,5 @@
 import { deleteRequest, sendRequest } from '@/api'
-import { UserIdForDevContext } from '@/contexts/UserIdForDevContext'
+import { LoggedUserInfoForDevContext } from '@/contexts/LoggedUserInfoForDevContext'
 import { useRoute } from '@react-navigation/native'
 import { useContext } from 'react'
 import { Pressable, Text } from 'react-native'
@@ -11,11 +11,11 @@ export default function SendRequest({
   setUserList,
   requestId,
 }) {
-  const { loggedInUserId } = useContext(UserIdForDevContext)
+  const { loggedInUserInfo } = useContext(LoggedUserInfoForDevContext)
   const route = useRoute()
 
   const handleSendRequest = () => {
-    sendRequest(loggedInUserId, receiverId).then((requestFromApi) => {
+    sendRequest(loggedInUserInfo.user_id, receiverId).then((requestFromApi) => {
       setUserList((currList) => {
         const updatedList = currList.map((user) => {
           if (user.user_id === receiverId) {
@@ -26,23 +26,24 @@ export default function SendRequest({
         })
         return updatedList
       })
+      setRequestSent(true)
     })
-    setRequestSent(true)
   }
 
   const handleDeleteRequest = () => {
-    deleteRequest(requestId).catch((err) =>
-      console.error('Error deleting request: ', err)
-    )
-    setRequestSent(false)
-    if (route.name === 'friends') {
-      setUserList((currList) => {
-        const updatedList = currList.filter(
-          (user) => user.user_id !== receiverId
-        )
-        return updatedList
+    deleteRequest(requestId)
+      .then(() => {
+        if (route.name === 'friends') {
+          setUserList((currList) => {
+            const updatedList = currList.filter(
+              (user) => user.user_id !== receiverId
+            )
+            return updatedList
+          })
+        }
+        setRequestSent(false)
       })
-    }
+      .catch((err) => console.error('Error deleting request: ', err))
   }
 
   return (

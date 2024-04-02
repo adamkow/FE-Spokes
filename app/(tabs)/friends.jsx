@@ -3,14 +3,14 @@ import React, { useContext, useEffect, useState } from 'react'
 import { getRequestsData } from '@/api'
 import RequestsView from '@/components/RequestsView'
 import FriendsView from '@/components/FriendsView'
-import { UserIdForDevContext } from '@/contexts/UserIdForDevContext'
+import { LoggedUserInfoForDevContext } from '@/contexts/LoggedUserInfoForDevContext'
 
 export default function Friends() {
   const [requestsData, setRequestsData] = useState([])
   const [requestsType, setRequestsType] = useState('all')
   const [showFriends, setShowFriends] = useState(true)
   const [showRequests, setShowRequests] = useState(false)
-  const { loggedInUserId } = useContext(UserIdForDevContext)
+  const { loggedInUserInfo } = useContext(LoggedUserInfoForDevContext)
 
   useEffect(() => {
     let status = null
@@ -18,7 +18,7 @@ export default function Friends() {
       status = 'accepted'
     }
 
-    getRequestsData(loggedInUserId, requestsType, status)
+    getRequestsData(loggedInUserInfo.user_id, requestsType, status)
       .then((requestsDataFromAPI) => {
         setRequestsData(requestsDataFromAPI)
       })

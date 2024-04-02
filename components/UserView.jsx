@@ -1,10 +1,15 @@
-import { View, Text, StyleSheet, Image, Pressable } from 'react-native'
+import { View, Text, StyleSheet, Image } from 'react-native'
 import React, { useContext, useEffect, useState } from 'react'
-import { useLocalSearchParams } from 'expo-router'
+import { Link, useLocalSearchParams } from 'expo-router'
 import { getUserByUserID } from '@/api'
 import SendRequest from './SendRequest'
 import Rating from './Rating'
-import { UserIdForDevContext } from '@/contexts/UserIdForDevContext'
+import { LoggedUserInfoForDevContext } from '@/contexts/LoggedUserInfoForDevContext'
+import {
+  addRoomToChatRooms,
+  createRoomIfNotExists,
+  getRoomId,
+} from '@/utilis/common'
 
 export default function UserView({
   requestSent,
@@ -14,19 +19,37 @@ export default function UserView({
   requestId,
 }) {
   const [currUserProfile, setCurrUserProfile] = useState({})
-  const { user } = useLocalSearchParams()
-  const { loggedInUserId } = useContext(UserIdForDevContext)
+  const [roomId, setRoomId] = useState()
+  const { user_id } = useLocalSearchParams()
+  const { loggedInUserInfo } = useContext(LoggedUserInfoForDevContext)
 
   useEffect(() => {
-    getUserByUserID(user).then((userProfile) => {
+    getUserByUserID(user_id).then((userProfile) => {
       setCurrUserProfile(userProfile)
     })
+    if (isFriend) {
+      const roomId = getRoomId(loggedInUserInfo.user_id, user_id)
+      setRoomId(roomId)
+    }
   }, [])
 
-  const handleChat = (loggedInUserId, friendId) => {
-    // implement chat
-  }
+  const handleRoom = () => {
+    const participants = {
+      [loggedInUserInfo.user_id]: {
+        user_id: loggedInUserInfo.user_id,
+        username: loggedInUserInfo.username,
+        avatar_url: loggedInUserInfo.avatar_url,
+      },
 
+      [currUserProfile.user_id]: {
+        user_id: currUserProfile.user_id,
+        username: currUserProfile.username,
+        avatar_url: currUserProfile.avatar_url,
+      },
+    }
+    createRoomIfNotExists(roomId, participants)
+    addRoomToChatRooms(roomId, loggedInUserInfo.user_id)
+  }
   return (
     <View className="flex-1 m-5 justify-start items-center gap-3">
       <Text className="font-bold text-lg">{currUserProfile.username}</Text>
@@ -45,12 +68,16 @@ export default function UserView({
       <Text>{currUserProfile.difficulty}</Text>
       <Text>{currUserProfile.distance}</Text>
       {isFriend ? (
-        <Pressable
-          className="border m-1 p-2 flex items-center rounded-xl bg-green-50 "
-          onPress={() => handleChat(loggedInUserId, currUserProfile.user_id)}
+        <Link
+          href={{
+            pathname: 'messages',
+            params: { chat_room: roomId },
+          }}
+          className="border m-1 p-2 flex items-center justify-center rounded-xl bg-green-50 "
+          onClick={handleRoom}
         >
           <Text>Chat</Text>
-        </Pressable>
+        </Link>
       ) : (
         <SendRequest
           receiverId={currUserProfile.user_id}

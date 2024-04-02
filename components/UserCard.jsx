@@ -1,32 +1,32 @@
 import { Text, Pressable, View, StyleSheet, Image } from 'react-native'
 import React, { useContext, useEffect, useState } from 'react'
-import { router } from 'expo-router'
+import { Link, router } from 'expo-router'
 import SendRequest from './SendRequest'
 import UserView from './UserView'
 import Rating from './Rating'
 import { patchRequest } from '@/api'
 import ModalWrapper from './ModalWrapper'
-import { UserIdForDevContext } from '@/contexts/UserIdForDevContext'
-
-const blurhash =
-  '|rF?hV%2WCj[ayj[a|j[az_NaeWBj@ayfRayfQfQM{M|azj[azf6fQfQfQIpWXofj[ayj[j[fQayWCoeoeaya}j[ayfQa{oLj?j[WVj[ayayj[fQoff7azayj[ayj[j[ayofayayayj[fQj[ayayj[ayfjj[j[ayjuayj['
+import { LoggedUserInfoForDevContext } from '@/contexts/LoggedUserInfoForDevContext'
+import {
+  addRoomToChatRooms,
+  blurhash,
+  createRoomIfNotExists,
+  getRoomId,
+} from '@/utilis/common'
 
 export default function UserCard({ user, setUserList }) {
-  const [modalVisible, setModalVisible] = useState(false)
+  const [userViewModalVisible, setUserViewModalVisible] = useState(false)
   const [ratingModalVisible, setRatingModalVisible] = useState(false)
   const [requestSent, setRequestSent] = useState(false)
-  const { loggedInUserId } = useContext(UserIdForDevContext)
+  const [roomId, setRoomId] = useState()
+  const { loggedInUserInfo } = useContext(LoggedUserInfoForDevContext)
 
   function onPress() {
-    router.setParams({ user: user.user_id })
-    openUserModal()
+    router.setParams({ user_id: user.user_id })
+    setUserViewModalVisible(true)
   }
 
-  const openUserModal = () => {
-    setModalVisible(true)
-  }
-
-  const handlePatchRequest = (body) => {
+  const changeRequestStatus = (body) => {
     patchRequest(user.request_id, body)
       .then((requestFromAPI) => {
         setUserList((currList) => {
@@ -39,13 +39,31 @@ export default function UserCard({ user, setUserList }) {
       .catch((err) => console.error('Error patching a request: ', err))
   }
 
-  const handleChat = (loggedInUserId, friendId) => {
-    // implement chat
+  const prepareChatRoom = async () => {
+    const participants = {
+      [loggedInUserInfo.user_id]: {
+        user_id: loggedInUserInfo.user_id,
+        username: loggedInUserInfo.username,
+        avatar_url: loggedInUserInfo.avatar_url,
+      },
+
+      [user.user_id]: {
+        user_id: user.user_id,
+        username: user.username,
+        avatar_url: user.avatar_url,
+      },
+    }
+    createRoomIfNotExists(roomId, participants)
+    addRoomToChatRooms(roomId, loggedInUserInfo.user_id)
   }
 
   useEffect(() => {
-    if (loggedInUserId === user.sender_id) {
+    if (loggedInUserInfo.user_id === user.sender_id) {
       setRequestSent(true)
+    }
+    if (user.status === 'accepted') {
+      const roomId = getRoomId(loggedInUserInfo.user_id, user.user_id)
+      setRoomId(roomId)
     }
   }, [])
 
@@ -67,6 +85,7 @@ export default function UserCard({ user, setUserList }) {
           <Text>{user.difficulty}</Text>
         </View>
       </Pressable>
+
       <Rating
         currentUserId={user.user_id}
         ratingCount={user.rating_count}
@@ -76,12 +95,17 @@ export default function UserCard({ user, setUserList }) {
 
       {user.status === 'accepted' ? (
         <View>
-          <Pressable
-            className="border m-1 p-2 flex items-center rounded-xl bg-green-50 "
-            onPress={() => handleChat(loggedInUserId, user.user_id)}
+          <Link
+            href={{
+              pathname: 'messages',
+              params: { chat_room: roomId },
+            }}
+            className="border m-1 p-2 flex items-center justify-center rounded-xl bg-green-50 "
+            onPress={prepareChatRoom}
           >
             <Text>Chat</Text>
-          </Pressable>
+          </Link>
+
           <Pressable
             onPress={() => {
               setRatingModalVisible(true)
@@ -90,9 +114,10 @@ export default function UserCard({ user, setUserList }) {
           >
             <Text>Rate</Text>
           </Pressable>
+
           <ModalWrapper
-            setModalVisible={setRatingModalVisible}
             modalVisible={ratingModalVisible}
+            setModalVisible={setRatingModalVisible}
           >
             <Rating
               currentUserId={user.user_id}
@@ -104,42 +129,43 @@ export default function UserCard({ user, setUserList }) {
         </View>
       ) : (
         <>
-          {loggedInUserId === user.receiver_id ? (
+          {loggedInUserInfo.user_id === user.receiver_id ? (
             <View className="flex-row gap-4 justify-center">
               <Pressable
                 className="border m-1 p-2 flex items-center rounded-xl bg-green-50 "
-                onPress={() => handlePatchRequest({ status: 'accepted' })}
+                onPress={() => changeRequestStatus({ status: 'accepted' })}
               >
                 <Text>Accept</Text>
               </Pressable>
+
               <Pressable
                 className="border m-1 p-2 flex items-center rounded-xl bg-red-50"
-                onPress={() => handlePatchRequest({ status: 'rejected' })}
+                onPress={() => changeRequestStatus({ status: 'rejected' })}
               >
                 <Text>Decline</Text>
               </Pressable>
             </View>
           ) : (
             <SendRequest
-              receiverId={user.user_id}
-              setRequestSent={setRequestSent}
-              requestSent={requestSent}
-              setUserList={setUserList}
               requestId={user.request_id}
+              receiverId={user.user_id}
+              requestSent={requestSent}
+              setRequestSent={setRequestSent}
+              setUserList={setUserList}
             />
           )}
         </>
       )}
       <ModalWrapper
-        setModalVisible={setModalVisible}
-        modalVisible={modalVisible}
+        modalVisible={userViewModalVisible}
+        setModalVisible={setUserViewModalVisible}
       >
         <UserView
-          isFriend={user.status === 'accepted' ? true : false}
-          setRequestSent={setRequestSent}
-          requestSent={requestSent}
-          setUserList={setUserList}
           requestId={user.request_id}
+          isFriend={user.status === 'accepted' ? true : false}
+          requestSent={requestSent}
+          setRequestSent={setRequestSent}
+          setUserList={setUserList}
         />
       </ModalWrapper>
     </View>
