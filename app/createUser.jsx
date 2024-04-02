@@ -123,6 +123,7 @@ export default function CreateUserScreen() {
   const postUserData = () => {
     axios
       .post('https://spokes-yrzx.onrender.com/api/users/', {
+        user_id: user.uid,
         username: name,
         email: user.email,
         bio: bio,
