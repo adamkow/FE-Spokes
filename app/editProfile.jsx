@@ -157,7 +157,7 @@ export default function EditProfile() {
       age: filters.age[activeAgeIndex] || '',
       avatar_url: imageUrl,
     }
-    console.log('Current user data selections:', currentUserData)
+    // console.log('Current user data selections:', currentUserData)
   }
 
   return (
@@ -262,7 +262,6 @@ export default function EditProfile() {
           selectedValue={selectedRegion}
           style={{ height: 50, width: 150 }}
           onValueChange={(itemValue, itemIndex) => {
-            console.log('Selected Region:', itemValue)
             setSelectedRegion(itemValue)
           }}
         >
@@ -276,7 +275,6 @@ export default function EditProfile() {
           selectedValue={selectedTown}
           style={{ height: 50, width: 150 }}
           onValueChange={(itemValue, itemIndex) => {
-            console.log('Selected Town/City:', itemValue)
             setSelectedTown(itemValue)
           }}
         >
