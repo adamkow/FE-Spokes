@@ -100,7 +100,7 @@ export default function UserCard({ user, setUserList }) {
               pathname: 'messages',
               params: { chat_room: roomId },
             }}
-            className="border m-1 p-2 flex items-center justify-center rounded-xl bg-green-50 "
+            className="border m-1 p-2 flex items-center text-center rounded-xl bg-green-50 "
             onPress={prepareChatRoom}
           >
             <Text>Chat</Text>

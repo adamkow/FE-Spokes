@@ -4,6 +4,7 @@ import { getRequestsData } from '@/api'
 import RequestsView from '@/components/RequestsView'
 import FriendsView from '@/components/FriendsView'
 import { LoggedUserInfoForDevContext } from '@/contexts/LoggedUserInfoForDevContext'
+import Loading from '@/components/Loading'
 
 export default function Friends() {
   const [requestsData, setRequestsData] = useState([])
@@ -11,24 +12,30 @@ export default function Friends() {
   const [showFriends, setShowFriends] = useState(true)
   const [showRequests, setShowRequests] = useState(false)
   const { loggedInUserInfo } = useContext(LoggedUserInfoForDevContext)
+  const [loading, setLoading] = useState(false)
 
   useEffect(() => {
     let status = null
     if (showFriends) {
       status = 'accepted'
     }
-
+    setLoading(true)
     getRequestsData(loggedInUserInfo.user_id, requestsType, status)
       .then((requestsDataFromAPI) => {
+        setLoading(false)
         setRequestsData(requestsDataFromAPI)
       })
       .catch((err) => {
+        setLoading(false)
         console.error('Error fetching reauestsData: ', err)
       })
   }, [requestsType, showFriends])
 
+  {
+    loading && <Loading />
+  }
   return (
-    <View className="flex-1 items-center m-5">
+    <View className="flex-1 m-5">
       <View className="flex-row gap-20 m-5 items-center">
         <Pressable
           onPress={() => {
@@ -59,15 +66,20 @@ export default function Friends() {
           </Text>
         </Pressable>
       </View>
-      {showFriends && <FriendsView requestsData={requestsData} />}
-      {showRequests && (
-        <RequestsView
-          requestsData={requestsData}
-          requestsType={requestsType}
-          setRequestsType={setRequestsType}
-          setRequestsData={setRequestsData}
-        />
-      )}
+      <View className="flex">
+        {showFriends && (
+          <FriendsView requestsData={requestsData} loading={loading} />
+        )}
+        {showRequests && (
+          <RequestsView
+            requestsData={requestsData}
+            requestsType={requestsType}
+            setRequestsType={setRequestsType}
+            setRequestsData={setRequestsData}
+            loading={loading}
+          />
+        )}
+      </View>
     </View>
   )
 }

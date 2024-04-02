@@ -3,34 +3,44 @@ import React from 'react'
 import { Picker } from '@react-native-picker/picker'
 import { Link } from 'expo-router'
 import UserCard from './UserCard'
+import Loading from './Loading'
 
 export default function RequestsView({
   requestsData,
   requestsType,
   setRequestsType,
   setRequestsData,
+  loading,
 }) {
   const typeValues = ['all', 'received', 'sent']
 
+  if (loading) {
+    return <Loading />
+  }
   return (
     <>
-      <Picker
-        selectedValue={requestsType}
-        style={styles.dropdown}
-        onValueChange={(itemValue) => setRequestsType(itemValue)}
-        aria-label="Select type of requests"
-      >
-        {typeValues.map((type) => (
-          <Picker.Item key={type} label={type} value={type} />
-        ))}
-      </Picker>
+      <View className="flex items-center  rounded-md m-1 p-2 bg-slate-200">
+        <Picker
+          selectedValue={requestsType}
+          style={styles.dropdown}
+          onValueChange={(itemValue) => setRequestsType(itemValue)}
+          aria-label="Select type of requests"
+        >
+          {typeValues.map((type) => (
+            <Picker.Item key={type} label={type} value={type} />
+          ))}
+        </Picker>
+      </View>
       {requestsData.length === 0 ? (
-        <Link href="UserList" className="border m-1 p-2 rounded-xl bg-green-50">
+        <Link
+          href="UserList"
+          className="border m-1 text-center p-2 rounded-xl bg-green-50"
+        >
           <Text>Send some requests</Text>
         </Link>
       ) : (
         <>
-          <View className="flex-1 justify-center items-center">
+          <View className="flex justify-center ">
             <FlatList
               data={requestsData}
               renderItem={({ item }) => (
