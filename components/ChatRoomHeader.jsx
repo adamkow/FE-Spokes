@@ -6,7 +6,7 @@ import { blurhash } from '@/utilis/common'
 
 export default function ChatRoomHeader({ user }) {
   return (
-    <View className="flex-row items-center gap-4 p-3 bg-slate-50">
+    <View className="flex-row items-center gap-4 p-3 pt-5 bg-slate-50">
       <Pressable onPress={() => router.replace('messages')}>
         <FontAwesome size={15} name="chevron-left" color={'black'} />
       </Pressable>
@@ -31,7 +31,6 @@ const styles = StyleSheet.create({
     justifyContent: 'center',
   },
   image: {
-    flex: 1,
     width: 50,
     height: 50,
     backgroundColor: '#0553',

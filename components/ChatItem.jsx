@@ -10,6 +10,7 @@ export default function ChatItem({ item }) {
   const [userToDisplay, setUserToDisplay] = useState()
   const { loggedInUserInfo } = useContext(LoggedUserInfoForDevContext)
   const [lastMessage, setLastMessage] = useState(undefined)
+
   useEffect(() => {
     const user = getNotLoggedInUserData(item, loggedInUserInfo.user_id)
     setUserToDisplay(user)
@@ -23,7 +24,7 @@ export default function ChatItem({ item }) {
     })
 
     return unsub
-  }, [item])
+  }, [])
 
   const displayLastMesssage = () => {
     if (typeof lastMessage === 'undefined') return 'Loading...'
@@ -55,30 +56,29 @@ export default function ChatItem({ item }) {
         pathname: 'messages',
         params: { chat_room: item.chatRoomId },
       }}
-      className="flex justify-between items-center m-2 border-b border-neutral-200 "
+      className="border-b bg-slate-50 border-neutral-200 mx-3 my-1 p-2"
     >
-      <View className="flex-1 flex-row gap-4 p-2 items-center bg-slate-50">
-        <View>
-          <Image
-            style={styles.image}
-            source={{ uri: userToDisplay?.avatar_url }}
-            placeholder={blurhash}
-            contentFit="cover"
-            transition={1000}
-          />
-        </View>
-        <View className="flex-1 gap-1">
-          <View className="flex-row justify-between ">
+      <View className="flex-row">
+        <Image
+          style={styles.image}
+          source={{ uri: userToDisplay?.avatar_url }}
+          placeholder={blurhash}
+          contentFit="cover"
+          transition={1000}
+        />
+        <View className="ml-4">
+          <View className="flex-col gap-2">
             <Text className="font-semibold text-md text-neutral-700">
               {userToDisplay?.username}
             </Text>
             <Text className="font-medium text-xs text-neutral-500">
               {displayTime()}
             </Text>
+
+            <Text className="font-medium text-xs text-neutral-500">
+              {displayLastMesssage()}
+            </Text>
           </View>
-          <Text className="font-medium text-xs text-neutral-500">
-            {displayLastMesssage()}
-          </Text>
         </View>
       </View>
     </Link>

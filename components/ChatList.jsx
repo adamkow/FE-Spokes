@@ -1,17 +1,21 @@
-import { FlatList, Text, View } from 'react-native'
-import React, { useEffect } from 'react'
+import { Text, View } from 'react-native'
+import React from 'react'
 import ChatItem from './ChatItem'
 
 export default function ChatList({ chatRooms }) {
-  return (
-    <View className="flex-1">
-      <FlatList
-        data={chatRooms}
-        contentContainersStyle={{ flex: 1, paddingVerical: 25 }}
-        keyExtractor={(item) => item.chatRoomId}
-        showsVerticalScrollIndicator={false}
-        renderItem={({ item }) => <ChatItem item={item} />}
-      />
-    </View>
-  )
+  if (chatRooms?.length > 0) {
+    return (
+      <View className="flex-1 justify-start">
+        {chatRooms.map((chatRoom) => {
+          return <ChatItem item={chatRoom} key={chatRoom.chatRoomId} />
+        })}
+      </View>
+    )
+  } else {
+    return (
+      <View className="flex">
+        <Text>There are no messages yet</Text>
+      </View>
+    )
+  }
 }
