@@ -32,20 +32,20 @@ export default function SignInScreen() {
       setIsAuthenticated(true)
     }
   }
+  
+  const goToSignUp = () => {
+    router.push('signUp')
+  };
 
   return (
     <View style={styles.container}>
-      <Text className="text-center" style={styles.title}>
-        Sign In
-      </Text>
+      <Text style={styles.title}>Sign In</Text>
       <TextInput
         style={styles.input}
         placeholder="Email"
         placeholderTextColor={'white'}
         value={email}
-        onChangeText={(newEmail) => {
-          setEmail(newEmail)
-        }}
+        onChangeText={(newEmail) => setEmail(newEmail)}
         autoCapitalize="none"
       />
       <TextInput
@@ -53,38 +53,35 @@ export default function SignInScreen() {
         placeholder="Password"
         placeholderTextColor={'white'}
         value={password}
-        onChangeText={(newPassword) => {
-          setPassword(newPassword)
-        }}
+        onChangeText={(newPassword) => setPassword(newPassword)}
         secureTextEntry
       />
-      <Text style={{ color: 'white' }} className="text-white text-right">
-        Forgotten Password?
-      </Text>
+      <Text style={{ color: 'white' }}>Forgotten Password?</Text>
+      <View style={styles.buttonContainer}>
       <Button
         title="Sign In"
-        onPress={() => {
-          handleSignIn()
-        }}
+        onPress={handleSignIn}
+        color="#841584" 
       />
-
-      <View className="flex-row justify-center">
-        <Text className="text-white">Don't have an account? </Text>
-        <Pressable onPress={() => router.push('signUp')}>
-          <Text style={{ color: 'white' }} className="text-white text-blue-500">
+      </View>
+      <View style={styles.signUpLink}>
+        <Text style={styles.signUpText}>Don't have an account? </Text>
+        <Pressable onPress={goToSignUp}>
+          <Text style={[styles.link, {textDecorationLine: 'underline'}]} className="text-white text-blue-500">
             Sign Up
           </Text>
         </Pressable>
       </View>
     </View>
-  )
+  );
 }
 
-const isDarkTheme = true
+const isDarkTheme = true;
 
 const styles = StyleSheet.create({
   container: {
     flex: 1,
+    alignItems: 'center',
     justifyContent: 'center',
     padding: 20,
     backgroundColor: isDarkTheme ? 'black' : 'white',
@@ -104,4 +101,26 @@ const styles = StyleSheet.create({
     borderRadius: 5,
     color: isDarkTheme ? 'white' : 'black',
   },
-})
+  buttonContainer: {
+    alignItems: 'center',
+    marginBottom: 15
+  },
+  signUpLink: {
+    flexDirection: 'row',
+    marginTop: 10,
+    alignItems: 'center',
+    justifyContent: 'center',
+  },
+  signUpText: {
+    color: isDarkTheme ? 'white' : 'black',
+  },
+  link: {
+    marginLeft: 5,
+  },
+});
+
+
+
+
+
+

@@ -1,6 +1,6 @@
 import { View, Text, Pressable } from 'react-native'
 import React, { useContext, useEffect, useState } from 'react'
-import { getRequestsData } from '@/api'
+import { deleteRequest, getRequestsData } from '@/api'
 import RequestsView from '@/components/RequestsView'
 import FriendsView from '@/components/FriendsView'
 import { LoggedUserInfoForDevContext } from '@/contexts/LoggedUserInfoForDevContext'
@@ -22,8 +22,8 @@ export default function Friends() {
     setLoading(true)
     getRequestsData(loggedInUserInfo.user_id, requestsType, status)
       .then((requestsDataFromAPI) => {
-        setLoading(false)
         setRequestsData(requestsDataFromAPI)
+        setLoading(false)
       })
       .catch((err) => {
         setLoading(false)
@@ -31,9 +31,6 @@ export default function Friends() {
       })
   }, [requestsType, showFriends])
 
-  {
-    loading && <Loading />
-  }
   return (
     <View className="flex-1 m-5">
       <View className="flex-row gap-20 m-5 items-center">

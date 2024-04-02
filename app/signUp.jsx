@@ -41,6 +41,10 @@ export default function SignUpScreen() {
     }
   };
 
+  const goToSignIn = () => {
+    router.push('SignIn');
+  };
+
   return (
     <View style={styles.container}>
       <Text style={styles.title}>Sign Up</Text>
@@ -79,13 +83,11 @@ export default function SignUpScreen() {
         onPress={() => {
           handleSignUp();
         }}
+        color="#841584" 
       />
-      <View style={styles.signInLink}>
-        <Text style={styles.signInText}>Already have an account? </Text>
-        <Pressable onPress={() => router.push('SignIn')}>
-          <Text style={[styles.signInText, styles.link]}>Sign In</Text>
-        </Pressable>
-      </View>
+      <Text style={styles.signInLink}>
+        Already have an account? <Pressable onPress={goToSignIn}><Text style={styles.link}>Sign In</Text></Pressable>
+      </Text>
     </View>
   );
 }
@@ -115,5 +117,12 @@ const styles = StyleSheet.create({
     borderColor: isDarkTheme ? 'white' : 'gray',      
     borderRadius: 5,
     color: isDarkTheme ? 'white' : 'black',
+  },
+  signInLink: {
+    marginTop: 10,
+    color: isDarkTheme ? 'white' : 'black',
+  },
+  link: {
+    textDecorationLine: 'underline',
   },
 })

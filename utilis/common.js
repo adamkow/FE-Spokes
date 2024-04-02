@@ -64,7 +64,7 @@ export const getChatRoomById = async (chatRoomId) => {
 
 export const getNotLoggedInUserData = (item, loggedInUserId) => {
   for (let user in item.participants) {
-    if (Number(user) !== loggedInUserId) {
+    if (user !== loggedInUserId) {
       return item.participants[user]
     }
   }
