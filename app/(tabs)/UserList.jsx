@@ -1,3 +1,4 @@
+
 import { getAllUsers } from '@/api'
 import { useEffect, useState } from 'react'
 import { useAuth } from '@/contexts/authContext'
@@ -12,6 +13,7 @@ export default function Users() {
     await logout()
   }
 
+
   useEffect(() => {
     getAllUsers().then((users) => {
       setUserList(users)
@@ -21,9 +23,6 @@ export default function Users() {
   return (
     <>
       <View className="flex-1 pt-5">
-        <Pressable onPress={handleLogout} className="pt-5">
-          <Text>Log Out</Text>
-        </Pressable>
         <FlatList
           data={userList}
           renderItem={({ item }) => (
