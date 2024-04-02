@@ -11,11 +11,13 @@ import {
 } from 'react-native'
 import axios from 'axios'
 import { Picker } from '@react-native-picker/picker'
+import { useAuth } from '@/contexts/authContext'
 
 const { width } = Dimensions.get('window')
 const MAX_BUTTON_CONTAINER_WIDTH = 300
 
 export default function EditProfile() {
+  const { user, setUser } = useAuth()
   const [userData, setUserData] = useState(null)
   const [filters, setFilters] = useState({
     age: [],
@@ -27,30 +29,15 @@ export default function EditProfile() {
   const [activeTypeIndex, setActiveTypeIndex] = useState(null)
   const [activeDistanceIndex, setActiveDistanceIndex] = useState(null)
   const [activeDifficultyIndex, setActiveDifficultyIndex] = useState(null)
-  const [imageUrl, setImageUrl] = useState('')
+  const [imageUrl, setImageUrl] = useState(user.avatar_url)
   const [showImageUrlInput, setShowImageUrlInput] = useState(false)
   const [regions, setRegions] = useState([])
   const [towns, setTowns] = useState([])
-  const [selectedRegion, setSelectedRegion] = useState(null)
-  const [selectedTown, setSelectedTown] = useState(null)
+  const [selectedRegion, setSelectedRegion] = useState(user.region)
+  const [selectedTown, setSelectedTown] = useState(user.city)
 
   useEffect(() => {
-    const fetchData = async () => {
-      try {
-        const response = await axios.get(
-          'https://spokes-yrzx.onrender.com/api/users/1'
-        )
-        const userData = response.data.user
-        setUserData(userData)
-        setImageUrl(userData.avatar_url)
-        setSelectedRegion(userData.region)
-        setSelectedTown(userData.city)
-      } catch (error) {
-        console.error('Error fetching user data:', error)
-      }
-    }
-
-    fetchData()
+        setUserData(user)
   }, [])
 
   useEffect(() => {
@@ -103,7 +90,7 @@ export default function EditProfile() {
     if (selectedRegion) {
       axios
         .get(
-          `https://towns.online-tech.co.uk/api/v1/towns/country/england/region/${selectedRegion}`
+          `https://towns.online-tech.co.uk/api/v1/types/populatedPlace/City/region/${selectedRegion}`
         )
         .then((response) => {
           const townNames = response.data.data.map((town) => town.name_1)
@@ -123,11 +110,12 @@ export default function EditProfile() {
 
   const handleSaveChanges = () => {
     const updatedUserData = {
+      user_id: user.user_id,
       username: userData ? userData.username : '',
       email: userData ? userData.email : '',
       bio: userData ? userData.bio : '',
       region: selectedRegion,
-      city: selectedTown,
+      city: selectedTown.toLowerCase(),
       type_of_biking: filters.type[activeTypeIndex] || '',
       difficulty: filters.difficulty[activeDifficultyIndex] || '',
       distance: filters.distance[activeDistanceIndex] || '',
@@ -136,9 +124,10 @@ export default function EditProfile() {
     }
 
     axios
-      .patch('https://spokes-yrzx.onrender.com/api/users/1', updatedUserData)
+      .patch(`https://spokes-yrzx.onrender.com/api/users/${user.user_id}`, updatedUserData)
       .then((response) => {
         console.log('User updated successfully:', response.data)
+        setUser(updatedUserData)
       })
       .catch((error) => {
         console.error('Error updating user:', error)

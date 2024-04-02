@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react'
 import { getAllUsers } from '@/api'
 import { useAuth } from '@/contexts/authContext'
-import { FlatList, Text, Pressable, View } from 'react-native'
+import { FlatList, View } from 'react-native'
 import UserCard from '../../components/UserCard'
 import FilterUsers from '../../components/FilterUsers'
 export default function Users() {
@@ -14,7 +14,7 @@ export default function Users() {
     distance: '',
     difficulty: '',
   })
-  const { logout } = useAuth()
+  const { user } = useAuth()
 
   useEffect(() => {
     getAllUsers().then((users) => {
@@ -70,7 +70,7 @@ export default function Users() {
         <FlatList
           data={filteredUsers}
           renderItem={({ item }) => (
-            <UserCard user={item} setUserList={setUserList} />
+              <UserCard user={item} setUserList={setUserList} /> 
           )}
           keyExtractor={(item) => item.user_id}
         />

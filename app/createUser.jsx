@@ -17,7 +17,7 @@ const { width } = Dimensions.get('window')
 const MAX_BUTTON_CONTAINER_WIDTH = 300
 
 export default function CreateUserScreen() {
-  const { user, setIsAuthenticated } = useAuth()
+  const { user, setIsAuthenticated, setUser } = useAuth()
   const [name, setName] = useState('test') //leave empty after
   const [bio, setBio] = useState('test') //leave empty after
   const [imageUrl, setImageUrl] = useState('https://shorturl.at/altP4')
@@ -138,6 +138,7 @@ export default function CreateUserScreen() {
       })
       .then((response) => {
         setIsAuthenticated(true)
+        setUser(response.data.user)
       })
       .catch((error) => {
         console.error('Error creating user:', error)
