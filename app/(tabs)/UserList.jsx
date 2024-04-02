@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react'
 import { getAllUsers } from '@/api'
 import { useAuth } from '@/contexts/authContext'
-import { FlatList, View } from 'react-native'
+import { FlatList, Pressable, View, Text } from 'react-native'
 import UserCard from '../../components/UserCard'
 import FilterUsers from '../../components/FilterUsers'
 export default function Users() {
