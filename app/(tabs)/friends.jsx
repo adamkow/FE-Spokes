@@ -4,7 +4,6 @@ import { getRequestsData } from '@/api'
 import RequestsView from '@/components/RequestsView'
 import FriendsView from '@/components/FriendsView'
 import { useAuth } from '@/contexts/authContext'
-import Loading from '@/components/Loading'
 
 export default function Friends() {
   const [requestsData, setRequestsData] = useState([])

@@ -4,16 +4,14 @@ import {
   StyleSheet,
   TextInput,
   Button,
-  Alert,
   View,
   Text,
   Pressable,
-  Platform,
 } from 'react-native'
-import { getAuth, createUserWithEmailAndPassword } from 'firebase/auth'
 import { useAuth } from '@/contexts/authContext'
 import { router } from 'expo-router'
 import showAlert from '@/components/alerts'
+import axios from 'axios'
 
 export default function SignUpScreen() {
   const [email, setEmail] = useState('')
@@ -28,8 +26,8 @@ export default function SignUpScreen() {
     }
 
     if (password !== confirmPassword) {
-      showAlert('Sign Up', 'Passwords do not match!');
-      return;
+      showAlert('Sign Up', 'Passwords do not match!')
+      return
     }
 
     let response = await register(email, password)
@@ -37,13 +35,33 @@ export default function SignUpScreen() {
     if (!response.success) {
       showAlert('Sign Up', response.msg)
     } else {
-      router.push('createUser')
+      axios
+        .post('https://spokes-yrzx.onrender.com/api/users/', {
+          user_id: response.data.uid,
+          username: 'username',
+          email: email,
+          bio: 'bio',
+          region: 'East Midlands',
+          city: 'derby',
+          type_of_biking: 'Mountain',
+          difficulty: 'Novice',
+          distance: 'less than 25 km',
+          age: '18 - 25',
+          avatar_url: '',
+          rating: 0,
+        })
+        .then(() => {
+          router.push('createUser')
+        })
+        .catch((error) => {
+          console.error('Error creating user:', error)
+        })
     }
-  };
+  }
 
   const goToSignIn = () => {
-    router.push('SignIn');
-  };
+    router.push('SignIn')
+  }
 
   return (
     <View style={styles.container}>
@@ -54,7 +72,7 @@ export default function SignUpScreen() {
         placeholderTextColor={'white'}
         value={email}
         onChangeText={(newEmail) => {
-          setEmail(newEmail);
+          setEmail(newEmail)
         }}
         autoCapitalize="none"
       />
@@ -64,7 +82,7 @@ export default function SignUpScreen() {
         placeholderTextColor={'white'}
         value={password}
         onChangeText={(newPassword) => {
-          setPassword(newPassword);
+          setPassword(newPassword)
         }}
         secureTextEntry
       />
@@ -74,24 +92,26 @@ export default function SignUpScreen() {
         placeholderTextColor={'white'}
         value={confirmPassword}
         onChangeText={(newConfirmPassword) => {
-          setConfirmPassword(newConfirmPassword);
+          setConfirmPassword(newConfirmPassword)
         }}
         secureTextEntry
       />
       <Button
         title="Sign Up"
         onPress={() => {
-          handleSignUp();
+          handleSignUp()
         }}
-        color="#841584" 
+        color="#841584"
       />
       <Text style={styles.signInLink}>
-        Already have an account? <Pressable onPress={goToSignIn}><Text style={styles.link}>Sign In</Text></Pressable>
+        Already have an account?{' '}
+        <Pressable onPress={goToSignIn}>
+          <Text style={styles.link}>Sign In</Text>
+        </Pressable>
       </Text>
     </View>
-  );
+  )
 }
-
 
 const isDarkTheme = true
 
@@ -114,7 +134,7 @@ const styles = StyleSheet.create({
     marginBottom: 15,
     padding: 15,
     borderWidth: 1,
-    borderColor: isDarkTheme ? 'white' : 'gray',      
+    borderColor: isDarkTheme ? 'white' : 'gray',
     borderRadius: 5,
     color: isDarkTheme ? 'white' : 'black',
   },

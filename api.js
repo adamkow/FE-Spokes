@@ -10,6 +10,16 @@ export function getAllUsers() {
   })
 }
 
+export function getAllUsersByLoggedInUserId(user_id, location) {
+  return api
+    .get(`users/${user_id}/recommendation`, {
+      params: { location: location },
+    })
+    .then(({ data: { users } }) => {
+      return users
+    })
+}
+
 export function sendRequest(user_id, receiver_id) {
   const body = {
     sender_id: user_id,
@@ -61,5 +71,11 @@ export function patchRating(user_id, body) {
 export function getUsersByLocation(town) {
   return api.get(`users?location=${town}`).then(({ data: { users } }) => {
     return users
+  })
+}
+
+export function deleteUser(user_id) {
+  return api.delete(`users/${user_id}`).then((response) => {
+    return response.data
   })
 }

@@ -68,11 +68,10 @@ export default function UserCard({ user, setUserList }) {
   }, [])
 
   return (
-    <View className="m-5 p-5 border">
+    <View style={styles.container}>
       <Pressable onPress={onPress}>
-        <Text>{user.username}</Text>
-        <View className="flex-row gap-3 items-center">
-          <View style={styles.container}>
+        <View style={styles.flexRow}>
+          <View style={styles.imageContainer}>
             <Image
               style={styles.image}
               source={{ uri: user.avatar_url }}
@@ -81,17 +80,27 @@ export default function UserCard({ user, setUserList }) {
               transition={1000}
             />
           </View>
-          <Text>{user.type_of_biking}</Text>
-          <Text>{user.difficulty}</Text>
+        </View>
+        <Text style={styles.username}>{user.username}</Text>
+
+        <Rating
+          currentUserId={user.user_id}
+          ratingCount={user.rating_count}
+          isDisabled={true}
+          rating={user.rating}
+        />
+        <View style={styles.textContainer}>
+          <Text style={[styles.text, styles.textSpacing]}>
+            {user.difficulty}
+          </Text>
+          <Text style={[styles.text, styles.textSpacing]}>
+            {user.type_of_biking}
+          </Text>
+        </View>
+        <View style={styles.textContainer}>
+          <Text style={styles.text}>{user.distance}</Text>
         </View>
       </Pressable>
-
-      <Rating
-        currentUserId={user.user_id}
-        ratingCount={user.rating_count}
-        isDisabled={true}
-        rating={user.rating}
-      />
 
       {user.status === 'accepted' ? (
         <View>
@@ -100,7 +109,7 @@ export default function UserCard({ user, setUserList }) {
               pathname: 'messages',
               params: { chat_room: roomId },
             }}
-            className="border m-1 p-2 flex items-center text-center rounded-xl bg-green-50 "
+            style={styles.link}
             onPress={prepareChatRoom}
           >
             <Text>Chat</Text>
@@ -110,7 +119,7 @@ export default function UserCard({ user, setUserList }) {
             onPress={() => {
               setRatingModalVisible(true)
             }}
-            className="border m-1 p-2 flex items-center rounded-xl bg-blue-50 "
+            style={styles.rateButton}
           >
             <Text>Rate</Text>
           </Pressable>
@@ -130,16 +139,16 @@ export default function UserCard({ user, setUserList }) {
       ) : (
         <>
           {loggedInUserInfo.user_id === user.receiver_id ? (
-            <View className="flex-row gap-4 justify-center">
+            <View style={styles.flexRow}>
               <Pressable
-                className="border m-1 p-2 flex items-center rounded-xl bg-green-50 "
+                style={styles.acceptButton}
                 onPress={() => changeRequestStatus({ status: 'accepted' })}
               >
                 <Text>Accept</Text>
               </Pressable>
 
               <Pressable
-                className="border m-1 p-2 flex items-center rounded-xl bg-red-50"
+                style={styles.declineButton}
                 onPress={() => changeRequestStatus({ status: 'rejected' })}
               >
                 <Text>Decline</Text>
@@ -179,9 +188,19 @@ export default function UserCard({ user, setUserList }) {
 
 const styles = StyleSheet.create({
   container: {
-    flex: 1,
-    alignItems: 'start',
-    justifyContent: 'center',
+    margin: 5,
+    padding: 5,
+    borderWidth: 1,
+    width: 400,
+    borderRadius: 20,
+    elevation: 5,
+  },
+
+  flexRow: {
+    flexDirection: 'row',
+    justifyContent: 'space-between',
+    alignItems: 'center',
+    marginBottom: 3,
   },
   image: {
     flex: 1,
@@ -190,38 +209,69 @@ const styles = StyleSheet.create({
     backgroundColor: '#0553',
     borderRadius: 50,
   },
-  centeredView: {
+  imageContainer: {
     flex: 1,
     justifyContent: 'center',
     alignItems: 'center',
-    marginTop: 22,
   },
-  modalView: {
+  username: {
+    textAlign: 'center',
+  },
+  textContainer: {
+    flexDirection: 'row',
+    justifyContent: 'space-between',
+    borderRadius: 30,
+    borderWidth: 1,
+    padding: 5,
+    maxWidth: 230,
+    alignSelf: 'center',
+  },
+  text: {
     flex: 1,
-    margin: 20,
-    backgroundColor: 'white',
-    borderRadius: 20,
-    padding: 35,
+    textAlign: 'center',
+  },
+  textSpacing: {
+    marginHorizontal: 10,
+  },
+
+  link: {
+    borderWidth: 1,
+    margin: 1,
+    padding: 2,
+    flexDirection: 'row',
+    justifyContent: 'center',
     alignItems: 'center',
-    boxShadow: '0px 2px 4px rgba(0, 0, 0, 0.25)',
-    width: 400,
-    elevation: 5,
-  },
-  button: {
     borderRadius: 20,
-    padding: 10,
-    elevation: 2,
+    backgroundColor: 'green',
   },
-  buttonClose: {
-    backgroundColor: '#2196F3',
+  rateButton: {
+    borderWidth: 1,
+    margin: 1,
+    padding: 2,
+    flexDirection: 'row',
+    justifyContent: 'center',
+    alignItems: 'center',
+    borderRadius: 20,
+    backgroundColor: 'blue',
   },
-  textStyle: {
-    color: 'white',
-    fontWeight: 'bold',
-    textAlign: 'center',
+  acceptButton: {
+    borderWidth: 1,
+    margin: 1,
+    padding: 2,
+    flexDirection: 'row',
+    justifyContent: 'center',
+    alignItems: 'center',
+    borderRadius: 20,
+    backgroundColor: 'green',
   },
-  modalText: {
-    marginBottom: 15,
-    textAlign: 'center',
+  declineButton: {
+    borderWidth: 1,
+    margin: 1,
+    padding: 2,
+    flexDirection: 'row',
+    justifyContent: 'center',
+    alignItems: 'center',
+    borderRadius: 20,
+    backgroundColor: 'red',
   },
 })

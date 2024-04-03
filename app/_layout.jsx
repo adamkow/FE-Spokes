@@ -11,7 +11,6 @@ const MainLayout = () => {
 
   useEffect(() => {
     // check if user is authenticated
-    if (typeof isAuthenticated === 'undefined') return
     const inApp = segments[0] === '(tabs)'
     if (isAuthenticated && !inApp) {
       // redirect to userList

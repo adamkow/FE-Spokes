@@ -37,8 +37,8 @@ export default function EditProfile() {
   const [selectedTown, setSelectedTown] = useState(user.city)
 
   useEffect(() => {
-        setUserData(user)
-        setSelectedTown(user.city)
+    setUserData(user)
+    setSelectedTown(user.city)
   }, [])
 
   useEffect(() => {
@@ -125,7 +125,10 @@ export default function EditProfile() {
     }
 
     axios
-      .patch(`https://spokes-yrzx.onrender.com/api/users/${user.user_id}`, updatedUserData)
+      .patch(
+        `https://spokes-yrzx.onrender.com/api/users/${user.user_id}`,
+        updatedUserData
+      )
       .then((response) => {
         console.log('User updated successfully:', response.data)
         setUser(updatedUserData)
@@ -133,21 +136,6 @@ export default function EditProfile() {
       .catch((error) => {
         console.error('Error updating user:', error)
       })
-  }
-  const logCurrentSelections = () => {
-    const currentUserData = {
-      username: userData ? userData.username : '',
-      email: userData ? userData.email : '',
-      bio: userData ? userData.bio : '',
-      region: selectedRegion,
-      city: selectedTown,
-      type_of_biking: filters.type[activeTypeIndex] || '',
-      difficulty: filters.difficulty[activeDifficultyIndex] || '',
-      distance: filters.distance[activeDistanceIndex] || '',
-      age: filters.age[activeAgeIndex] || '',
-      avatar_url: imageUrl,
-    }
-    // console.log('Current user data selections:', currentUserData)
   }
 
   return (
@@ -181,6 +169,12 @@ export default function EditProfile() {
           value={userData ? userData.email : ''}
           onChangeText={(text) => setUserData({ ...userData, email: text })}
           placeholder="Email"
+        />
+        <TextInput
+          style={styles.input}
+          value={userData ? userData.bio : ''}
+          onChangeText={(text) => setUserData({ ...userData, bio: text })}
+          placeholder="Bio"
         />
 
         <Text style={styles.heading}>Age Range</Text>
@@ -277,9 +271,6 @@ export default function EditProfile() {
           <Text style={styles.buttonText}>Save Changes</Text>
         </TouchableOpacity>
       </View>
-      <TouchableOpacity onPress={logCurrentSelections} style={styles.button}>
-        <Text style={styles.buttonText}>console log profile button</Text>
-      </TouchableOpacity>
     </ScrollView>
   )
 }
