@@ -12,6 +12,7 @@ import React, { useState } from 'react'
 import { useRouter } from 'expo-router'
 import { useAuth } from '@/contexts/authContext'
 import showAlert from '@/components/alerts'
+import ForgotPasswordScreen from './ForgotPasswordScreen'
 
 export default function SignInScreen() {
   const router = useRouter()
@@ -37,6 +38,10 @@ export default function SignInScreen() {
     router.push('signUp')
   };
 
+  const handleForgotPassword = () => {
+    router.replace('ForgotPasswordScreen');
+  };
+
   return (
     <View style={styles.container}>
       <Text style={styles.title}>Sign In</Text>
@@ -56,7 +61,9 @@ export default function SignInScreen() {
         onChangeText={(newPassword) => setPassword(newPassword)}
         secureTextEntry
       />
-      <Text style={{ color: 'white' }}>Forgotten Password?</Text>
+      <Pressable onPress={handleForgotPassword}>
+        <Text style={{ color: 'white', marginBottom: 10 }}>Forgotten Password?</Text>
+      </Pressable>
       <View style={styles.buttonContainer}>
       <Button
         title="Sign In"
@@ -116,6 +123,13 @@ const styles = StyleSheet.create({
   },
   link: {
     marginLeft: 5,
+  },
+  forgotPasswordBox: {
+    alignItems: 'center',
+    marginBottom: 10,
+  },
+  forgotPasswordText: {
+    color: 'white',
   },
 });
 
