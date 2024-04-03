@@ -16,13 +16,18 @@ export default function SendRequest({
   const handleSendRequest = () => {
     sendRequest(user.user_id, receiverId).then((requestFromApi) => {
       setUserList((currList) => {
-        const updatedList = currList.map((user) => {
-          if (user.user_id === receiverId) {
-            return { ...user, ...requestFromApi }
-          } else {
-            return user
-          }
-        })
+        let updatedList = []
+        if (route.name === 'UserList') {
+          updatedList = currList.filter((user) => user.user_id !== receiverId)
+        } else {
+          updatedList = currList.map((user) => {
+            if (user.user_id === receiverId) {
+              return { ...user, ...requestFromApi }
+            } else {
+              return user
+            }
+          })
+        }
         return updatedList
       })
       setRequestSent(true)
