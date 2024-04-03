@@ -91,7 +91,7 @@ export default function CreateUserScreen() {
 
   const postUserData = () => {
     axios
-      .post('https://spokes-yrzx.onrender.com/api/users/', {
+      .patch(`https://spokes-yrzx.onrender.com/api/users/${user.uid}`, {
         user_id: user.uid,
         username: name,
         email: user.email,
