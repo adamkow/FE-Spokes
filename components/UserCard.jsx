@@ -97,6 +97,9 @@ export default function UserCard({ user, setUserList }) {
             {user.type_of_biking}
           </Text>
         </View>
+        <View style={styles.textContainer}>
+          <Text style={styles.text}>{user.distance}</Text>
+        </View>
       </Pressable>
 
       {user.status === 'accepted' ? (
@@ -220,15 +223,15 @@ const styles = StyleSheet.create({
     borderRadius: 30,
     borderWidth: 1,
     padding: 5,
-    maxWidth: 200, // Adjust the width as needed
-    alignSelf: 'center', // Center the text container horizontally
+    maxWidth: 230,
+    alignSelf: 'center',
   },
   text: {
     flex: 1,
     textAlign: 'center',
   },
   textSpacing: {
-    marginHorizontal: 10, // Adjust the spacing as needed
+    marginHorizontal: 10,
   },
 
   link: {

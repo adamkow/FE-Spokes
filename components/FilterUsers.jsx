@@ -75,7 +75,9 @@ function FilterUsers({ visible, onClose, onUpdateFilters }) {
           style={[styles.button, styles.searchButton]}
           onPress={handleSearch}
         >
-          <Text style={styles.buttonText}>Search</Text>
+          <Text style={[styles.buttonText, styles.searchButtonText]}>
+            Search
+          </Text>
         </TouchableOpacity>
 
         <TouchableOpacity style={styles.closeButton} onPress={onClose}>
@@ -97,6 +99,7 @@ const styles = StyleSheet.create({
   heading: {
     marginBottom: 15,
     fontWeight: 'bold',
+    textAlign: 'center',
   },
   buttonContainer: {
     flexDirection: 'row',
@@ -107,14 +110,17 @@ const styles = StyleSheet.create({
     marginRight: 10,
     marginBottom: 10,
     padding: 10,
-    backgroundColor: '#2196F3',
+    backgroundColor: '#transparent',
     borderRadius: 5,
+    borderColor: '#ccc',
+    borderWidth: 1, // Border width for all buttons
   },
   activeButton: {
-    backgroundColor: '#0d47a1',
+    borderColor: 'blue',
+    borderWidth: 2,
   },
   buttonText: {
-    color: 'white',
+    color: 'black',
   },
   closeButton: {
     padding: 10,
@@ -128,9 +134,13 @@ const styles = StyleSheet.create({
   },
   searchButton: {
     padding: 10,
-    backgroundColor: '#4CAF50',
+    backgroundColor: '#2D23FF',
     borderRadius: 5,
     marginTop: 10,
+  },
+  searchButtonText: {
+    color: 'white',
+    textAlign: 'center',
   },
 })
 

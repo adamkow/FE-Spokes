@@ -65,7 +65,7 @@ export default function Users() {
             alignItems: 'center',
             justifyContent: 'center',
             padding: 10,
-            backgroundColor: '#2D23FF', // Purple color
+            backgroundColor: '#2D23FF',
             width: 100,
             marginTop: 30,
             borderRadius: 10,
