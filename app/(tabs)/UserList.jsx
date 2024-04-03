@@ -1,9 +1,11 @@
 import React, { useEffect, useState } from 'react'
-import { getAllUsers } from '@/api'
+import { getAllUsers, getUsersByLocation } from '@/api' // Make sure to import getUsersByLocation
 import { useAuth } from '@/contexts/authContext'
 import { FlatList, Pressable, View, Text } from 'react-native'
 import UserCard from '../../components/UserCard'
 import FilterUsers from '../../components/FilterUsers'
+import LocationFilter from '@/components/LocationFilter'
+
 export default function Users() {
   const [userList, setUserList] = useState([])
   const [filteredUsers, setFilteredUsers] = useState([])
@@ -14,7 +16,6 @@ export default function Users() {
     distance: '',
     difficulty: '',
   })
-  const { user } = useAuth()
 
   useEffect(() => {
     getAllUsers().then((users) => {
@@ -23,35 +24,11 @@ export default function Users() {
     })
   }, [])
 
-  useEffect(() => {
-    filterUsers()
-  }, [selectedFilters, userList])
-
-  const handleLogout = async () => {
-    await logout()
-  }
-
-  const updateSelectedFilters = (filters) => {
-    setSelectedFilters(filters)
-  }
-
-  const filterUsers = () => {
-    const filtered = userList.filter((user) => {
-      const matchesAge = selectedFilters.age
-        ? user.age === selectedFilters.age
-        : true
-      const matchesType = selectedFilters.type
-        ? user.type_of_biking === selectedFilters.type
-        : true
-      const matchesDistance = selectedFilters.distance
-        ? user.distance === selectedFilters.distance
-        : true
-      const matchesDifficulty = selectedFilters.difficulty
-        ? user.difficulty === selectedFilters.difficulty
-        : true
-      return matchesAge && matchesType && matchesDistance && matchesDifficulty
+  const handleLocationSearch = (town) => {
+    getUsersByLocation(town).then((users) => {
+      setUserList(users)
+      setFilteredUsers(users)
     })
-    setFilteredUsers(filtered)
   }
 
   return (
@@ -67,10 +44,11 @@ export default function Users() {
         >
           <Text>Filters</Text>
         </Pressable>
+        <LocationFilter onSearch={handleLocationSearch} />
         <FlatList
           data={filteredUsers}
           renderItem={({ item }) => (
-              <UserCard user={item} setUserList={setUserList} /> 
+            <UserCard user={item} setUserList={setUserList} />
           )}
           keyExtractor={(item) => item.user_id}
         />
@@ -78,7 +56,7 @@ export default function Users() {
       <FilterUsers
         visible={showFilters}
         onClose={() => setShowFilters(false)}
-        onUpdateFilters={updateSelectedFilters}
+        onUpdateFilters={setSelectedFilters}
       />
     </>
   )
