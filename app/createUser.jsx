@@ -88,38 +88,7 @@ export default function CreateUserScreen() {
         })
     }
   }, [selectedRegion])
-  useEffect(() => {
-    logCurrentSelections()
-  }, [
-    name,
-    email,
-    bio,
-    selectedRegion,
-    selectedTown,
-    activeTypeIndex,
-    activeDifficultyIndex,
-    activeDistanceIndex,
-    activeAgeIndex,
-    imageUrl,
-    rating,
-  ])
 
-  const logCurrentSelections = () => {
-    const currentUserData = {
-      username: name,
-      email: email,
-      bio: bio,
-      region: selectedRegion,
-      city: selectedTown,
-      type_of_biking: filters.type[activeTypeIndex] || '',
-      difficulty: filters.difficulty[activeDifficultyIndex] || '',
-      distance: filters.distance[activeDistanceIndex] || '',
-      age: filters.age[activeAgeIndex] || '',
-      avatar_url: imageUrl,
-      rating: rating,
-    }
-    // console.log('Current user data selections:', currentUserData)
-  }
   const postUserData = () => {
     axios
       .post('https://spokes-yrzx.onrender.com/api/users/', {

@@ -134,21 +134,6 @@ export default function EditProfile() {
         console.error('Error updating user:', error)
       })
   }
-  const logCurrentSelections = () => {
-    const currentUserData = {
-      username: userData ? userData.username : '',
-      email: userData ? userData.email : '',
-      bio: userData ? userData.bio : '',
-      region: selectedRegion,
-      city: selectedTown,
-      type_of_biking: filters.type[activeTypeIndex] || '',
-      difficulty: filters.difficulty[activeDifficultyIndex] || '',
-      distance: filters.distance[activeDistanceIndex] || '',
-      age: filters.age[activeAgeIndex] || '',
-      avatar_url: imageUrl,
-    }
-    // console.log('Current user data selections:', currentUserData)
-  }
 
   return (
     <ScrollView contentContainerStyle={styles.scrollViewContent}>
@@ -277,9 +262,6 @@ export default function EditProfile() {
           <Text style={styles.buttonText}>Save Changes</Text>
         </TouchableOpacity>
       </View>
-      <TouchableOpacity onPress={logCurrentSelections} style={styles.button}>
-        <Text style={styles.buttonText}>console log profile button</Text>
-      </TouchableOpacity>
     </ScrollView>
   )
 }
