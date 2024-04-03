@@ -39,6 +39,7 @@ export default function UserProfile({ navigation }) {
   const handleDeleteAccount = async () => {
     const auth = getAuth()
     const firebaseUser = auth.currentUser
+
     deleteUser(user.user_id)
       .then(async () => {
         try {
@@ -90,15 +91,22 @@ export default function UserProfile({ navigation }) {
               backgroundColor: 'blue',
               padding: 10,
               borderRadius: 5,
+              marginTop: 10,
             }}
           >
-            <Text style={{ color: 'white' }}>edit profile</Text>
+            <Text style={{ color: 'white' }}>Edit Profile</Text>
           </TouchableOpacity>
-          <Pressable onPress={handleSignOut} className="pt-10">
-            <Text className="bg-indigo-600 text-white rounded text-xl p-3">
-              Sign Out
-            </Text>
-          </Pressable>
+          <TouchableOpacity
+            onPress={handleSignOut}
+            style={{
+              backgroundColor: 'blue',
+              padding: 10,
+              borderRadius: 5,
+              marginTop: 10,
+            }}
+          >
+            <Text style={{ color: 'white' }}>Sign Out</Text>
+          </TouchableOpacity>
           <Pressable
             onPress={handleDeleteAccount}
             style={{ marginTop: 10, backgroundColor: 'red', borderRadius: 5 }}

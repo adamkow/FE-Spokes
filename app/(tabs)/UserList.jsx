@@ -59,12 +59,17 @@ export default function Users() {
 
   return (
     <>
-      <View className="flex-1 pt-5">
+      <View style={{ flex: 1, paddingTop: 5, alignItems: 'center' }}>
         <Pressable
           style={{
             alignItems: 'center',
+            justifyContent: 'center',
             padding: 10,
-            backgroundColor: 'lightgray',
+            backgroundColor: '#2196F3',
+            width: 80,
+            marginTop: 30,
+            borderRadius: 10,
+            marginBottom: 10,
           }}
           onPress={() => setShowFilters(true)}
         >
