@@ -162,10 +162,15 @@ export default function UserCard({ user, setUserList }) {
       >
         <UserView
           requestId={user.request_id}
-          isFriend={user.status === 'accepted' ? true : false}
+          isFriend={user.status === 'accepted'}
+          isSender={
+            user.status === 'pending' && user.sender_id === user.user_id
+          }
           requestSent={requestSent}
           setRequestSent={setRequestSent}
           setUserList={setUserList}
+          changeRequestStatus={changeRequestStatus}
+          setRatingModalVisible={setRatingModalVisible}
         />
       </ModalWrapper>
     </View>
