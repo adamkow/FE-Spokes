@@ -63,7 +63,7 @@ const LocationFilter = ({ onSearch }) => {
       <Button
         title={showDropdowns ? 'Hide Location' : 'Show Location'}
         onPress={toggleDropdowns}
-        color="#007AFF"
+        color="#2D23FF"
       />
       {showDropdowns && (
         <>
@@ -82,7 +82,6 @@ const LocationFilter = ({ onSearch }) => {
               ))}
             </Picker>
           </View>
-
           <View style={styles.dropdownContainer}>
             <Picker
               selectedValue={selectedTown}
@@ -95,8 +94,7 @@ const LocationFilter = ({ onSearch }) => {
               ))}
             </Picker>
           </View>
-
-          <Button title="Search" onPress={handleSearch} color="#007AFF" />
+          <Button title="Search" onPress={handleSearch} color="#2D23FF" />
         </>
       )}
     </View>
@@ -117,6 +115,9 @@ const styles = {
     borderColor: '#ccc',
     borderRadius: 5,
     paddingHorizontal: 10,
+  },
+  searchButton: {
+    borderRadius: 5,
   },
 }
 

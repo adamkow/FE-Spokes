@@ -65,15 +65,15 @@ export default function Users() {
             alignItems: 'center',
             justifyContent: 'center',
             padding: 10,
-            backgroundColor: '#2196F3',
-            width: 80,
+            backgroundColor: '#2D23FF', // Purple color
+            width: 100,
             marginTop: 30,
             borderRadius: 10,
             marginBottom: 10,
           }}
           onPress={() => setShowFilters(true)}
         >
-          <Text>Filters</Text>
+          <Text style={{ color: '#FFFFFF' }}>Filters</Text>
         </Pressable>
         <LocationFilter onSearch={handleLocationSearch} />
         <FlatList
