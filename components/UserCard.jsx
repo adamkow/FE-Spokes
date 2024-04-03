@@ -66,7 +66,6 @@ export default function UserCard({ user, setUserList }) {
       setRoomId(roomId)
     }
   }, [])
-
   return (
     <View style={styles.container}>
       <Pressable onPress={onPress}>
@@ -74,7 +73,7 @@ export default function UserCard({ user, setUserList }) {
           <View style={styles.imageContainer}>
             <Image
               style={styles.image}
-              source={{ uri: user.avatar_url }}
+              source={{ uri: user.avatar_url || null }}
               placeholder={blurhash}
               contentFit="cover"
               transition={1000}
