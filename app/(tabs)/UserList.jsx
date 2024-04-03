@@ -1,6 +1,5 @@
 import React, { useEffect, useState } from 'react'
-import { getAllUsers, getUsersByLocation } from '@/api' // Make sure to import getUsersByLocation
-import { useAuth } from '@/contexts/authContext'
+import { getAllUsers, getUsersByLocation } from '@/api'
 import { FlatList, Pressable, View, Text } from 'react-native'
 import UserCard from '../../components/UserCard'
 import FilterUsers from '../../components/FilterUsers'
@@ -24,11 +23,38 @@ export default function Users() {
     })
   }, [])
 
+  useEffect(() => {
+    filterUsers()
+  }, [selectedFilters, userList])
+
   const handleLocationSearch = (town) => {
     getUsersByLocation(town).then((users) => {
       setUserList(users)
-      setFilteredUsers(users)
+      filterUsers(users)
     })
+  }
+
+  const updateSelectedFilters = (filters) => {
+    setSelectedFilters(filters)
+  }
+
+  const filterUsers = (users = userList) => {
+    const filtered = users.filter((user) => {
+      const matchesAge = selectedFilters.age
+        ? user.age === selectedFilters.age
+        : true
+      const matchesType = selectedFilters.type
+        ? user.type_of_biking === selectedFilters.type
+        : true
+      const matchesDistance = selectedFilters.distance
+        ? user.distance === selectedFilters.distance
+        : true
+      const matchesDifficulty = selectedFilters.difficulty
+        ? user.difficulty === selectedFilters.difficulty
+        : true
+      return matchesAge && matchesType && matchesDistance && matchesDifficulty
+    })
+    setFilteredUsers(filtered)
   }
 
   return (
@@ -56,7 +82,7 @@ export default function Users() {
       <FilterUsers
         visible={showFilters}
         onClose={() => setShowFilters(false)}
-        onUpdateFilters={setSelectedFilters}
+        onUpdateFilters={updateSelectedFilters}
       />
     </>
   )

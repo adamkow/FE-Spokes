@@ -3,7 +3,6 @@ import FontAwesome from '@expo/vector-icons/FontAwesome'
 import { Tabs, router } from 'expo-router'
 import { Pressable } from 'react-native'
 
-
 export default function TabLayout() {
   return (
     <Tabs screenOptions={{ tabBarActiveTintColor: 'blue' }}>
@@ -14,7 +13,7 @@ export default function TabLayout() {
           headerShown: false,
           unmountOnBlur: true,
           tabBarIcon: ({ color }) => (
-            <FontAwesome size={28} name="home" color={color} />
+            <FontAwesome size={28} name="search" color={color} />
           ),
         }}
       />
@@ -43,6 +42,25 @@ export default function TabLayout() {
               {...props}
               onPress={() => {
                 router.replace('/(tabs)/messages')
+              }}
+            />
+          ),
+        }}
+      />
+      <Tabs.Screen
+        name="profile"
+        options={{
+          title: 'Profile',
+          headerShown: false,
+          unmountOnBlur: true,
+          tabBarIcon: ({ color }) => (
+            <FontAwesome size={28} name="comments" color={color} />
+          ),
+          tabBarButton: (props) => (
+            <Pressable
+              {...props}
+              onPress={() => {
+                router.replace('/(tabs)/userProfile')
               }}
             />
           ),
