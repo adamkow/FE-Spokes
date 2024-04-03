@@ -16,6 +16,7 @@ export default function Friends() {
   useEffect(() => {
     let status = null
     if (showFriends) {
+      setRequestsType('all')
       status = 'accepted'
     }
     setLoading(true)
