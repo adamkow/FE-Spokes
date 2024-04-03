@@ -10,6 +10,16 @@ export function getAllUsers() {
   })
 }
 
+export function getAllUsersByLoggedInUserId(user_id, location) {
+  return api
+    .get(`users/${user_id}/recommendation`, {
+      params: { location: location },
+    })
+    .then(({ data: { users } }) => {
+      return users
+    })
+}
+
 export function sendRequest(user_id, receiver_id) {
   const body = {
     sender_id: user_id,
