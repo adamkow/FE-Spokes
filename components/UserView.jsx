@@ -1,5 +1,5 @@
-import { View, Text, StyleSheet, Image } from 'react-native'
-import React, { useEffect, useState } from 'react'
+import { View, Text, StyleSheet, Image, Pressable } from 'react-native'
+import React, { useContext, useEffect, useState } from 'react'
 import { Link, useLocalSearchParams } from 'expo-router'
 import { getUserByUserID } from '@/api'
 import SendRequest from './SendRequest'
@@ -15,8 +15,11 @@ export default function UserView({
   requestSent,
   setRequestSent,
   isFriend,
+  isSender,
   setUserList,
   requestId,
+  changeRequestStatus,
+  setRatingModalVisible,
 }) {
   const [currUserProfile, setCurrUserProfile] = useState({})
   const [roomId, setRoomId] = useState()
@@ -68,16 +71,42 @@ export default function UserView({
       <Text>{currUserProfile.difficulty}</Text>
       <Text>{currUserProfile.distance}</Text>
       {isFriend ? (
-        <Link
-          href={{
-            pathname: 'messages',
-            params: { chat_room: roomId },
-          }}
-          className="border m-1 p-2 flex items-center justify-center rounded-xl bg-green-50 "
-          onClick={handleRoom}
-        >
-          <Text>Chat</Text>
-        </Link>
+        <View className="flex-row">
+          <Link
+            href={{
+              pathname: 'messages',
+              params: { chat_room: roomId },
+            }}
+            className="border m-1 p-2 flex items-center justify-center rounded-xl bg-green-50 "
+            onClick={handleRoom}
+          >
+            <Text>Chat</Text>
+          </Link>
+          <Pressable
+            onPress={() => {
+              setRatingModalVisible(true)
+            }}
+            className="border m-1 p-2 flex items-center rounded-xl bg-blue-50 "
+          >
+            <Text>Rate</Text>
+          </Pressable>
+        </View>
+      ) : isSender ? (
+        <View className="flex-row gap-4 justify-center">
+          <Pressable
+            className="border m-1 p-2 flex items-center rounded-xl bg-green-50 "
+            onPress={() => changeRequestStatus({ status: 'accepted' })}
+          >
+            <Text>Accept</Text>
+          </Pressable>
+
+          <Pressable
+            className="border m-1 p-2 flex items-center rounded-xl bg-red-50"
+            onPress={() => changeRequestStatus({ status: 'rejected' })}
+          >
+            <Text>Decline</Text>
+          </Pressable>
+        </View>
       ) : (
         <SendRequest
           receiverId={currUserProfile.user_id}

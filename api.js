@@ -57,3 +57,9 @@ export function patchRating(user_id, body) {
       return user
     })
 }
+
+export function getUsersByLocation(town) {
+  return api.get(`users?location=${town}`).then(({ data: { users } }) => {
+    return users
+  })
+}
