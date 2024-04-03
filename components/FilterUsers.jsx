@@ -31,13 +31,20 @@ function FilterUsers({ visible, onClose, onUpdateFilters }) {
       ...prev,
       [category]: prev[category] === item ? '' : item,
     }))
-    console.log(selectedFilters)
   }
 
   const handleSearch = () => {
-    console.log('Searching with filters:', selectedFilters)
     onUpdateFilters(selectedFilters)
     onClose()
+  }
+
+  const handleResetFilters = () => {
+    setSelectedFilters({
+      age: '',
+      type: '',
+      distance: '',
+      difficulty: '',
+    })
   }
 
   return (
@@ -80,8 +87,15 @@ function FilterUsers({ visible, onClose, onUpdateFilters }) {
           </Text>
         </TouchableOpacity>
 
+        <TouchableOpacity
+          style={[styles.button, styles.resetButton]}
+          onPress={handleResetFilters}
+        >
+          <Text style={[styles.buttonText, styles.resetButtonText]}>Reset</Text>
+        </TouchableOpacity>
+
         <TouchableOpacity style={styles.closeButton} onPress={onClose}>
-          <Text style={styles.closeButtonText}>Close</Text>
+          <Text style={styles.closeButltonText}>Close</Text>
         </TouchableOpacity>
       </View>
     </Modal>
@@ -139,6 +153,16 @@ const styles = StyleSheet.create({
     marginTop: 10,
   },
   searchButtonText: {
+    color: 'white',
+    textAlign: 'center',
+  },
+  resetButton: {
+    padding: 10,
+    backgroundColor: 'red',
+    borderRadius: 5,
+    marginTop: 10,
+  },
+  resetButtonText: {
     color: 'white',
     textAlign: 'center',
   },
