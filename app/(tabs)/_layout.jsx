@@ -47,25 +47,6 @@ export default function TabLayout() {
           ),
         }}
       />
-      <Tabs.Screen
-        name="profile"
-        options={{
-          title: 'Profile',
-          headerShown: false,
-          unmountOnBlur: true,
-          tabBarIcon: ({ color }) => (
-            <FontAwesome size={28} name="comments" color={color} />
-          ),
-          tabBarButton: (props) => (
-            <Pressable
-              {...props}
-              onPress={() => {
-                router.replace('/(tabs)/userProfile')
-              }}
-            />
-          ),
-        }}
-      />
     </Tabs>
   )
 }
