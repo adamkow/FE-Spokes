@@ -38,6 +38,7 @@ export default function EditProfile() {
 
   useEffect(() => {
         setUserData(user)
+        setSelectedTown(user.city)
   }, [])
 
   useEffect(() => {
@@ -84,7 +85,7 @@ export default function EditProfile() {
       .catch((error) => {
         console.error('Error fetching regions:', error)
       })
-  }, [selectedRegion])
+  }, [])
 
   useEffect(() => {
     if (selectedRegion) {
@@ -106,7 +107,7 @@ export default function EditProfile() {
           )
         })
     }
-  }, [selectedRegion, selectedTown])
+  }, [selectedRegion])
 
   const handleSaveChanges = () => {
     const updatedUserData = {

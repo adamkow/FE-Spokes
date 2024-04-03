@@ -1,19 +1,19 @@
 import { View, Text, StyleSheet, Image } from 'react-native'
-import React, { useContext, useEffect, useState } from 'react'
+import React, { useEffect, useState } from 'react'
 import { Link } from 'expo-router'
-import { LoggedUserInfoForDevContext } from '@/contexts/LoggedUserInfoForDevContext'
+import { useAuth } from '@/contexts/authContext'
 import { blurhash, getNotLoggedInUserData } from '@/utilis/common'
 import { db } from '@/firebaseConfig'
 import { collection, doc, onSnapshot, orderBy, query } from 'firebase/firestore'
 
 export default function ChatItem({ item }) {
   const [userToDisplay, setUserToDisplay] = useState()
-  const { loggedInUserInfo } = useContext(LoggedUserInfoForDevContext)
+  const { user } = useAuth()
   const [lastMessage, setLastMessage] = useState(undefined)
 
   useEffect(() => {
-    const user = getNotLoggedInUserData(item, loggedInUserInfo.user_id)
-    setUserToDisplay(user)
+    const currentUser = getNotLoggedInUserData(item, user.user_id)
+    setUserToDisplay(currentUser)
     const docRef = doc(db, 'rooms', item.chatRoomId)
     const messagesRef = collection(docRef, 'messages')
     const q = query(messagesRef, orderBy('createdAt', 'desc'))
@@ -29,7 +29,7 @@ export default function ChatItem({ item }) {
   const displayLastMesssage = () => {
     if (typeof lastMessage === 'undefined') return 'Loading...'
     if (lastMessage) {
-      if (loggedInUserInfo.user_id === lastMessage?.userId) {
+      if (user.user_id === lastMessage?.userId) {
         return 'You: ' + lastMessage?.text
       } else {
         return lastMessage?.text

@@ -1,10 +1,10 @@
 import { View, Text, StyleSheet, Image } from 'react-native'
-import React, { useContext, useEffect, useState } from 'react'
+import React, { useEffect, useState } from 'react'
 import { Link, useLocalSearchParams } from 'expo-router'
 import { getUserByUserID } from '@/api'
 import SendRequest from './SendRequest'
 import Rating from './Rating'
-import { LoggedUserInfoForDevContext } from '@/contexts/LoggedUserInfoForDevContext'
+import { useAuth } from '@/contexts/authContext'
 import {
   addRoomToChatRooms,
   createRoomIfNotExists,
@@ -21,7 +21,7 @@ export default function UserView({
   const [currUserProfile, setCurrUserProfile] = useState({})
   const [roomId, setRoomId] = useState()
   const { user_id } = useLocalSearchParams()
-  const { loggedInUserInfo } = useContext(LoggedUserInfoForDevContext)
+  const { user: loggedInUserInfo } = useAuth()
 
   useEffect(() => {
     getUserByUserID(user_id).then((userProfile) => {

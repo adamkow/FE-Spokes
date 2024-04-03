@@ -1,7 +1,7 @@
 import { View, Text, Pressable, TextInput, Alert } from 'react-native'
 import React, { useContext, useEffect, useRef, useState } from 'react'
 import { useLocalSearchParams } from 'expo-router'
-import { LoggedUserInfoForDevContext } from '@/contexts/LoggedUserInfoForDevContext'
+import { useAuth } from '@/contexts/authContext'
 import {
   Timestamp,
   addDoc,
@@ -19,7 +19,7 @@ import FontAwesome from '@expo/vector-icons/FontAwesome'
 
 export default function ChatRoom() {
   const chatRoomId = useLocalSearchParams().chat_room
-  const { loggedInUserInfo } = useContext(LoggedUserInfoForDevContext)
+  const { user: loggedInUserInfo } = useAuth()
   const [messages, setMessages] = useState([])
   const [userToDisplay, setUserToDisplay] = useState()
   const [room, setRoom] = useState()

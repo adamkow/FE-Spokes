@@ -1,9 +1,9 @@
 import { View, Text, Pressable } from 'react-native'
-import React, { useContext, useEffect, useState } from 'react'
-import { deleteRequest, getRequestsData } from '@/api'
+import React, { useEffect, useState } from 'react'
+import { getRequestsData } from '@/api'
 import RequestsView from '@/components/RequestsView'
 import FriendsView from '@/components/FriendsView'
-import { LoggedUserInfoForDevContext } from '@/contexts/LoggedUserInfoForDevContext'
+import { useAuth } from '@/contexts/authContext'
 import Loading from '@/components/Loading'
 
 export default function Friends() {
@@ -11,7 +11,7 @@ export default function Friends() {
   const [requestsType, setRequestsType] = useState('all')
   const [showFriends, setShowFriends] = useState(true)
   const [showRequests, setShowRequests] = useState(false)
-  const { loggedInUserInfo } = useContext(LoggedUserInfoForDevContext)
+  const { user } = useAuth()
   const [loading, setLoading] = useState(false)
 
   useEffect(() => {
@@ -20,7 +20,7 @@ export default function Friends() {
       status = 'accepted'
     }
     setLoading(true)
-    getRequestsData(loggedInUserInfo.user_id, requestsType, status)
+    getRequestsData(user.user_id, requestsType, status)
       .then((requestsDataFromAPI) => {
         setRequestsData(requestsDataFromAPI)
         setLoading(false)

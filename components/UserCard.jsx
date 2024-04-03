@@ -1,12 +1,12 @@
 import { Text, Pressable, View, StyleSheet, Image } from 'react-native'
-import React, { useContext, useEffect, useState } from 'react'
+import React, { useEffect, useState } from 'react'
 import { Link, router } from 'expo-router'
 import SendRequest from './SendRequest'
 import UserView from './UserView'
 import Rating from './Rating'
 import { patchRequest } from '@/api'
 import ModalWrapper from './ModalWrapper'
-import { LoggedUserInfoForDevContext } from '@/contexts/LoggedUserInfoForDevContext'
+import { useAuth } from '@/contexts/authContext'
 import {
   addRoomToChatRooms,
   blurhash,
@@ -19,7 +19,7 @@ export default function UserCard({ user, setUserList }) {
   const [ratingModalVisible, setRatingModalVisible] = useState(false)
   const [requestSent, setRequestSent] = useState(false)
   const [roomId, setRoomId] = useState()
-  const { loggedInUserInfo } = useContext(LoggedUserInfoForDevContext)
+  const { user: loggedInUserInfo } = useAuth()
 
   function onPress() {
     router.setParams({ user_id: user.user_id })

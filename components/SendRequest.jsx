@@ -1,7 +1,6 @@
 import { deleteRequest, sendRequest } from '@/api'
-import { LoggedUserInfoForDevContext } from '@/contexts/LoggedUserInfoForDevContext'
+import { useAuth } from '@/contexts/authContext'
 import { useRoute } from '@react-navigation/native'
-import { useContext } from 'react'
 import { Pressable, Text } from 'react-native'
 
 export default function SendRequest({
@@ -11,11 +10,11 @@ export default function SendRequest({
   setUserList,
   requestId,
 }) {
-  const { loggedInUserInfo } = useContext(LoggedUserInfoForDevContext)
+  const { user } = useAuth()
   const route = useRoute()
 
   const handleSendRequest = () => {
-    sendRequest(loggedInUserInfo.user_id, receiverId).then((requestFromApi) => {
+    sendRequest(user.user_id, receiverId).then((requestFromApi) => {
       setUserList((currList) => {
         const updatedList = currList.map((user) => {
           if (user.user_id === receiverId) {

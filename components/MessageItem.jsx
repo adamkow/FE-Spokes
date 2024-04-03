@@ -1,11 +1,11 @@
 import { View, Text } from 'react-native'
 import React, { useContext } from 'react'
-import { LoggedUserInfoForDevContext } from '@/contexts/LoggedUserInfoForDevContext'
+import { useAuth } from '@/contexts/authContext'
 
 export default function MessageItem({ message }) {
-  const { loggedInUserInfo } = useContext(LoggedUserInfoForDevContext)
+  const { user } = useAuth()
 
-  if (loggedInUserInfo.user_id === message.userId) {
+  if (user.user_id === message.userId) {
     return (
       <View className="flex-row justify-end mr-3">
         <View className="flex p-3 m-1 rounded-md bg-white border border-neutral-100 ">
