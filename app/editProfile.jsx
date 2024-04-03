@@ -37,8 +37,8 @@ export default function EditProfile() {
   const [selectedTown, setSelectedTown] = useState(user.city)
 
   useEffect(() => {
-        setUserData(user)
-        setSelectedTown(user.city)
+    setUserData(user)
+    setSelectedTown(user.city)
   }, [])
 
   useEffect(() => {
@@ -125,7 +125,10 @@ export default function EditProfile() {
     }
 
     axios
-      .patch(`https://spokes-yrzx.onrender.com/api/users/${user.user_id}`, updatedUserData)
+      .patch(
+        `https://spokes-yrzx.onrender.com/api/users/${user.user_id}`,
+        updatedUserData
+      )
       .then((response) => {
         console.log('User updated successfully:', response.data)
         setUser(updatedUserData)
@@ -181,6 +184,12 @@ export default function EditProfile() {
           value={userData ? userData.email : ''}
           onChangeText={(text) => setUserData({ ...userData, email: text })}
           placeholder="Email"
+        />
+        <TextInput
+          style={styles.input}
+          value={userData ? userData.bio : ''}
+          onChangeText={(text) => setUserData({ ...userData, bio: text })}
+          placeholder="Bio"
         />
 
         <Text style={styles.heading}>Age Range</Text>
