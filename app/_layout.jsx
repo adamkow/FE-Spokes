@@ -1,26 +1,42 @@
 import { Stack, useRouter, useSegments } from 'expo-router'
 import { AuthContextProvider, useAuth } from '@/contexts/authContext'
 import { LoggedUserInfoForDevProvider } from '@/contexts/LoggedUserInfoForDevContext'
-import { useEffect } from 'react'
-import '../global.css'
+import { useEffect, useState } from 'react'
+import SplashScreen from './SplashScreen';
 
 const MainLayout = () => {
   const { isAuthenticated } = useAuth()
   const segments = useSegments()
   const router = useRouter()
+  const [showSplash, setShowSplash] = useState(true)
 
   useEffect(() => {
-    // check if user is authenticated
+    const timer = setTimeout(() => {
+      setShowSplash(false)
+    }, 3000)
+
+    return () => clearTimeout(timer)
+  }, [])
+
+  useEffect(() => {
+    if (!showSplash) {
+      handleAuthentication()
+    }
+  }, [showSplash])
+
+  const handleAuthentication = () => {
     if (typeof isAuthenticated === 'undefined') return
     const inApp = segments[0] === '(tabs)'
     if (isAuthenticated && !inApp) {
-      // redirect to userList
       router.replace('UserList')
     } else if (isAuthenticated === false) {
-      //redirect to signin
       router.replace('SignIn')
     }
-  }, [isAuthenticated])
+  }
+
+  if (showSplash) {
+    return <SplashScreen />
+  }
 
   return (
     <Stack>
