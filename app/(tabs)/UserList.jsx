@@ -1,14 +1,16 @@
 import React, { useEffect, useState } from 'react'
-import { getAllUsers, getUsersByLocation } from '@/api'
+import { getAllUsersByLoggedInUserId } from '@/api'
 import { FlatList, Pressable, View, Text } from 'react-native'
 import UserCard from '../../components/UserCard'
 import FilterUsers from '../../components/FilterUsers'
 import LocationFilter from '@/components/LocationFilter'
+import { useAuth } from '@/contexts/authContext'
 
 export default function Users() {
   const [userList, setUserList] = useState([])
   const [filteredUsers, setFilteredUsers] = useState([])
   const [showFilters, setShowFilters] = useState(false)
+  const { user } = useAuth()
   const [selectedFilters, setSelectedFilters] = useState({
     age: '',
     type: '',
@@ -17,18 +19,18 @@ export default function Users() {
   })
 
   useEffect(() => {
-    getAllUsers().then((users) => {
+    getAllUsersByLoggedInUserId(user.user_id).then((users) => {
       setUserList(users)
       setFilteredUsers(users)
     })
-  }, [])
+  }, [user])
 
   useEffect(() => {
     filterUsers()
   }, [selectedFilters, userList])
 
   const handleLocationSearch = (town) => {
-    getUsersByLocation(town).then((users) => {
+    getAllUsersByLoggedInUserId(user.user_id, town).then((users) => {
       setUserList(users)
       filterUsers(users)
     })
