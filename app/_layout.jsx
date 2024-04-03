@@ -25,7 +25,6 @@ const MainLayout = () => {
   }, [showSplash])
 
   const handleAuthentication = () => {
-    if (typeof isAuthenticated === 'undefined') return
     const inApp = segments[0] === '(tabs)'
     if (isAuthenticated && !inApp) {
       router.replace('UserList')
