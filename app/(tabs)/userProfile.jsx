@@ -63,8 +63,8 @@ export default function UserProfile({ navigation }) {
           <Image
             source={{ uri: user.avatar_url }}
             style={{
-              width: 100,
-              height: 100,
+              width: 200,
+              height: 200,
               borderRadius: 50,
               marginBottom: 10,
             }}
@@ -92,9 +92,18 @@ export default function UserProfile({ navigation }) {
               padding: 10,
               borderRadius: 5,
               marginTop: 10,
+              width: 140,
             }}
           >
-            <Text style={{ color: 'white' }}>Edit Profile</Text>
+            <Text
+              style={{
+                color: 'white',
+                textAlign: 'center',
+                justifyContent: 'center',
+              }}
+            >
+              Edit Profile
+            </Text>
           </TouchableOpacity>
           <TouchableOpacity
             onPress={handleSignOut}
@@ -103,9 +112,13 @@ export default function UserProfile({ navigation }) {
               padding: 10,
               borderRadius: 5,
               marginTop: 10,
+              width: 140,
+              alignItems: 'center',
             }}
           >
-            <Text style={{ color: 'white' }}>Sign Out</Text>
+            <Text style={{ color: 'white', textAlign: 'center' }}>
+              Sign Out
+            </Text>
           </TouchableOpacity>
           <Pressable
             onPress={handleDeleteAccount}
