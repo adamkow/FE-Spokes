@@ -32,7 +32,7 @@ export default function Friends() {
   }, [requestsType, showFriends])
 
   return (
-    <View className="flex-1 m-5">
+    <View className="flex-1 m-5 ">
       <View className="flex-row gap-20 m-5 items-center">
         <Pressable
           onPress={() => {

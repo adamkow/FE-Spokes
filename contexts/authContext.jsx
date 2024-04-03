@@ -30,7 +30,7 @@ export const AuthContextProvider = ({ children }) => {
   const login = async (email, password) => {
     try {
       const response = await signInWithEmailAndPassword(auth, email, password)
-      getUserByUserID(response.user.uid).then((res)=> {
+      getUserByUserID(response.user.uid).then((res) => {
         setUser(res)
       })
       return { success: true }

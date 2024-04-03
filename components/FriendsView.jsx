@@ -16,6 +16,8 @@ export default function FriendsView({ requestsData, loading }) {
         </Link>
       ) : (
         <FlatList
+          style={{ marginBottom: 20 }}
+          contentContainerStyle={{ paddingBottom: 100 }}
           data={requestsData}
           renderItem={({ item }) => <UserCard user={item} />}
           keyExtractor={(item) => item.user_id}
