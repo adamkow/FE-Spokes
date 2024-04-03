@@ -5,11 +5,13 @@ import UserCard from '../../components/UserCard'
 import FilterUsers from '../../components/FilterUsers'
 import LocationFilter from '@/components/LocationFilter'
 import { useAuth } from '@/contexts/authContext'
+import Loading from '@/components/Loading'
 
 export default function Users() {
   const [userList, setUserList] = useState([])
   const [filteredUsers, setFilteredUsers] = useState([])
   const [showFilters, setShowFilters] = useState(false)
+  const [loading, setLoading] = useState(false)
   const { user } = useAuth()
   const [selectedFilters, setSelectedFilters] = useState({
     age: '',
@@ -19,10 +21,18 @@ export default function Users() {
   })
 
   useEffect(() => {
-    getAllUsersByLoggedInUserId(user.user_id).then((users) => {
-      setUserList(users)
-      setFilteredUsers(users)
-    })
+    if (user.user_id) {
+      setLoading(true)
+      getAllUsersByLoggedInUserId(user.user_id)
+        .then((users) => {
+          setUserList(users)
+          setFilteredUsers(users)
+        })
+        .catch((err) => {
+          console.error('error fetching users', err)
+        })
+    }
+    setLoading(false)
   }, [user])
 
   useEffect(() => {
@@ -59,6 +69,9 @@ export default function Users() {
     setFilteredUsers(filtered)
   }
 
+  if (loading) {
+    return <Loading />
+  }
   return (
     <>
       <View style={{ flex: 1, paddingTop: 5, alignItems: 'center' }}>
