@@ -63,3 +63,9 @@ export function getUsersByLocation(town) {
     return users
   })
 }
+
+export function deleteUser(user_id) {
+  return api.delete(`users/${user_id}`).then((response) => {
+    return response.data
+  })
+}
