@@ -31,22 +31,20 @@ function FilterUsers({ visible, onClose, onUpdateFilters }) {
       ...prev,
       [category]: prev[category] === item ? '' : item,
     }))
-    console.log(selectedFilters)
   }
 
   const handleSearch = () => {
-    console.log('Searching with filters:', selectedFilters)
     onUpdateFilters(selectedFilters)
     onClose()
   }
 
-  const handleReset = () => {
+  const handleResetFilters = () => {
     setSelectedFilters({
       age: '',
       type: '',
       distance: '',
       difficulty: '',
-    });
+    })
   }
 
   return (
@@ -89,11 +87,17 @@ function FilterUsers({ visible, onClose, onUpdateFilters }) {
           </Text>
         </TouchableOpacity>
 
+        <TouchableOpacity
+          style={[styles.button, styles.resetButton]}
+          onPress={handleResetFilters}
+        >
+          <Text style={[styles.buttonText, styles.resetButtonText]}>
+            Reset Filters
+          </Text>
+        </TouchableOpacity>
+
         <TouchableOpacity style={styles.closeButton} onPress={onClose}>
           <Text style={styles.closeButtonText}>Close</Text>
-        </TouchableOpacity>
-        <TouchableOpacity style={styles.resetButton} onPress={handleReset}>
-          <Text>Reset</Text>
         </TouchableOpacity>
       </View>
     </Modal>
@@ -109,23 +113,28 @@ const styles = StyleSheet.create({
     paddingHorizontal: 20,
   },
   heading: {
-    marginBottom: 15,
+    marginBottom: 5,
     fontWeight: 'bold',
     textAlign: 'center',
   },
   buttonContainer: {
     flexDirection: 'row',
     flexWrap: 'wrap',
+    justifyContent: 'center',
     marginBottom: 20,
+    width: '100%',
   },
   button: {
+    width: 150,
+    height: 45,
+    justifyContent: 'center',
+    alignItems: 'center',
     marginRight: 10,
     marginBottom: 10,
-    padding: 10,
-    backgroundColor: '#transparent',
+    backgroundColor: 'transparent',
     borderRadius: 5,
     borderColor: '#ccc',
-    borderWidth: 1, // Border width for all buttons
+    borderWidth: 1,
   },
   activeButton: {
     borderColor: 'blue',
@@ -133,32 +142,43 @@ const styles = StyleSheet.create({
   },
   buttonText: {
     color: 'black',
+    textAlign: 'center',
   },
   closeButton: {
-    padding: 10,
+    width: 140,
+    height: 40,
+    justifyContent: 'center',
+    alignItems: 'center',
     backgroundColor: 'gray',
     borderRadius: 5,
-    marginTop: 10,
   },
   closeButtonText: {
     color: 'white',
-    textAlign: 'center',
   },
   searchButton: {
-    padding: 10,
+    width: 140,
+    height: 40,
+    justifyContent: 'center',
+    alignItems: 'center',
     backgroundColor: '#2D23FF',
     borderRadius: 5,
-    marginTop: 10,
+    marginLeft: 10,
   },
   searchButtonText: {
     color: 'white',
-    textAlign: 'center',
   },
   resetButton: {
-    padding: 10,
+    width: 140,
+    height: 40,
+    justifyContent: 'center',
+    alignItems: 'center',
+    backgroundColor: '#eb1313',
     borderRadius: 5,
-    marginTop: 10,
-  }
+    marginLeft: 10,
+  },
+  resetButtonText: {
+    color: 'white',
+  },
 })
 
 export default FilterUsers
