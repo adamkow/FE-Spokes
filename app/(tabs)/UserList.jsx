@@ -97,29 +97,26 @@ export default function Users() {
         </Pressable>
         <LocationFilter onSearch={handleLocationSearch} />
 
-
         <View className="flex-1 w-full">
-
-        {filteredUsers.length === 0 ? (
-          <Text>No users found.</Text>
-        ) : (
-
-          <FlatList
-            data={filteredUsers}
-            renderItem={({ item }) => (
-              <UserCard user={item} setUserList={setUserList} />
-
-            )}
-            keyExtractor={(item) => item.user_id}
-          />
+          {filteredUsers.length === 0 ? (
+            <Text>No users found.</Text>
+          ) : (
+            <FlatList
+              data={filteredUsers}
+              renderItem={({ item }) => (
+                <UserCard user={item} setUserList={setUserList} />
+              )}
+              keyExtractor={(item) => item.user_id}
+            />
+          )}
         </View>
 
+        <FilterUsers
+          visible={showFilters}
+          onClose={() => setShowFilters(false)}
+          onUpdateFilters={updateSelectedFilters}
+        />
       </View>
-      <FilterUsers
-        visible={showFilters}
-        onClose={() => setShowFilters(false)}
-        onUpdateFilters={updateSelectedFilters}
-      />
     </>
   )
 }
