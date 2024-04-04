@@ -20,7 +20,7 @@ export default function CreateUserScreen() {
   const { user, setIsAuthenticated, setUser } = useAuth()
   const [name, setName] = useState('test') //leave empty after
   const [bio, setBio] = useState('test') //leave empty after
-  const [imageUrl, setImageUrl] = useState('https://shorturl.at/altP4')
+  const [imageUrl, setImageUrl] = useState('https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcS5GOMxZRRvTEzYHX3-XuiZ5PqYRXQJ4APh3-vmINzcX8MkxEHbD8nyR7DOx84Rd-Ff0xU&usqp=CAU')
   const [showImageUrlInput, setShowImageUrlInput] = useState(false)
   const [activeAgeIndex, setActiveAgeIndex] = useState(null)
   const [activeTypeIndex, setActiveTypeIndex] = useState(null)

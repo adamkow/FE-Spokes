@@ -47,7 +47,8 @@ export default function SignUpScreen() {
           difficulty: 'Novice',
           distance: 'less than 25 km',
           age: '18 - 25',
-          avatar_url: '',
+          avatar_url:
+            'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcS5GOMxZRRvTEzYHX3-XuiZ5PqYRXQJ4APh3-vmINzcX8MkxEHbD8nyR7DOx84Rd-Ff0xU&usqp=CAU',
           rating: 0,
         })
         .then(() => {
@@ -103,12 +104,17 @@ export default function SignUpScreen() {
         }}
         color="#841584"
       />
-      <Text style={styles.signInLink}>
-        Already have an account?{' '}
+      <View style={styles.signUpLink}>
+        <Text style={styles.signInLink}>Already have an account? </Text>
         <Pressable onPress={goToSignIn}>
-          <Text style={styles.link}>Sign In</Text>
+          <Text
+            style={[styles.link, { textDecorationLine: 'underline' }]}
+            className="text-white text-blue-500"
+          >
+            Sign In
+          </Text>
         </Pressable>
-      </Text>
+      </View>
     </View>
   )
 }
@@ -137,6 +143,12 @@ const styles = StyleSheet.create({
     borderColor: isDarkTheme ? 'white' : 'gray',
     borderRadius: 5,
     color: isDarkTheme ? 'white' : 'black',
+  },
+  signUpLink: {
+    flexDirection: 'row',
+    marginTop: 10,
+    alignItems: 'center',
+    justifyContent: 'center',
   },
   signInLink: {
     marginTop: 10,
