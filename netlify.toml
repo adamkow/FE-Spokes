@@ -1,0 +1,4 @@
+[[redirects]]
+  from = "/"
+  to = "/signin"
+  status = 302
