@@ -307,6 +307,7 @@ export default function EditProfile() {
 const styles = StyleSheet.create({
   scrollViewContent: {
     flexGrow: 1,
+    paddingTop: 20,
   },
   container: {
     flex: 1,

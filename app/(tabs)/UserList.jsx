@@ -102,7 +102,9 @@ export default function Users() {
 
         <View className="flex-1 w-full">
           {filteredUsers.length === 0 ? (
-            <Text>No users found.</Text>
+            <View className="flex-1 items-center justify-center">
+              <Text className="text-white text-lg">No users found</Text>
+            </View>
           ) : (
             <FlatList
               data={filteredUsers}

@@ -12,6 +12,7 @@ import { router } from 'expo-router'
 import { useAuth } from '@/contexts/authContext'
 import { deleteUser } from '@/api'
 import { getAuth, deleteUser as deleteFirebaseUser } from 'firebase/auth'
+import { StatusBar } from 'expo-status-bar'
 
 export default function UserProfile({ navigation }) {
   const [userData, setUserData] = useState(null)
@@ -56,7 +57,11 @@ export default function UserProfile({ navigation }) {
   }
 
   return (
-    <View style={{ flex: 1, justifyContent: 'center', alignItems: 'center' }}>
+    <View
+      style={{ flex: 1, justifyContent: 'center', alignItems: 'center' }}
+      className="bg-slate-900 pt-10"
+    >
+      <StatusBar style="light" />
       {userData ? (
         <View style={{ alignItems: 'center' }}>
           <Image
@@ -68,39 +73,42 @@ export default function UserProfile({ navigation }) {
               marginBottom: 10,
             }}
           />
-          <Text style={{ fontSize: 18, marginBottom: 5 }}>{user.username}</Text>
-          <Text style={{ fontSize: 18, marginBottom: 5 }}>{user.email}</Text>
+          <Text style={{ fontSize: 18, marginBottom: 5, color: 'white' }}>
+            {user.username}
+          </Text>
+          <Text style={{ fontSize: 18, marginBottom: 5, color: 'white' }}>
+            {user.email}
+          </Text>
           <View className="flex-col justify-center items-center m-1 gap-1 mb-4">
             <View className="flex-row gap-3">
-              <Text className="font-bold">Bio:</Text>
-              <Text>{user.bio}</Text>
+              <Text className="font-bold  text-white">Bio:</Text>
+              <Text className=" text-white">{user.bio}</Text>
             </View>
             <View className="flex-row gap-3">
-              <Text className="font-bold">Age:</Text>
-              <Text>{user.age}</Text>
+              <Text className="font-bold  text-white">Age:</Text>
+              <Text className=" text-white">{user.age}</Text>
             </View>
             <View className="flex-row gap-3">
-              <Text className="font-bold">Region:</Text>
-              <Text>{user.region}</Text>
+              <Text className="font-bold  text-white">Region:</Text>
+              <Text className=" text-white">{user.region}</Text>
             </View>
             <View className="flex-row gap-3">
-              <Text className="font-bold">City:</Text>
-              <Text>{`${user.city[0].toUpperCase()}${user.city.slice(
+              <Text className="font-bold  text-white">City:</Text>
+              <Text className=" text-white">{`${user.city[0].toUpperCase()}${user.city.slice(
                 1
               )}`}</Text>
             </View>
             <View className="flex-row gap-3">
-              <Text className="font-bold">Preferred distance:</Text>
-              <Text>{user.distance}</Text>
-            </View>
-
-            <View className="flex-row gap-3">
-              <Text className="font-bold">Experience:</Text>
-              <Text>{user.difficulty}</Text>
+              <Text className="font-bold  text-white">Preferred distance:</Text>
+              <Text className=" text-white">{user.distance}</Text>
             </View>
             <View className="flex-row gap-3">
-              <Text className="font-bold">Preferred type:</Text>
-              <Text>{user.type_of_biking}</Text>
+              <Text className="font-bold  text-white">Experience:</Text>
+              <Text className=" text-white">{user.difficulty}</Text>
+            </View>
+            <View className="flex-row gap-3">
+              <Text className="font-bold  text-white">Preferred type:</Text>
+              <Text className=" text-white">{user.type_of_biking}</Text>
             </View>
           </View>
 
@@ -109,7 +117,7 @@ export default function UserProfile({ navigation }) {
               router.push('editProfile')
             }}
             style={{
-              backgroundColor: 'blue',
+              backgroundColor: 'gray',
               padding: 10,
               borderRadius: 5,
               marginTop: 10,
@@ -129,7 +137,7 @@ export default function UserProfile({ navigation }) {
           <TouchableOpacity
             onPress={handleSignOut}
             style={{
-              backgroundColor: 'blue',
+              backgroundColor: 'gray',
               padding: 10,
               borderRadius: 5,
               marginTop: 10,
@@ -143,7 +151,8 @@ export default function UserProfile({ navigation }) {
           </TouchableOpacity>
           <Pressable
             onPress={handleDeleteAccount}
-            style={{ marginTop: 10, backgroundColor: 'red', borderRadius: 5 }}
+            style={{ marginTop: 10, borderRadius: 5 }}
+            className=" bg-red-500"
           >
             <Text
               style={{
