@@ -98,13 +98,17 @@ export default function Users() {
           <Text style={{ color: '#FFFFFF' }}>Filters</Text>
         </Pressable>
         <LocationFilter onSearch={handleLocationSearch} />
-        <FlatList
-          data={filteredUsers}
-          renderItem={({ item }) => (
-            <UserCard user={item} setUserList={setUserList} />
+        {filteredUsers.length === 0 ? (
+          <Text>No users found.</Text>
+        ) : (
+          <FlatList
+            data={filteredUsers}
+            renderItem={({ item }) => (
+              <UserCard user={item} setUserList={setUserList} />
           )}
           keyExtractor={(item) => item.user_id}
         />
+        )}
       </View>
       <FilterUsers
         visible={showFilters}

@@ -8,10 +8,13 @@ import {
   ScrollView,
   Image,
   Text,
+  Alert,
+  Platform,
 } from 'react-native'
 import axios from 'axios'
 import { Picker } from '@react-native-picker/picker'
 import { useAuth } from '@/contexts/authContext'
+import { router } from 'expo-router'
 
 const { width } = Dimensions.get('window')
 const MAX_BUTTON_CONTAINER_WIDTH = 300
@@ -109,7 +112,29 @@ export default function EditProfile() {
     }
   }, [selectedRegion])
 
+  const showAlert = (message, callback) => {
+    if (Platform.OS === 'web') {
+      const confirmSave = window.confirm(message);
+      if (confirmSave) {
+        callback();
+      }
+    } else {
+      Alert.alert(
+        'Confirm',
+        message,
+        [
+          { text: 'Cancel', style: 'cancel' },
+          { text: 'Save', onPress: callback }
+        ]
+      );
+    }
+  };
+  
   const handleSaveChanges = () => {
+    showAlert('Are you sure you want to save the changes?', saveChangesConfirmed);
+  };
+
+  const saveChangesConfirmed = () => {
     const updatedUserData = {
       user_id: user.user_id,
       username: userData ? userData.username : '',
@@ -272,9 +297,9 @@ export default function EditProfile() {
           ))}
         </Picker>
 
-        <TouchableOpacity style={styles.button} onPress={handleSaveChanges}>
-          <Text style={styles.buttonText}>Save Changes</Text>
-        </TouchableOpacity>
+          <TouchableOpacity style={styles.button} onPress={handleSaveChanges}>
+            <Text style={styles.buttonText}>Save Changes</Text>
+          </TouchableOpacity>
       </View>
     </ScrollView>
   )
