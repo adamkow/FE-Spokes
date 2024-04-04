@@ -2,6 +2,8 @@ import { deleteRequest, sendRequest } from '@/api'
 import { useAuth } from '@/contexts/authContext'
 import { useRoute } from '@react-navigation/native'
 import { Pressable, Text } from 'react-native'
+import showAlert from './alerts'
+
 
 export default function SendRequest({
   receiverId,
@@ -14,6 +16,7 @@ export default function SendRequest({
   const route = useRoute()
 
   const handleSendRequest = () => {
+    showAlert('Request sent', '')
     sendRequest(user.user_id, receiverId).then((requestFromApi) => {
       setUserList((currList) => {
         let updatedList = []
