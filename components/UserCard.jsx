@@ -223,9 +223,11 @@ const styles = StyleSheet.create({
     borderWidth: 1,
     padding: 5,
     maxWidth: 230,
+    backgroundColor: '#101be8',
     alignSelf: 'center',
   },
   text: {
+    color: 'white',
     flex: 1,
     textAlign: 'center',
   },
@@ -261,7 +263,7 @@ const styles = StyleSheet.create({
     justifyContent: 'center',
     alignItems: 'center',
     borderRadius: 20,
-    backgroundColor: 'green',
+    backgroundColor: '#06d470',
   },
   declineButton: {
     borderWidth: 1,

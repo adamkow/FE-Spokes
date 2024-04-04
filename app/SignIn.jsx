@@ -33,14 +33,14 @@ export default function SignInScreen() {
       setIsAuthenticated(true)
     }
   }
-  
+
   const goToSignUp = () => {
     router.push('signUp')
-  };
+  }
 
   const handleForgotPassword = () => {
-    router.replace('ForgotPasswordScreen');
-  };
+    router.replace('ForgotPasswordScreen')
+  }
 
   return (
     <View style={styles.container}>
@@ -62,28 +62,33 @@ export default function SignInScreen() {
         secureTextEntry
       />
       <Pressable onPress={handleForgotPassword}>
-        <Text style={{ color: 'white', marginBottom: 10 }}>Forgotten Password?</Text>
+        <Text style={{ color: 'white', marginBottom: 10 }}>
+          Forgotten Password?
+        </Text>
       </Pressable>
       <View style={styles.buttonContainer}>
-      <Button
-        title="Sign In"
-        onPress={handleSignIn}
-        color="#841584" 
-      />
+        <Button title="Sign In" onPress={handleSignIn} color="#841584" />
       </View>
+
+
       <View style={styles.signUpLink}>
         <Text style={styles.signUpText}>Don't have an account? </Text>
         <Pressable onPress={goToSignUp}>
-          <Text style={[styles.link, {textDecorationLine: 'underline'}]} className="text-white text-blue-500">
+          <Text
+            style={[styles.link, { textDecorationLine: 'underline' }]}
+            className="text-white text-blue-500"
+          >
             Sign Up
           </Text>
         </Pressable>
       </View>
+
+      
     </View>
-  );
+  )
 }
 
-const isDarkTheme = true;
+const isDarkTheme = true
 
 const styles = StyleSheet.create({
   container: {
@@ -110,7 +115,7 @@ const styles = StyleSheet.create({
   },
   buttonContainer: {
     alignItems: 'center',
-    marginBottom: 15
+    marginBottom: 15,
   },
   signUpLink: {
     flexDirection: 'row',
@@ -131,10 +136,4 @@ const styles = StyleSheet.create({
   forgotPasswordText: {
     color: 'white',
   },
-});
-
-
-
-
-
-
+})

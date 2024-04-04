@@ -18,7 +18,10 @@ export default function ModalWrapper({
             style={[styles.button, styles.buttonClose]}
             onPress={hideModal}
           >
+
             <Text style={styles.textStyle}>Hide</Text>
+
+
           </Pressable>
         </View>
       </View>

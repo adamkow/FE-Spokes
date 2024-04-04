@@ -20,7 +20,9 @@ export default function CreateUserScreen() {
   const { user, setIsAuthenticated, setUser } = useAuth()
   const [name, setName] = useState('test') //leave empty after
   const [bio, setBio] = useState('test') //leave empty after
-  const [imageUrl, setImageUrl] = useState('https://shorturl.at/altP4')
+  const [imageUrl, setImageUrl] = useState(
+    'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcS5GOMxZRRvTEzYHX3-XuiZ5PqYRXQJ4APh3-vmINzcX8MkxEHbD8nyR7DOx84Rd-Ff0xU&usqp=CAU'
+  )
   const [showImageUrlInput, setShowImageUrlInput] = useState(false)
   const [activeAgeIndex, setActiveAgeIndex] = useState(null)
   const [activeTypeIndex, setActiveTypeIndex] = useState(null)
@@ -180,7 +182,11 @@ export default function CreateUserScreen() {
         </View>
 
         <Text style={styles.heading}>Distance</Text>
-        <View style={styles.buttonContainer}>
+        <ScrollView
+          horizontal={true}
+          showsHorizontalScrollIndicator={false}
+          contentContainerStyle={styles.scrollButtonContainer}
+        >
           {filters.distance.map((distance, index) => (
             <TouchableOpacity
               key={index}
@@ -193,10 +199,14 @@ export default function CreateUserScreen() {
               <Text style={styles.buttonText}>{distance}</Text>
             </TouchableOpacity>
           ))}
-        </View>
+        </ScrollView>
 
         <Text style={styles.heading}>Difficulty</Text>
-        <View style={styles.buttonContainer}>
+        <ScrollView
+          horizontal={true}
+          showsHorizontalScrollIndicator={false}
+          contentContainerStyle={styles.scrollButtonContainer}
+        >
           {filters.difficulty.map((difficulty, index) => (
             <TouchableOpacity
               key={index}
@@ -209,13 +219,13 @@ export default function CreateUserScreen() {
               <Text style={styles.buttonText}>{difficulty}</Text>
             </TouchableOpacity>
           ))}
-        </View>
+        </ScrollView>
 
         <Text style={styles.heading}>Location</Text>
         <View style={styles.dropdownContainer}>
           <Picker
             selectedValue={selectedRegion}
-            style={styles.dropdown}
+            style={[styles.dropdown, { backgroundColor: '#ffffff' }]}
             onValueChange={(itemValue) => {
               setSelectedRegion(itemValue)
               setTowns([])
@@ -231,7 +241,7 @@ export default function CreateUserScreen() {
         <View style={styles.dropdownContainer}>
           <Picker
             selectedValue={selectedTown}
-            style={styles.dropdown}
+            style={[styles.dropdown, { backgroundColor: '#ffffff' }]}
             onValueChange={(itemValue) => setSelectedTown(itemValue)}
             enabled={towns.length > 0}
           >
@@ -243,7 +253,7 @@ export default function CreateUserScreen() {
             style={styles.createAccountButton}
             onPress={postUserData}
           >
-            <Text style={styles.buttonText}>Create Account</Text>
+            <Text style={styles.whitetext}>Create Account</Text>
           </TouchableOpacity>
         </View>
       </View>
@@ -341,11 +351,19 @@ const styles = StyleSheet.create({
     paddingHorizontal: 10,
   },
   createAccountButton: {
-    backgroundColor: '#ffffff',
+    backgroundColor: '#101be8',
     borderRadius: 5,
     paddingVertical: 10,
     paddingHorizontal: 20,
     marginTop: 10,
     alignItems: 'center',
+    color: '#ffffff',
+  },
+  scrollButtonContainer: {
+    alignItems: 'center',
+    paddingVertical: 10,
+  },
+  whitetext: {
+    color: 'white',
   },
 })

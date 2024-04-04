@@ -23,7 +23,9 @@ const MainLayout = () => {
 
   return (
     <Stack>
+      <Stack.Screen name="SignIn" options={{ headerShown: false }} />
       <Stack.Screen name="signUp" options={{ headerShown: false }} />
+      <Stack.Screen name="editProfile" options={{ title: 'Back to profile'}} />
       <Stack.Screen name="(tabs)" options={{ headerShown: false }} />
     </Stack>
   )
