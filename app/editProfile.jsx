@@ -12,6 +12,7 @@ import {
 import axios from 'axios'
 import { Picker } from '@react-native-picker/picker'
 import { useAuth } from '@/contexts/authContext'
+import { router } from 'expo-router'
 
 const { width } = Dimensions.get('window')
 const MAX_BUTTON_CONTAINER_WIDTH = 300
@@ -272,9 +273,17 @@ export default function EditProfile() {
           ))}
         </Picker>
 
-        <TouchableOpacity style={styles.button} onPress={handleSaveChanges}>
-          <Text style={styles.buttonText}>Save Changes</Text>
-        </TouchableOpacity>
+          <TouchableOpacity style={styles.button} onPress={handleSaveChanges}>
+            <Text style={styles.buttonText}>Save Changes</Text>
+          </TouchableOpacity>
+          <TouchableOpacity
+            style={styles.button}
+            onPress={() => {
+              router.push('userProfile')
+            }}
+          >
+            <Text style={styles.buttonText}>Back to Profile</Text>
+          </TouchableOpacity>
       </View>
     </ScrollView>
   )
