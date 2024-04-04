@@ -67,20 +67,21 @@ export default function UserCard({ user, setUserList }) {
     }
   }, [])
   return (
-    <View style={styles.container}>
+    <View
+      style={styles.container}
+      className=" flex border rounded-md bg-gray-200"
+    >
       <Pressable onPress={onPress}>
-        <View style={styles.flexRow}>
-          <View style={styles.imageContainer}>
-            <Image
-              style={styles.image}
-              source={{ uri: user.avatar_url || null }}
-              placeholder={blurhash}
-              contentFit="cover"
-              transition={1000}
-            />
-          </View>
+        <View style={styles.imageContainer}>
+          <Image
+            style={styles.image}
+            source={{ uri: user.avatar_url || null }}
+            placeholder={blurhash}
+            contentFit="cover"
+            transition={1000}
+          />
         </View>
-        <Text style={styles.username}>{user.username}</Text>
+        <Text className="text-center m-2">{user.username}</Text>
 
         <Rating
           currentUserId={user.user_id}
@@ -88,16 +89,19 @@ export default function UserCard({ user, setUserList }) {
           isDisabled={true}
           rating={user.rating}
         />
-        <View style={styles.textContainer}>
-          <Text style={[styles.text, styles.textSpacing]}>
-            {user.difficulty}
-          </Text>
-          <Text style={[styles.text, styles.textSpacing]}>
-            {user.type_of_biking}
-          </Text>
-        </View>
-        <View style={styles.textContainer}>
-          <Text style={styles.text}>{user.distance}</Text>
+        <View className="flex-col justify-center items-center m-1 gap-1">
+          <View className="flex-row gap-3">
+            <Text className="font-bold">Experience:</Text>
+            <Text>{user.difficulty}</Text>
+          </View>
+          <View className="flex-row gap-3">
+            <Text className="font-bold">Preferred type:</Text>
+            <Text>{user.type_of_biking}</Text>
+          </View>
+          <View className="flex-row gap-3">
+            <Text className="font-bold">Preferred distance:</Text>
+            <Text>{user.distance}</Text>
+          </View>
         </View>
       </Pressable>
 
@@ -187,12 +191,8 @@ export default function UserCard({ user, setUserList }) {
 
 const styles = StyleSheet.create({
   container: {
-    margin: 5,
-    padding: 5,
-    borderWidth: 1,
-    width: 400,
-    borderRadius: 20,
-    elevation: 5,
+    margin: 7,
+    padding: 30,
   },
 
   flexRow: {
@@ -218,7 +218,7 @@ const styles = StyleSheet.create({
   },
   textContainer: {
     flexDirection: 'row',
-    justifyContent: 'space-between',
+    gap: 3,
     borderRadius: 30,
     borderWidth: 1,
     padding: 5,

@@ -12,13 +12,13 @@ export default function ModalWrapper({
   return (
     <Modal animationType="none" transparent={true} visible={modalVisible}>
       <View style={styles.centeredView}>
-        <View style={styles.modalView}>
+        <View className="bg-gray-200" style={styles.modalView}>
           {children}
           <Pressable
             style={[styles.button, styles.buttonClose]}
             onPress={hideModal}
           >
-            <Text style={styles.textStyle}>Hide Modal</Text>
+            <Text style={styles.textStyle}>Hide</Text>
           </Pressable>
         </View>
       </View>
@@ -48,7 +48,6 @@ const styles = StyleSheet.create({
   modalView: {
     flex: 1,
     margin: 20,
-    backgroundColor: 'white',
     borderRadius: 20,
     padding: 35,
     alignItems: 'center',
@@ -62,12 +61,13 @@ const styles = StyleSheet.create({
     elevation: 2,
   },
   buttonClose: {
-    backgroundColor: '#2196F3',
+    backgroundColor: '#101be8',
   },
   textStyle: {
-    color: 'white',
     fontWeight: 'bold',
     textAlign: 'center',
+    color: 'white',
+    padding: 5,
   },
   modalText: {
     marginBottom: 15,

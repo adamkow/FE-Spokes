@@ -54,19 +54,20 @@ export default function SendRequest({
     <>
       {!requestSent && (
         <Pressable
-          className="border m-1 p-1 flex items-center rounded-xl bg-green-200"
+          className="m-1 mt-7 p-2 flex items-center rounded-xl bg-green-300"
           onPress={handleSendRequest}
         >
-          <Text>Send request</Text>
+          <Text className="text-grey font-medium">Send request</Text>
         </Pressable>
       )}
 
       {requestSent && (
         <Pressable
-          className="border m-1 p-1 flex items-center rounded-xl  bg-red-300"
+          style={{ backgroundColor: '#eb1313' }}
+          className=" m-1 p-2 flex items-center rounded-xl"
           onPress={handleDeleteRequest}
         >
-          <Text>Unsend request</Text>
+          <Text className="text-white font-medium">Unsend request</Text>
         </Pressable>
       )}
     </>

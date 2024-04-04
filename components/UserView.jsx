@@ -54,8 +54,8 @@ export default function UserView({
     addRoomToChatRooms(roomId, loggedInUserInfo.user_id)
   }
   return (
-    <View className="flex-1 m-5 justify-start items-center gap-3">
-      <Text className="font-bold text-lg">{currUserProfile.username}</Text>
+    <View className="flex-1  justify-center items-center gap-3 bg-gray-200">
+      <Text className="font-bold text-xl">{currUserProfile.username}</Text>
       <Image
         style={styles.image}
         source={{ uri: currUserProfile.avatar_url }}
@@ -66,10 +66,24 @@ export default function UserView({
         rating={currUserProfile.rating}
       />
       <Text className="text-center">{currUserProfile.bio}</Text>
-      <Text>{currUserProfile.city}</Text>
-      <Text>{currUserProfile.type_of_biking}</Text>
-      <Text>{currUserProfile.difficulty}</Text>
-      <Text>{currUserProfile.distance}</Text>
+      <View className="flex-col justify-center items-center m-1 gap-1">
+        <View className="flex-row gap-3">
+          <Text className="font-bold">Location:</Text>
+          <Text>{currUserProfile.city}</Text>
+        </View>
+        <View className="flex-row gap-3">
+          <Text className="font-bold">Experience:</Text>
+          <Text>{currUserProfile.difficulty}</Text>
+        </View>
+        <View className="flex-row gap-3">
+          <Text className="font-bold">Preferred type:</Text>
+          <Text>{currUserProfile.type_of_biking}</Text>
+        </View>
+        <View className="flex-row gap-3">
+          <Text className="font-bold">Preferred distance:</Text>
+          <Text>{currUserProfile.distance}</Text>
+        </View>
+      </View>
       {isFriend ? (
         <View className="flex-row">
           <Link
@@ -122,8 +136,8 @@ export default function UserView({
 
 const styles = StyleSheet.create({
   image: {
-    width: 100,
-    height: 100,
+    width: 200,
+    height: 200,
     backgroundColor: '#0553',
     borderRadius: 50,
   },

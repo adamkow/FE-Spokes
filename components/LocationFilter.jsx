@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react'
-import { View, Button } from 'react-native'
+import { View, Button, Pressable, Text } from 'react-native'
 import axios from 'axios'
 import { Picker } from '@react-native-picker/picker'
 
@@ -60,11 +60,23 @@ const LocationFilter = ({ onSearch }) => {
 
   return (
     <View style={styles.container}>
-      <Button
-        title={showDropdowns ? 'Hide Location' : 'Show Location'}
+      <Pressable
         onPress={toggleDropdowns}
-        color="#2D23FF"
-      />
+        style={{
+          alignItems: 'center',
+          justifyContent: 'center',
+          padding: 10,
+          backgroundColor: '#2D23FF',
+          width: 200,
+          marginTop: 20,
+          borderRadius: 10,
+          marginBottom: 10,
+        }}
+      >
+        <Text className="text-white">
+          {showDropdowns ? 'Hide Location' : 'Show Location'}
+        </Text>
+      </Pressable>
       {showDropdowns && (
         <>
           <View style={styles.dropdownContainer}>
@@ -107,6 +119,7 @@ const styles = {
   },
   dropdownContainer: {
     marginBottom: 10,
+    backgroundColor: 'white',
   },
   dropdown: {
     height: 40,
