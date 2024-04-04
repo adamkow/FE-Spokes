@@ -1,6 +1,7 @@
 import { patchRating } from '@/api'
 import axios from 'axios'
 import { useEffect, useState } from 'react'
+import { View } from 'react-native'
 import { AirbnbRating } from 'react-native-ratings'
 
 export default function Rating({
@@ -12,11 +13,13 @@ export default function Rating({
   const [notActive, setNotActive] = useState(isDisabled)
   const [newRating, setNewRating] = useState(rating)
   const [displayedRating, setDisplayedRating] = useState(rating)
-  
 
   const onRatingChange = (newRating) => {
-
-    axios.patch(`https://spokes-yrzx.onrender.com/api/users/${currentUserId}/rating`, {new_rating: newRating})
+    axios
+      .patch(
+        `https://spokes-yrzx.onrender.com/api/users/${currentUserId}/rating`,
+        { new_rating: newRating }
+      )
       .then((userFromAPI) => {
         setNewRating(userFromAPI.rating)
         setNotActive(true)
@@ -26,16 +29,18 @@ export default function Rating({
 
   useEffect(() => {
     setDisplayedRating(newRating)
-  }, [newRating]);
+  }, [newRating])
 
   return (
-    <AirbnbRating
-      showRating={false}
-      count={5}
-      defaultRating={displayedRating}
-      size={20}
-      isDisabled={notActive}
-      onFinishRating={onRatingChange}
-    />
+    <View className="m-2">
+      <AirbnbRating
+        showRating={false}
+        count={5}
+        defaultRating={displayedRating}
+        size={20}
+        isDisabled={notActive}
+        onFinishRating={onRatingChange}
+      />
+    </View>
   )
 }

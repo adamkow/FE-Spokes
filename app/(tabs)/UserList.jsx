@@ -79,7 +79,7 @@ export default function Users() {
           flex: 1,
           paddingTop: 5,
           alignItems: 'center',
-          backgroundColor: 'ccc',
+          backgroundColor: 'black',
         }}
       >
         <Pressable
@@ -89,26 +89,31 @@ export default function Users() {
             padding: 10,
             backgroundColor: '#2D23FF',
             width: 100,
-            marginTop: 30,
             borderRadius: 10,
-            marginBottom: 10,
           }}
           onPress={() => setShowFilters(true)}
         >
-          <Text style={{ color: '#FFFFFF' }}>Filters</Text>
+          <Text className="text-white">Filters</Text>
         </Pressable>
         <LocationFilter onSearch={handleLocationSearch} />
+
+
+        <View className="flex-1 w-full">
+
         {filteredUsers.length === 0 ? (
           <Text>No users found.</Text>
         ) : (
+
           <FlatList
             data={filteredUsers}
             renderItem={({ item }) => (
               <UserCard user={item} setUserList={setUserList} />
-          )}
-          keyExtractor={(item) => item.user_id}
-        />
-        )}
+
+            )}
+            keyExtractor={(item) => item.user_id}
+          />
+        </View>
+
       </View>
       <FilterUsers
         visible={showFilters}
