@@ -91,7 +91,7 @@ export default function UserView({
               pathname: 'messages',
               params: { chat_room: roomId },
             }}
-            className="border m-1 p-2 flex items-center justify-center rounded-xl bg-green-50 "
+            className="m-1 mt-7 p-2 px-8 flex items-center rounded-xl bg-green-300 "
             onClick={handleRoom}
           >
             <Text>Chat</Text>
@@ -100,22 +100,23 @@ export default function UserView({
             onPress={() => {
               setRatingModalVisible(true)
             }}
-            className="border m-1 p-2 flex items-center rounded-xl bg-blue-50 "
+            style={{ backgroundColor: '#2D23FF' }}
+            className="m-1 mt-7 p-2 px-8 flex items-center rounded-xl"
           >
-            <Text>Rate</Text>
+            <Text className="text-white">Rate</Text>
           </Pressable>
         </View>
       ) : isSender ? (
         <View className="flex-row gap-4 justify-center">
           <Pressable
-            className="border m-1 p-2 flex items-center rounded-xl bg-green-50 "
+            className="m-1 mt-7 p-2 px-8 flex items-center rounded-xl bg-green-300"
             onPress={() => changeRequestStatus({ status: 'accepted' })}
           >
             <Text>Accept</Text>
           </Pressable>
 
           <Pressable
-            className="border m-1 p-2 flex items-center rounded-xl bg-red-50"
+            className="m-1 mt-7 p-2 px-8 flex items-center rounded-xl bg-red-500"
             onPress={() => changeRequestStatus({ status: 'rejected' })}
           >
             <Text>Decline</Text>

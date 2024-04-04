@@ -114,25 +114,24 @@ export default function EditProfile() {
 
   const showAlert = (message, callback) => {
     if (Platform.OS === 'web') {
-      const confirmSave = window.confirm(message);
+      const confirmSave = window.confirm(message)
       if (confirmSave) {
-        callback();
+        callback()
       }
     } else {
-      Alert.alert(
-        'Confirm',
-        message,
-        [
-          { text: 'Cancel', style: 'cancel' },
-          { text: 'Save', onPress: callback }
-        ]
-      );
+      Alert.alert('Confirm', message, [
+        { text: 'Cancel', style: 'cancel' },
+        { text: 'Save', onPress: callback },
+      ])
     }
-  };
-  
+  }
+
   const handleSaveChanges = () => {
-    showAlert('Are you sure you want to save the changes?', saveChangesConfirmed);
-  };
+    showAlert(
+      'Are you sure you want to save the changes?',
+      saveChangesConfirmed
+    )
+  }
 
   const saveChangesConfirmed = () => {
     const updatedUserData = {
@@ -297,9 +296,9 @@ export default function EditProfile() {
           ))}
         </Picker>
 
-          <TouchableOpacity style={styles.button} onPress={handleSaveChanges}>
-            <Text style={styles.buttonText}>Save Changes</Text>
-          </TouchableOpacity>
+        <TouchableOpacity style={styles.button} onPress={handleSaveChanges}>
+          <Text style={styles.buttonText}>Save Changes</Text>
+        </TouchableOpacity>
       </View>
     </ScrollView>
   )

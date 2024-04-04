@@ -1,6 +1,6 @@
 import { View, Text, Pressable, StyleSheet, Image } from 'react-native'
 import React from 'react'
-import { Stack, Tabs, router } from 'expo-router'
+import { router } from 'expo-router'
 import FontAwesome from '@expo/vector-icons/FontAwesome'
 import { blurhash } from '@/utilis/common'
 

@@ -69,20 +69,42 @@ export default function UserProfile({ navigation }) {
               marginBottom: 10,
             }}
           />
-          <Text style={{ fontSize: 18, marginBottom: 5 }}>
-            Name: {user.username}
-          </Text>
-          <Text style={{ fontSize: 18, marginBottom: 5 }}>
-            Email: {user.email}
-          </Text>
-          <Text style={{ fontSize: 18, marginBottom: 5 }}>Age: {user.age}</Text>
-          <Text style={{ fontSize: 18, marginBottom: 5 }}>
-            Region: {user.region}
-          </Text>
-          <Text style={{ fontSize: 18, marginBottom: 5 }}>
-            City: {user.city}
-          </Text>
-          <Text style={{ fontSize: 18, marginBottom: 5 }}>Bio: {user.bio}</Text>
+          <Text style={{ fontSize: 18, marginBottom: 5 }}>{user.username}</Text>
+          <Text style={{ fontSize: 18, marginBottom: 5 }}>{user.email}</Text>
+          <View className="flex-col justify-center items-center m-1 gap-1 mb-4">
+            <View className="flex-row gap-3">
+              <Text className="font-bold">Bio:</Text>
+              <Text>{user.bio}</Text>
+            </View>
+            <View className="flex-row gap-3">
+              <Text className="font-bold">Age:</Text>
+              <Text>{user.age}</Text>
+            </View>
+            <View className="flex-row gap-3">
+              <Text className="font-bold">Region:</Text>
+              <Text>{user.region}</Text>
+            </View>
+            <View className="flex-row gap-3">
+              <Text className="font-bold">City:</Text>
+              <Text>{`${user.city[0].toUpperCase()}${user.city.slice(
+                1
+              )}`}</Text>
+            </View>
+            <View className="flex-row gap-3">
+              <Text className="font-bold">Preferred distance:</Text>
+              <Text>{user.distance}</Text>
+            </View>
+
+            <View className="flex-row gap-3">
+              <Text className="font-bold">Experience:</Text>
+              <Text>{user.difficulty}</Text>
+            </View>
+            <View className="flex-row gap-3">
+              <Text className="font-bold">Preferred type:</Text>
+              <Text>{user.type_of_biking}</Text>
+            </View>
+          </View>
+
           <TouchableOpacity
             onPress={() => {
               router.push('editProfile')

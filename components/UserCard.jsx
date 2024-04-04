@@ -89,7 +89,7 @@ export default function UserCard({ user, setUserList }) {
           isDisabled={true}
           rating={user.rating}
         />
-        <View className="flex-col justify-center items-center m-1 gap-1">
+        <View className="flex-col justify-center items-center m-1 gap-1 mb-4">
           <View className="flex-row gap-3">
             <Text className="font-bold">Experience:</Text>
             <Text>{user.difficulty}</Text>
@@ -112,19 +112,20 @@ export default function UserCard({ user, setUserList }) {
               pathname: 'messages',
               params: { chat_room: roomId },
             }}
-            style={styles.link}
+            className="m-1 mt-7 p-2 rounded-xl bg-green-300 text-center"
             onPress={prepareChatRoom}
           >
-            <Text>Chat</Text>
+            <Text className="text-gray">Chat</Text>
           </Link>
 
           <Pressable
             onPress={() => {
               setRatingModalVisible(true)
             }}
-            style={styles.rateButton}
+            style={{ backgroundColor: '#2D23FF' }}
+            className="m-1 mt-7 p-2 flex items-center rounded-xl"
           >
-            <Text>Rate</Text>
+            <Text className="text-white">Rate</Text>
           </Pressable>
 
           <ModalWrapper
@@ -142,16 +143,16 @@ export default function UserCard({ user, setUserList }) {
       ) : (
         <>
           {loggedInUserInfo.user_id === user.receiver_id ? (
-            <View style={styles.flexRow}>
+            <View className="flex-row justify-center gap-8">
               <Pressable
-                style={styles.acceptButton}
+                className="m-1 mt-7 p-2 px-8 flex items-center rounded-xl bg-green-300"
                 onPress={() => changeRequestStatus({ status: 'accepted' })}
               >
                 <Text>Accept</Text>
               </Pressable>
 
               <Pressable
-                style={styles.declineButton}
+                className="m-1 mt-7 p-2 px-8 flex items-center rounded-xl bg-red-500"
                 onPress={() => changeRequestStatus({ status: 'rejected' })}
               >
                 <Text>Decline</Text>
@@ -193,13 +194,6 @@ const styles = StyleSheet.create({
   container: {
     margin: 7,
     padding: 30,
-  },
-
-  flexRow: {
-    flexDirection: 'row',
-    justifyContent: 'space-between',
-    alignItems: 'center',
-    marginBottom: 3,
   },
   image: {
     flex: 1,
@@ -254,25 +248,5 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     borderRadius: 20,
     backgroundColor: 'blue',
-  },
-  acceptButton: {
-    borderWidth: 1,
-    margin: 1,
-    padding: 2,
-    flexDirection: 'row',
-    justifyContent: 'center',
-    alignItems: 'center',
-    borderRadius: 20,
-    backgroundColor: '#06d470',
-  },
-  declineButton: {
-    borderWidth: 1,
-    margin: 1,
-    padding: 2,
-    flexDirection: 'row',
-    justifyContent: 'center',
-    alignItems: 'center',
-    borderRadius: 20,
-    backgroundColor: 'red',
   },
 })

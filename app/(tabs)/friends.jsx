@@ -32,7 +32,7 @@ export default function Friends() {
   }, [requestsType, showFriends])
 
   return (
-    <View className="flex-1 m-5 ">
+    <View className="flex-1 bg-slate-900">
       <View className="flex-row gap-20 m-5 items-center">
         <Pressable
           onPress={() => {
@@ -42,7 +42,9 @@ export default function Friends() {
         >
           <Text
             className={`${
-              showFriends ? 'bg-slate-500 p-2 rounded-sm text-white' : null
+              showFriends
+                ? 'bg-slate-500 p-2 rounded-sm text-white'
+                : 'text-white'
             }`}
           >
             Friends
@@ -56,7 +58,9 @@ export default function Friends() {
         >
           <Text
             className={`${
-              showRequests ? 'bg-slate-500 p-2 rounded-sm text-white' : null
+              showRequests
+                ? 'bg-slate-500 p-2 rounded-sm text-white'
+                : 'text-white'
             }`}
           >
             Requests

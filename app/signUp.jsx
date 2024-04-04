@@ -1,4 +1,3 @@
-import { auth, firebaseConfig } from '../firebaseConfig'
 import React, { useState } from 'react'
 import {
   StyleSheet,

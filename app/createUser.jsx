@@ -18,8 +18,8 @@ const MAX_BUTTON_CONTAINER_WIDTH = 300
 
 export default function CreateUserScreen() {
   const { user, setIsAuthenticated, setUser } = useAuth()
-  const [name, setName] = useState('test') //leave empty after
-  const [bio, setBio] = useState('test') //leave empty after
+  const [name, setName] = useState('')
+  const [bio, setBio] = useState('')
   const [imageUrl, setImageUrl] = useState(
     'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcS5GOMxZRRvTEzYHX3-XuiZ5PqYRXQJ4APh3-vmINzcX8MkxEHbD8nyR7DOx84Rd-Ff0xU&usqp=CAU'
   )
@@ -99,7 +99,7 @@ export default function CreateUserScreen() {
         email: user.email,
         bio: bio,
         region: selectedRegion,
-        city: selectedTown,
+        city: selectedTown.toLowerCase(),
         type_of_biking: filters.type[activeTypeIndex],
         difficulty: filters.difficulty[activeDifficultyIndex],
         distance: filters.distance[activeDistanceIndex],

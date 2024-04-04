@@ -42,7 +42,7 @@ export default function RequestsView({
         <>
           <View className="flex justify-center ">
             <FlatList
-              style={{ marginBottom: 20 }}
+              style={{ marginBottom: 200 }}
               contentContainerStyle={{ paddingBottom: 100 }}
               data={requestsData}
               renderItem={({ item }) => (

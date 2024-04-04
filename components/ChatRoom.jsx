@@ -69,7 +69,7 @@ export default function ChatRoom() {
   }
 
   return (
-    <View className="flex-1">
+    <View className="flex-1 bg-black">
       <ChatRoomHeader user={userToDisplay} />
       <View className=" border-b border-neutral-300" />
       <View className="flex-1 justify-between bg-neutral-100 overflow-visible">

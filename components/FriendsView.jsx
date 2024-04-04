@@ -11,12 +11,16 @@ export default function FriendsView({ requestsData, loading }) {
   return (
     <>
       {requestsData.length === 0 ? (
-        <Link href="UserList" className="border m-1 p-2 rounded-xl bg-green-50">
-          <Text>Look for friends</Text>
+        <Link
+          href="UserList"
+          className="text-center border mx-5 p-3 rounded-md"
+          style={{ backgroundColor: '#101be8' }}
+        >
+          <Text className="text-white">Look for friends</Text>
         </Link>
       ) : (
         <FlatList
-          style={{ marginBottom: 20 }}
+          style={{ marginBottom: 100 }}
           contentContainerStyle={{ paddingBottom: 100 }}
           data={requestsData}
           renderItem={({ item }) => <UserCard user={item} />}

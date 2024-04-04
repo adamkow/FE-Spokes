@@ -79,8 +79,8 @@ export default function Users() {
           flex: 1,
           paddingTop: 5,
           alignItems: 'center',
-          backgroundColor: 'black',
         }}
+        className="bg-slate-900"
       >
         <Pressable
           style={{

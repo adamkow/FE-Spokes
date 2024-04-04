@@ -4,7 +4,6 @@ import { useRoute } from '@react-navigation/native'
 import { Pressable, Text } from 'react-native'
 import showAlert from './alerts'
 
-
 export default function SendRequest({
   receiverId,
   setRequestSent,
@@ -66,8 +65,7 @@ export default function SendRequest({
 
       {requestSent && (
         <Pressable
-          style={{ backgroundColor: '#eb1313' }}
-          className=" m-1 p-2 flex items-center rounded-xl"
+          className="m-1 mt-7 p-2 flex items-center rounded-xl bg-red-500"
           onPress={handleDeleteRequest}
         >
           <Text className="text-white font-medium">Unsend request</Text>
