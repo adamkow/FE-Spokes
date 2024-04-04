@@ -34,9 +34,10 @@ export default function RequestsView({
       {requestsData.length === 0 ? (
         <Link
           href="UserList"
-          className="border m-1 text-center p-2 rounded-xl bg-green-50"
+          className="text-center border mx-5 p-3 rounded-md"
+          style={{ backgroundColor: '#101be8' }}
         >
-          <Text>Send some requests</Text>
+          <Text className="text-white">Send some requests</Text>
         </Link>
       ) : (
         <>

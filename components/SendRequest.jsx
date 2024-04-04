@@ -56,7 +56,7 @@ export default function SendRequest({
     <>
       {!requestSent && (
         <Pressable
-          className="m-1 mt-7 p-2 flex items-center rounded-xl bg-green-300"
+          className="m-1 mt-7 px-4 p-2 flex items-center rounded-md bg-green-300"
           onPress={handleSendRequest}
         >
           <Text className="text-grey font-medium">Send request</Text>
@@ -65,7 +65,7 @@ export default function SendRequest({
 
       {requestSent && (
         <Pressable
-          className="m-1 mt-7 p-2 flex items-center rounded-xl bg-red-500"
+          className="m-1 mt-7 px-4 p-2 flex items-center rounded-md bg-red-500"
           onPress={handleDeleteRequest}
         >
           <Text className="text-white font-medium">Unsend request</Text>

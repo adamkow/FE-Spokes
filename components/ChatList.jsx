@@ -14,7 +14,7 @@ export default function ChatList({ chatRooms }) {
   } else {
     return (
       <View className="flex-1 justify-center items-center">
-        <Text>There are no messages yet</Text>
+        <Text className="text-white">There are no messages yet</Text>
       </View>
     )
   }

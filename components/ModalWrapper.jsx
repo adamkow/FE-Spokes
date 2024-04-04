@@ -17,6 +17,7 @@ export default function ModalWrapper({
           <Pressable
             style={[styles.button, styles.buttonClose]}
             onPress={hideModal}
+            className="mt-10 rounded-md"
           >
             <Text className="px-7 text-white">Hide</Text>
           </Pressable>
@@ -29,8 +30,9 @@ export default function ModalWrapper({
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    alignItems: 'start',
+    alignItems: 'center',
     justifyContent: 'center',
+    margin: 50,
   },
   image: {
     flex: 1,
@@ -43,7 +45,7 @@ const styles = StyleSheet.create({
     flex: 1,
     justifyContent: 'center',
     alignItems: 'center',
-    marginTop: 22,
+    marginTop: -20,
   },
   modalView: {
     flex: 1,
@@ -58,7 +60,6 @@ const styles = StyleSheet.create({
   button: {
     borderRadius: 20,
     padding: 10,
-    elevation: 2,
   },
   buttonClose: {
     backgroundColor: '#101be8',

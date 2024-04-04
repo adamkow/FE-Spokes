@@ -6,6 +6,7 @@ import {
   ActivityIndicator,
   TouchableOpacity,
   Pressable,
+  ScrollView,
 } from 'react-native'
 import axios from 'axios'
 import { router } from 'expo-router'
@@ -57,9 +58,15 @@ export default function UserProfile({ navigation }) {
   }
 
   return (
-    <View
-      style={{ flex: 1, justifyContent: 'center', alignItems: 'center' }}
-      className="bg-slate-900 pt-10"
+    <ScrollView
+      contentContainerStyle={{
+        flexGrow: 1,
+        justifyContent: 'center',
+        alignItems: 'center',
+        paddingBottom: 100,
+        marginBottom: 200,
+      }}
+      className="bg-slate-900 pt-20 pb-10"
     >
       <StatusBar style="light" />
       {userData ? (
@@ -80,7 +87,7 @@ export default function UserProfile({ navigation }) {
             {user.email}
           </Text>
           <View className="flex-col justify-center items-center m-1 gap-1 mb-4">
-            <View className="flex-row gap-3">
+            <View className="flex-row gap-3 px-10">
               <Text className="font-bold  text-white">Bio:</Text>
               <Text className=" text-white">{user.bio}</Text>
             </View>
@@ -169,6 +176,6 @@ export default function UserProfile({ navigation }) {
       ) : (
         <ActivityIndicator size="large" color="#0000ff" />
       )}
-    </View>
+    </ScrollView>
   )
 }

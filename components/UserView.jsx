@@ -1,4 +1,11 @@
-import { View, Text, StyleSheet, Image, Pressable } from 'react-native'
+import {
+  View,
+  Text,
+  StyleSheet,
+  Image,
+  Pressable,
+  ScrollView,
+} from 'react-native'
 import React, { useContext, useEffect, useState } from 'react'
 import { Link, useLocalSearchParams } from 'expo-router'
 import { getUserByUserID } from '@/api'
@@ -123,13 +130,15 @@ export default function UserView({
           </Pressable>
         </View>
       ) : (
-        <SendRequest
-          receiverId={currUserProfile.user_id}
-          setRequestSent={setRequestSent}
-          requestSent={requestSent}
-          setUserList={setUserList}
-          requestId={requestId}
-        />
+        <View>
+          <SendRequest
+            receiverId={currUserProfile.user_id}
+            setRequestSent={setRequestSent}
+            requestSent={requestSent}
+            setUserList={setUserList}
+            requestId={requestId}
+          />
+        </View>
       )}
     </View>
   )
