@@ -24,7 +24,7 @@ export default function TabLayout() {
           headerShown: false,
           unmountOnBlur: true,
           tabBarIcon: ({ color }) => (
-            <FontAwesome size={28} name="user" color={color} />
+            <FontAwesome size={28} name="users" color={color} />
           ),
         }}
       />
@@ -47,6 +47,18 @@ export default function TabLayout() {
           ),
         }}
       />
+            <Tabs.Screen
+        name="userProfile"
+        options={{
+          title: 'Profile',
+          headerShown: false,
+          unmountOnBlur: true,
+          tabBarIcon: ({ color }) => (
+            <FontAwesome size={28} name="user" color={color} />
+          ),
+        }}
+      />
     </Tabs>
+    
   )
 }
