@@ -300,14 +300,6 @@ export default function EditProfile() {
           <TouchableOpacity style={styles.button} onPress={handleSaveChanges}>
             <Text style={styles.buttonText}>Save Changes</Text>
           </TouchableOpacity>
-          <TouchableOpacity
-            style={styles.button}
-            onPress={() => {
-              router.push('userProfile')
-            }}
-          >
-            <Text style={styles.buttonText}>Back to Profile</Text>
-          </TouchableOpacity>
       </View>
     </ScrollView>
   )
