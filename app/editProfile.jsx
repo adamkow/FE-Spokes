@@ -159,13 +159,14 @@ export default function EditProfile() {
         )}
 
         <TextInput
-          style={styles.input}
+          style={[styles.input, styles.centeredText]}
           value={userData ? userData.username : ''}
           onChangeText={(text) => setUserData({ ...userData, username: text })}
           placeholder="Username"
         />
+
         <TextInput
-          style={styles.input}
+          style={[styles.input, styles.centeredText]}
           value={userData ? userData.email : ''}
           onChangeText={(text) => setUserData({ ...userData, email: text })}
           placeholder="Email"
@@ -210,41 +211,45 @@ export default function EditProfile() {
         </View>
 
         <Text style={styles.heading}>Distance</Text>
-        <View style={styles.buttonContainer}>
-          {filters.distance.map((distance, index) => (
-            <TouchableOpacity
-              key={index}
-              style={[
-                styles.button,
-                activeDistanceIndex === index ? styles.activeButton : null,
-              ]}
-              onPress={() => setActiveDistanceIndex(index)}
-            >
-              <Text style={styles.buttonText}>{distance}</Text>
-            </TouchableOpacity>
-          ))}
-        </View>
+        <ScrollView horizontal={true} showsHorizontalScrollIndicator={false}>
+          <View style={styles.horizontalButtonContainer}>
+            {filters.distance.map((distance, index) => (
+              <TouchableOpacity
+                key={index}
+                style={[
+                  styles.button,
+                  activeDistanceIndex === index ? styles.activeButton : null,
+                ]}
+                onPress={() => setActiveDistanceIndex(index)}
+              >
+                <Text style={styles.buttonText}>{distance}</Text>
+              </TouchableOpacity>
+            ))}
+          </View>
+        </ScrollView>
 
         <Text style={styles.heading}>Difficulty</Text>
-        <View style={styles.buttonContainer}>
-          {filters.difficulty.map((difficulty, index) => (
-            <TouchableOpacity
-              key={index}
-              style={[
-                styles.button,
-                activeDifficultyIndex === index ? styles.activeButton : null,
-              ]}
-              onPress={() => setActiveDifficultyIndex(index)}
-            >
-              <Text style={styles.buttonText}>{difficulty}</Text>
-            </TouchableOpacity>
-          ))}
-        </View>
+        <ScrollView horizontal={true} showsHorizontalScrollIndicator={false}>
+          <View style={styles.horizontalButtonContainer}>
+            {filters.difficulty.map((difficulty, index) => (
+              <TouchableOpacity
+                key={index}
+                style={[
+                  styles.button,
+                  activeDifficultyIndex === index ? styles.activeButton : null,
+                ]}
+                onPress={() => setActiveDifficultyIndex(index)}
+              >
+                <Text style={styles.buttonText}>{difficulty}</Text>
+              </TouchableOpacity>
+            ))}
+          </View>
+        </ScrollView>
 
         <Text style={styles.heading}>Region</Text>
         <Picker
           selectedValue={selectedRegion}
-          style={{ height: 50, width: 150 }}
+          style={[styles.picker, { width: 200 }]}
           onValueChange={(itemValue, itemIndex) => {
             setSelectedRegion(itemValue)
           }}
@@ -257,7 +262,7 @@ export default function EditProfile() {
         <Text style={styles.heading}>Town/City</Text>
         <Picker
           selectedValue={selectedTown}
-          style={{ height: 50, width: 150 }}
+          style={[styles.picker, { width: 200 }]}
           onValueChange={(itemValue, itemIndex) => {
             setSelectedTown(itemValue)
           }}
@@ -312,10 +317,12 @@ const styles = StyleSheet.create({
     margin: 5,
     borderWidth: 1,
     borderColor: '#ccc',
+    minHeight: 40,
   },
   activeButton: {
     borderColor: 'blue',
     borderWidth: 2,
+    paddingVertical: 9,
   },
   buttonText: {
     textAlign: 'center',
@@ -347,5 +354,21 @@ const styles = StyleSheet.create({
     textAlign: 'center',
     lineHeight: 30,
     fontSize: 20,
+  },
+  horizontalButtonContainer: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    marginVertical: 10,
+  },
+  picker: {
+    height: 50,
+    width: 150,
+    borderWidth: 1,
+    borderColor: '#ccc',
+    marginBottom: 10,
+    backgroundColor: 'white',
+  },
+  centeredText: {
+    textAlign: 'center',
   },
 })

@@ -74,7 +74,14 @@ export default function Users() {
   }
   return (
     <>
-      <View style={{ flex: 1, paddingTop: 5, alignItems: 'center' }}>
+      <View
+        style={{
+          flex: 1,
+          paddingTop: 5,
+          alignItems: 'center',
+          backgroundColor: 'ccc',
+        }}
+      >
         <Pressable
           style={{
             alignItems: 'center',
