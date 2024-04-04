@@ -40,6 +40,15 @@ function FilterUsers({ visible, onClose, onUpdateFilters }) {
     onClose()
   }
 
+  const handleReset = () => {
+    setSelectedFilters({
+      age: '',
+      type: '',
+      distance: '',
+      difficulty: '',
+    });
+  }
+
   return (
     <Modal
       animationType="slide"
@@ -82,6 +91,9 @@ function FilterUsers({ visible, onClose, onUpdateFilters }) {
 
         <TouchableOpacity style={styles.closeButton} onPress={onClose}>
           <Text style={styles.closeButtonText}>Close</Text>
+        </TouchableOpacity>
+        <TouchableOpacity style={styles.resetButton} onPress={handleReset}>
+          <Text>Reset</Text>
         </TouchableOpacity>
       </View>
     </Modal>
@@ -142,6 +154,11 @@ const styles = StyleSheet.create({
     color: 'white',
     textAlign: 'center',
   },
+  resetButton: {
+    padding: 10,
+    borderRadius: 5,
+    marginTop: 10,
+  }
 })
 
 export default FilterUsers
