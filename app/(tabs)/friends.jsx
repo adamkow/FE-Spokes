@@ -4,6 +4,7 @@ import { getRequestsData } from '@/api'
 import RequestsView from '@/components/RequestsView'
 import FriendsView from '@/components/FriendsView'
 import { useAuth } from '@/contexts/authContext'
+import { StatusBar } from 'expo-status-bar'
 
 export default function Friends() {
   const [requestsData, setRequestsData] = useState([])
@@ -33,6 +34,7 @@ export default function Friends() {
 
   return (
     <View className="flex-1 bg-slate-900">
+      <StatusBar style="light" />
       <View className="flex-row gap-20 m-5 items-center">
         <Pressable
           onPress={() => {

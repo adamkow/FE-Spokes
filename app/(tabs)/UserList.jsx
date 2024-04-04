@@ -6,6 +6,7 @@ import FilterUsers from '../../components/FilterUsers'
 import LocationFilter from '@/components/LocationFilter'
 import { useAuth } from '@/contexts/authContext'
 import Loading from '@/components/Loading'
+import { StatusBar } from 'expo-status-bar'
 
 export default function Users() {
   const [userList, setUserList] = useState([])
@@ -74,6 +75,7 @@ export default function Users() {
   }
   return (
     <>
+      <StatusBar style="light" />
       <View
         style={{
           flex: 1,
@@ -90,6 +92,7 @@ export default function Users() {
             backgroundColor: '#2D23FF',
             width: 100,
             borderRadius: 10,
+            marginTop: 30,
           }}
           onPress={() => setShowFilters(true)}
         >

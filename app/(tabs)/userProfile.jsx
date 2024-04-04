@@ -5,7 +5,6 @@ import {
   Image,
   ActivityIndicator,
   TouchableOpacity,
-  Button,
   Pressable,
 } from 'react-native'
 import axios from 'axios'
