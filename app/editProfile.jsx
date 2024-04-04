@@ -8,6 +8,8 @@ import {
   ScrollView,
   Image,
   Text,
+  Alert,
+  Platform,
 } from 'react-native'
 import axios from 'axios'
 import { Picker } from '@react-native-picker/picker'
@@ -109,7 +111,29 @@ export default function EditProfile() {
     }
   }, [selectedRegion])
 
+  const showAlert = (message, callback) => {
+    if (Platform.OS === 'web') {
+      const confirmSave = window.confirm(message);
+      if (confirmSave) {
+        callback();
+      }
+    } else {
+      Alert.alert(
+        'Confirm',
+        message,
+        [
+          { text: 'Cancel', style: 'cancel' },
+          { text: 'Save', onPress: callback }
+        ]
+      );
+    }
+  };
+  
   const handleSaveChanges = () => {
+    showAlert('Are you sure you want to save the changes?', saveChangesConfirmed);
+  };
+
+  const saveChangesConfirmed = () => {
     const updatedUserData = {
       user_id: user.user_id,
       username: userData ? userData.username : '',
