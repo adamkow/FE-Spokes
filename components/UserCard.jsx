@@ -132,12 +132,14 @@ export default function UserCard({ user, setUserList }) {
             modalVisible={ratingModalVisible}
             setModalVisible={setRatingModalVisible}
           >
-            <Rating
-              currentUserId={user.user_id}
-              ratingCount={user.rating_count}
-              isDisabled={false}
-              rating={0}
-            />
+            <View className="flex-1 justify-center">
+              <Rating
+                currentUserId={user.user_id}
+                ratingCount={user.rating_count}
+                isDisabled={false}
+                rating={0}
+              />
+            </View>
           </ModalWrapper>
         </View>
       ) : (

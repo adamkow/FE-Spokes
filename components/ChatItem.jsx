@@ -56,7 +56,7 @@ export default function ChatItem({ item }) {
         pathname: 'messages',
         params: { chat_room: item.chatRoomId },
       }}
-      className="border-b bg-slate-50 border-neutral-200 mx-3 my-1 p-2"
+      className="border-b bg-gray-200 border-neutral-200 mx-3 my-1 p-2 rounded-md"
     >
       <View className="flex-row">
         <Image
