@@ -1,4 +1,4 @@
-import { Text, FlatList } from 'react-native'
+import { Text, FlatList, View } from 'react-native'
 import React from 'react'
 import { Link } from 'expo-router'
 import UserCard from './UserCard'
@@ -19,13 +19,14 @@ export default function FriendsView({ requestsData, loading }) {
           <Text className="text-white">Look for friends</Text>
         </Link>
       ) : (
-        <FlatList
-          style={{ marginBottom: 100 }}
-          contentContainerStyle={{ paddingBottom: 100 }}
-          data={requestsData}
-          renderItem={({ item }) => <UserCard user={item} />}
-          keyExtractor={(item) => item.user_id}
-        />
+        <View className="flex-1 justify-center">
+          <FlatList
+            scrollEnabled={true}
+            data={requestsData}
+            renderItem={({ item }) => <UserCard user={item} />}
+            keyExtractor={(item) => item.user_id}
+          />
+        </View>
       )}
     </>
   )

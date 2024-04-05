@@ -69,7 +69,7 @@ export default function Friends() {
           </Text>
         </Pressable>
       </View>
-      <View className="flex">
+      <View className="flex-1">
         {showFriends && (
           <FriendsView requestsData={requestsData} loading={loading} />
         )}
