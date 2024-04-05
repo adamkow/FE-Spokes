@@ -17,7 +17,7 @@ git clone https://github.com/adamkow/FE-Spokes
 2. Navigate to the project directory:
 
 ```sh
-cd spokes
+cd FE-spokes
 ```
 
 3. Install dependencies:
