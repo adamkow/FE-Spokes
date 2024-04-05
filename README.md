@@ -37,5 +37,6 @@ npx expo start
 The backend for this project is hosted on GitHub. You can find it at [https://github.com/ZEwela/spokes](https://github.com/ZEwela/spokes).
 
 ## Requirements
-
+node version 21.5.0
+expo version 6.3.10
 
