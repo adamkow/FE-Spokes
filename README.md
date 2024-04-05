@@ -6,7 +6,7 @@ Visit [https://rejamncspokes.netlify.app/](https://rejamncspokes.netlify.app/) i
 
 ## Getting Started
 
-To use the NC News App, you can follow these steps:
+To use the Spokes app, you can follow these steps:
 
 1. Clone the repository:
 
