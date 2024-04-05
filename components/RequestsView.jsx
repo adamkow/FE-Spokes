@@ -41,10 +41,9 @@ export default function RequestsView({
         </Link>
       ) : (
         <>
-          <View className="flex justify-center ">
+          <View className="flex-1 justify-center ">
             <FlatList
-              style={{ marginBottom: 200 }}
-              contentContainerStyle={{ paddingBottom: 100 }}
+              scrollEnabled={true}
               data={requestsData}
               renderItem={({ item }) => (
                 <UserCard user={item} setUserList={setRequestsData} />
