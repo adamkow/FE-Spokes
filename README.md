@@ -38,5 +38,8 @@ The backend for this project is hosted on GitHub. You can find it at [https://gi
 
 ## Requirements
 node version 21.5.0
+
 expo version 6.3.10
+
+expo go version 2.3.0.10
 
